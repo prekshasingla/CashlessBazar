@@ -52,8 +52,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/top_heading">
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/top_heading"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
         <EditText
             android:id="@+id/user_email"
@@ -73,8 +75,10 @@
         android:layout_below="@+id/email_layout"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
-        app:passwordToggleEnabled="false">
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="false"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
         <EditText
             android:id="@+id/user_password"
@@ -96,7 +100,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="-3dp"
-        android:text="Show Password" />
+        android:text="Show Password"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 
 
     <TextView
@@ -110,7 +116,9 @@
         android:text=""
         android:textColor="#F44336"
         android:textSize="16sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 
 
     <Button
@@ -119,18 +127,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_error"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="3dp"
         android:elevation="5dp"
-        android:text="Log In"
-        android:textColor="#f1bb3a" />
+        android:text="@string/signup_create_account_text"
+        android:background="@drawable/round_btn"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 
     <LinearLayout
         android:id="@+id/fsu_or_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_button"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -195,7 +206,7 @@
         android:layout_below="@id/thirdPartyBtn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="2dp"
