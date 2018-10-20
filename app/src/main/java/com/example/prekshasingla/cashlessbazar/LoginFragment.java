@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -28,6 +29,9 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import static android.provider.ContactsContract.Intents.Insert.EMAIL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -35,11 +39,12 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
-    private int RC_SIGN_IN=100;
+    private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
     LoginButton loginButton;
     CallbackManager callbackManager;
+    TextView signup_text;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -66,13 +71,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView= inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         SignInButton signInButton = rootView.findViewById(R.id.google_sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         signInButton.setOnClickListener(this);
 
-         callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button_fb);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
@@ -82,25 +87,33 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Log.e("success","yes");
+                Log.e("success", "yes");
                 // App code
             }
 
             @Override
             public void onCancel() {
                 // App code
-                Log.e("error","yes");
+                Log.e("error", "yes");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Log.e("error","yes");
+                Log.e("error", "yes");
 
                 // App code
             }
         });
 
+        signup_text = rootView.findViewById(R.id.signup_text);
+        signup_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.signupFragment);
 
+            }
+        });
         return rootView;
     }
 
@@ -115,6 +128,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             // ...
         }
     }
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -134,17 +148,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-        }
-        else if(requestCode== 64206){
+        } else if (requestCode == 64206) {
             callbackManager.onActivityResult(requestCode, resultCode, data);
 //            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
         }
     }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Log.e("inside",account.getDisplayName());
+            Log.e("inside", account.getDisplayName());
 
             // Signed in successfully, show authenticated UI.
         } catch (ApiException e) {

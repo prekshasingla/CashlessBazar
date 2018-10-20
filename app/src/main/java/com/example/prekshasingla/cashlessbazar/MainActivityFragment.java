@@ -32,12 +32,8 @@ public class MainActivityFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.loginFragment);
-
-
-
-
-            }
+                navController.navigate(R.id.loginSignupActivity);
+                }
         });
 
         return rootView;

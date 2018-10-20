@@ -11,12 +11,12 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_mainActivityFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_mainActivityFragment_to_loginSignupActivity2"
+            app:destination="@id/loginSignupActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.prekshasingla.cashlessbazar.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+    <activity
+        android:id="@+id/loginSignupActivity"
+        android:name="com.example.prekshasingla.cashlessbazar.LoginSignupActivity"
+        android:label="activity_login_signup"
+        tools:layout="@layout/activity_login_signup" />
 </navigation>
