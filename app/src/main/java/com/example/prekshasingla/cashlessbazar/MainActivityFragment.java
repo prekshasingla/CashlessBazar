@@ -34,6 +34,9 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mFeaturedRecyclerView;
     RecyclerViewAdapter mFeaturedAdapter;
     List<ItemRecyclerView> featuredItems;
+    RecyclerView mBestSellingRecyclerView;
+    RecyclerViewAdapter mBestSellingAdapter;
+    List<ItemRecyclerView> bestSellingItems;
 //    NavOptions navOptions;
 
 
@@ -66,6 +69,7 @@ public class MainActivityFragment extends Fragment {
 
 
         featuredItems=new ArrayList<>();
+        bestSellingItems=new ArrayList<>();
 
         TextView textView=rootView.findViewById(R.id.textview);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +102,7 @@ public class MainActivityFragment extends Fragment {
         runnable.run();
 
         mFeaturedRecyclerView = (RecyclerView) rootView.findViewById(R.id.featured_recycler);
+        mBestSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.best_selling_recycler);
 
         ItemRecyclerView item=new ItemRecyclerView();
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
@@ -105,26 +110,39 @@ public class MainActivityFragment extends Fragment {
         item.setPrice(450f);
         item.setDesc("This is the description of the item");
         featuredItems.add(item);
+        bestSellingItems.add(item);
+
         ItemRecyclerView item1=new ItemRecyclerView();
         item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
         item1.setName("Mobile Recharge");
         item.setPrice(450f);
         item.setDesc("This is the description of the item");
         featuredItems.add(item1);
+        bestSellingItems.add(item1);
+
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
         item.setName("Gift Vouchers");
         item.setPrice(450f);
-        featuredItems.add(item);
         item.setDesc("This is the description of the item");
+        featuredItems.add(item);
+        bestSellingItems.add(item);
+
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
         item.setName("Gift Vouchers");
         item.setPrice(450f);
-        featuredItems.add(item);
         item.setDesc("This is the description of the item");
+        featuredItems.add(item);
+        bestSellingItems.add(item);
+
         mFeaturedAdapter=new RecyclerViewAdapter(featuredItems, getActivity(),navController);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFeaturedRecyclerView.setLayoutManager(mLayoutManager);
         mFeaturedRecyclerView.setAdapter(mFeaturedAdapter);
+
+        mBestSellingAdapter=new RecyclerViewAdapter(bestSellingItems, getActivity(),navController);
+        LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mBestSellingRecyclerView.setLayoutManager(mLayoutManager1);
+        mBestSellingRecyclerView.setAdapter(mBestSellingAdapter);
 
         return rootView;
     }

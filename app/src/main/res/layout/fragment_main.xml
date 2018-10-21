@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.example.prekshasingla.cashlessbazar.MainActivityFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:id="@+id/textview"
+        android:visibility="gone"
         />
 
     <android.support.v4.view.ViewPager
@@ -30,22 +36,41 @@
         android:background="@color/white"
         android:layout_marginTop="7dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/featured_linear_layout">
     <TextView
         android:id="@+id/featured_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="Featured Products"
+        android:text="@string/featured_products"
         android:textSize="18sp" />
+            <TextView
+                android:id="@+id/featured_see_more"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="end"
+                android:paddingRight="10dp"
+
+                android:text="@string/see_more"
+                android:textAlignment="viewEnd"
+                android:textSize="10sp" />
+        </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:layout_margin="5dp"
         android:id="@+id/featured_recycler"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/featured_text"/>
+        android:layout_below="@+id/featured_linear_layout"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,7 +87,7 @@
             android:layout_margin="10dp"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="Best Selling Products"
+            android:text="@string/best_selling_products"
             android:textSize="18sp" />
         <android.support.v7.widget.RecyclerView
             android:layout_margin="5dp"
@@ -74,3 +99,4 @@
     </RelativeLayout>
 
 </LinearLayout>
+</ScrollView>
