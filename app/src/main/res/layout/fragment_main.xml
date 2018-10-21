@@ -22,4 +22,55 @@
 
     </android.support.v4.view.ViewPager>
 
+
+    <RelativeLayout
+        android:id="@+id/featured_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="7dp">
+
+    <TextView
+        android:id="@+id/featured_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="Featured Products"
+        android:textSize="18sp" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_margin="5dp"
+        android:id="@+id/featured_recycler"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/featured_text"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/best_selling_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="7dp">
+
+        <TextView
+            android:id="@+id/best_selling_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Best Selling Products"
+            android:textSize="18sp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_margin="5dp"
+            android:id="@+id/best_selling_recycler"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/best_selling_text"/>
+    </RelativeLayout>
+
 </LinearLayout>
