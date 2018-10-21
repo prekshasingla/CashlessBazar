@@ -10,7 +10,8 @@
     <!--<string name="fb_login_protocol_scheme">fb177305223193728</string>-->
     <string name="facebook_app_id">140753723392742</string>
     <string name="fb_login_protocol_scheme">fb140753723392742</string>
-    <string name="signup_create_account_text">Create Account</string>Copy Code
+    <string name="signup_create_account_text">Create Account</string>
+    <string name="already_a_member_signup_text">Already a Member?</string>Copy Code
 
 
 </resources>
