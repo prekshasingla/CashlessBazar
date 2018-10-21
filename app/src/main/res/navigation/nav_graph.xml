@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_mainActivityFragment_to_loginSignupActivity2"
             app:destination="@id/loginSignupActivity" />
+        <action
+            android:id="@+id/action_mainActivityFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <activity
         android:id="@+id/loginSignupActivity"
         android:name="com.example.prekshasingla.cashlessbazar.LoginSignupActivity"
         android:label="activity_login_signup"
         tools:layout="@layout/activity_login_signup" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" />
 </navigation>
