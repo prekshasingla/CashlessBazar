@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -64,6 +70,7 @@
             android:hint="Name"
             android:inputType="textEmailAddress"
             android:maxLength="50"
+            android:textSize="12sp"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -83,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:textSize="12sp"
             android:inputType="textEmailAddress"
             android:maxLength="50"
             android:maxLines="1" />
@@ -105,6 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
+            android:textSize="12sp"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -127,6 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone"
+            android:textSize="12sp"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -146,7 +156,7 @@
         android:padding="10dp"
         android:text=""
         android:textColor="#F44336"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:visibility="invisible"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
@@ -161,7 +171,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="3dp"
         android:elevation="5dp"
-        android:text="@string/signup_create_account_text"
+        android:text="@string/signup_create_account"
         android:background="@drawable/round_btn"
         android:textColor="@color/colorPrimary"
         android:layout_marginStart="20dp"
@@ -264,3 +274,4 @@
 
 </LinearLayout>
 
+</ScrollView>
