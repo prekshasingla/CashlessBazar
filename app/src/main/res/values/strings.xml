@@ -12,13 +12,13 @@
     <string name="fb_login_protocol_scheme">fb140753723392742</string>
     <string name="signup_create_account_text">Create Account</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="buy_now">Buy Now</string>
     <string name="featured_products">Featured Products</string>
     <string name="see_more">See more</string>
     <string name="best_selling_products">Best Selling Products</string>
     <string name="price">Price:</string>
-    <string name="description">Description:</string>Copy Code
+    <string name="description">Description:</string>
     <string name="already_a_member_signup_text">Already a Member?</string>
-    <string name="buy_now">Buy Now</string>
     <string name="signup_create_account">Create Account</string>
     <string name="nav_drawer_login">Login / Register</string>
     <string name="nav_drawer_wallet">Wallet</string>

@@ -3,6 +3,7 @@ package com.example.prekshasingla.cashlessbazar;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ public class MainActivityFragment extends Fragment {
 
 
     NavController navController;
+    NavigationView navigationView;
     ViewPager bannerViewpager;
     HomeBannerPagerAdapter homeBannerPagerAdapter;
     int page = 0;
@@ -59,6 +61,11 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
+
+        
+
+//        navigationView.setupWithNavController(navController);
+
 
 //        navOptions = NavOptions.Builder()
 //                .setEnterAnim(R.anim.nav_default_enter_anim)
