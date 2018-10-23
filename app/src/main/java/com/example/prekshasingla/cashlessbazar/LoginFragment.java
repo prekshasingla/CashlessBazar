@@ -155,7 +155,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Do something with the response
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -178,7 +178,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
 //                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
+
+                params.put("Authorization","bearer Mxj8Lq3gDUcTt4S42N3IqYT1LZpWdXlWI9f5xDRifvQWRaxxVMPOoL6w3Nhig_4n4sGtA3qEMaFiEGni_JcWLngp--QgKROWi2W4-DpJNP557jyA_ILM2XHbfBCn9hrGF5dsChIauOZInzrpNf_50F4-g-cz4lYjgnGwqcBPGx_SCpWpNa4H1oqOLDrhPkGLf3iUMLRDhQgrfffZ1P0oTmNKTRAY2c3g2Nl7EZ3XQzEKSKetAIAarm3-HVmlu6Ecsotm87cVXWwEKIwenBhK5aN3ZtpQ7-2LAy3v6JPCf_jIh8SrSJATQ1MeHr4bVPp4");
                 return params;
             }
 
