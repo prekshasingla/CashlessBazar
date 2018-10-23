@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import static android.provider.ContactsContract.Intents.Insert.EMAIL;
@@ -127,10 +128,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                navController.navigate(R.id.signupFragment);
+                navController.navigate(R.id.signupFragment, null,
+                        new NavOptions.Builder()
+                                .setClearTask(true).build());
 
             }
         });
+
+
         return rootView;
     }
 

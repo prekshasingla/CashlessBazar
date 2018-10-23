@@ -31,6 +31,10 @@ public class SignupFragment extends Fragment {
 //                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
 //            }
 //        });
+
+
         return rootView;
     }
+
+
 }

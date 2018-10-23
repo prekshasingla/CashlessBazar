@@ -38,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent=new Intent(MainActivity.this,LoginSignupActivity.class);
                         startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+
 //                        ( Navigation.findNavController(MainActivity.this, R.id.fragment)).navigate(R.id.loginSignupActivity);
                         //Do some thing here
                         // add navigation drawer item onclick method here
                         break;}
-                        return true;
+                        return false;
 
             }
         });
