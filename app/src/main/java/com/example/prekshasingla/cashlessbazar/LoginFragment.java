@@ -12,6 +12,7 @@ import android.view.ViewManager;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,6 +34,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -93,7 +97,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginRequest();
+                tokenRequest();
             }
         });
 
@@ -153,13 +157,86 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
 
+    public void tokenRequest(){
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-    public void loginRequest(){
+                        if(response!=null && !response.equals("")){
+
+                            try {
+                                JSONObject tokenResponse=new JSONObject(response);
+                                String token= tokenResponse.getString("access_token");
+                                if(token != null)
+                                  loginRequest(token);
+                                else
+                                    Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                })
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username","developer");
+                params.put("password","SPleYwIt");
+                params.put("grant_type", "password");
+
+                return params;
+            }
+
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String,String> params = new HashMap<String, String>();
+////                params.put("Content-Type","application/x-www-form-urlencoded");
+//                //params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
+//                return params;
+//            }
+
+            public String getBodyContentType()
+            {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+
+
+    public void loginRequest(final String token){
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/api/customer/login",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONObject loginResponse=new JSONObject(response);
+                            if(loginResponse.get("customer")!=null){
+                                Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
+
+                            }
+                            else
+                                Toast.makeText(getActivity(),"Please check your details",Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         // Do something with the response
                     }
                 },
@@ -183,7 +260,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
 //                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
+                params.put("Authorization","bearer "+token);
                 return params;
             }
 
@@ -195,6 +272,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
+
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
