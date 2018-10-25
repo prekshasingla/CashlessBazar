@@ -81,15 +81,15 @@ public class MainActivity extends AppCompatActivity {
         // Call the function callInstamojo to start payment here
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView=findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
+                int id= item.getItemId();
                 switch (id) {
                     case R.id.nav_login:
 
-                        Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
+                        Intent intent=new Intent(MainActivity.this,LoginSignupActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
@@ -111,11 +111,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+
 
 
     }
