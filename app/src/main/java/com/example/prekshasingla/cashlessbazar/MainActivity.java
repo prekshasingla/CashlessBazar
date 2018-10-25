@@ -28,27 +28,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView=findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id= item.getItemId();
+                int id = item.getItemId();
                 switch (id) {
                     case R.id.nav_login:
 
-                        Intent intent=new Intent(MainActivity.this,LoginSignupActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
 //                        ( Navigation.findNavController(MainActivity.this, R.id.fragment)).navigate(R.id.loginSignupActivity);
                         //Do some thing here
                         // add navigation drawer item onclick method here
-                        break;}
-                        return false;
+                        break;
+                }
+                return false;
 
             }
         });
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-
 
 
     }
