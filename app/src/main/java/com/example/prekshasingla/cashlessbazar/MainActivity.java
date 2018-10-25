@@ -33,17 +33,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
+                Intent intent;
                 switch (id) {
                     case R.id.nav_login:
 
-                        Intent intent = new Intent(MainActivity.this, LoginSignupActivity.class);
+                         intent = new Intent(MainActivity.this, LoginSignupActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
-//                        ( Navigation.findNavController(MainActivity.this, R.id.fragment)).navigate(R.id.loginSignupActivity);
-                        //Do some thing here
-                        // add navigation drawer item onclick method here
                         break;
+                    case R.id.nav_pay:
+                         intent = new Intent(MainActivity.this, QRActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
                 }
                 return false;
 

@@ -3,7 +3,10 @@
     package="com.example.prekshasingla.cashlessbazar">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -52,7 +55,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginSignupActivity"></activity>
+        <activity android:name=".LoginSignupActivity" />
+        <activity android:name=".QRActivity"></activity>
     </application>
 
 </manifest>

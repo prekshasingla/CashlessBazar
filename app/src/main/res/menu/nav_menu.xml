@@ -7,6 +7,9 @@
         <item
             android:id="@+id/nav_wallet"
             android:title="@string/nav_drawer_wallet" />
+        <item
+            android:id="@+id/nav_pay"
+            android:title="@string/nav_drawer_pay" />
 
     </group>
 </menu>
