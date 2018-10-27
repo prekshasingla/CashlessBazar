@@ -86,10 +86,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id= item.getItemId();
+                Intent intent;
                 switch (id) {
                     case R.id.nav_login:
 
-                        Intent intent=new Intent(MainActivity.this,LoginSignupActivity.class);
+                        intent=new Intent(MainActivity.this,LoginSignupActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
@@ -100,10 +101,30 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_wallet:
-                        Intent intent1 = new Intent(MainActivity.this, WalletActivity.class);
-                        startActivity(intent1);
+                        intent = new Intent(MainActivity.this, WalletActivity.class);
+                        startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_recent_orders:
+                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
+                        intent.putExtra("screen","Recent Orders");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_my_orders:
+                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
+                        intent.putExtra("screen","My Orders");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.nav_add_product:
+                        intent = new Intent(MainActivity.this, AddProductActiivty.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+
+
                 }
                 return false;
 

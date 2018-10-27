@@ -8,5 +8,17 @@
             android:id="@+id/nav_wallet"
             android:title="@string/nav_drawer_wallet" />
 
+        <item
+            android:id="@+id/nav_recent_orders"
+            android:title="@string/recent_orders" />
+
+        <item
+            android:id="@+id/nav_my_orders"
+            android:title="My Orders" />
+
+        <item
+            android:id="@+id/nav_add_product"
+            android:title="Add Product" />
+
     </group>
 </menu>

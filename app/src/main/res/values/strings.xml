@@ -22,6 +22,7 @@
     <string name="signup_create_account">Create Account</string>
     <string name="nav_drawer_login">Login / Register</string>
     <string name="nav_drawer_wallet">Wallet</string>
+    <string name="recent_orders">Recent Orders</string>
 
 
 </resources>

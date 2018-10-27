@@ -82,7 +82,7 @@ public class MainActivityFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.loginSignupActivity);
+                navController.navigate(R.id.recentOrdersFragment);
                 }
         });
 

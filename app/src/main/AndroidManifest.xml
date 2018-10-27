@@ -66,7 +66,10 @@
             android:name="instamojo.orderauth.url"
             android:value="http://www.halfbit.in/access_token.php" />
 
-        <activity android:name=".WalletActivity"></activity>
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".DashboardActivity" />
+        <activity android:name=".RecentOrdersActivity" />
+        <activity android:name=".AddProductActiivty"></activity>
     </application>
 
 </manifest>
