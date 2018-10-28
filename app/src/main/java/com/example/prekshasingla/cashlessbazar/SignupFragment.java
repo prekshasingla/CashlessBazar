@@ -38,12 +38,14 @@ public class SignupFragment extends Fragment {
             }
         });
 
-//        rootView.findViewById(R.id.login_text).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-//            }
-//        });
+        rootView.findViewById(R.id.login_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.loginFragment,null,new NavOptions.Builder()
+                        .setClearTask(true).build());
+            }
+        });
 
 
         return rootView;
