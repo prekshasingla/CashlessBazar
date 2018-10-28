@@ -23,6 +23,7 @@
     <string name="nav_drawer_login">Login / Register</string>
     <string name="nav_drawer_wallet">Wallet</string>
     <string name="nav_drawer_pay">Pay</string>
+    <string name="recent_orders">Recent Orders</string>
 
 
 </resources>

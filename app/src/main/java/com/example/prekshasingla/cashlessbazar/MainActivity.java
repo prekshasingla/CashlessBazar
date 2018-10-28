@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.nav_login:
 
-                         intent=new Intent(MainActivity.this,LoginSignupActivity.class);
+                        intent=new Intent(MainActivity.this,LoginSignupActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
@@ -103,12 +103,34 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_wallet:
                          intent = new Intent(MainActivity.this, WalletActivity.class);
                         startActivity(intent);
+                        intent = new Intent(MainActivity.this, WalletActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_recent_orders:
+                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
+                        intent.putExtra("screen","Recent Orders");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_my_orders:
+                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
+                        intent.putExtra("screen","My Orders");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.nav_add_product:
+                        intent = new Intent(MainActivity.this, AddProductActiivty.class);
+                        startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_pay:
                          intent = new Intent(MainActivity.this, QRActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
+
+
                 }
                 return false;
 

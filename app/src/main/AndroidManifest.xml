@@ -69,6 +69,9 @@
         <activity android:name=".WalletActivity" />
         <activity android:name=".PaymentActivity"></activity>
         <activity android:name=".QRActivity"></activity>
+        <activity android:name=".DashboardActivity" />
+        <activity android:name=".RecentOrdersActivity" />
+        <activity android:name=".AddProductActiivty"></activity>
     </application>
 
 </manifest>
