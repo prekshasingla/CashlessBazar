@@ -71,7 +71,7 @@
         <activity android:name=".QRActivity"></activity>
         <activity android:name=".DashboardActivity" />
         <activity android:name=".RecentOrdersActivity" />
-        <activity android:name=".AddProductActiivty"></activity>
+        <activity android:name=".AddProductActivity"></activity>
     </application>
 
 </manifest>

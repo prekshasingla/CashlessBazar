@@ -1,102 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="50dp"
     tools:context="com.example.prekshasingla.cashlessbazar.MainActivityFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recent Orders"
-        android:id="@+id/textview"
-        />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/trending_viewpager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        >
-
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <RelativeLayout
-        android:id="@+id/featured_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="7dp">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/trending_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
 
-        <LinearLayout
+        </android.support.v4.view.ViewPager>
+
+
+        <RelativeLayout
+            android:id="@+id/featured_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/featured_linear_layout">
-    <TextView
-        android:id="@+id/featured_text"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:text="@string/featured_products"
-        android:textSize="18sp" />
+            android:layout_marginTop="7dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/featured_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/featured_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/featured_products"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/featured_see_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:paddingRight="10dp"
+
+                    android:text="@string/see_more"
+                    android:textAlignment="viewEnd"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/featured_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/featured_linear_layout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/best_selling_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@color/white">
+
             <TextView
-                android:id="@+id/featured_see_more"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:id="@+id/best_selling_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:gravity="end"
-                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/best_selling_products"
+                android:textSize="18sp" />
 
-                android:text="@string/see_more"
-                android:textAlignment="viewEnd"
-                android:textSize="10sp" />
-        </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:layout_margin="5dp"
-        android:id="@+id/featured_recycler"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/featured_linear_layout"/>
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/best_selling_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/best_selling_text"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/best_selling_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:id="@+id/best_selling_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="@string/best_selling_products"
-            android:textSize="18sp" />
-        <android.support.v7.widget.RecyclerView
-            android:layout_margin="5dp"
-            android:id="@+id/best_selling_recycler"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/best_selling_text"/>
-    </RelativeLayout>
-
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>

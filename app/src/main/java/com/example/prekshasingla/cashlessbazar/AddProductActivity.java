@@ -3,11 +3,11 @@ package com.example.prekshasingla.cashlessbazar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AddProductActiivty extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product_actiivty);
+        setContentView(R.layout.activity_add_product);
     }
 }

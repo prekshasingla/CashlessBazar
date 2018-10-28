@@ -40,7 +40,7 @@
         tools:layout="@layout/activity_recent_orders" />
     <activity
         android:id="@+id/addProductActiivty"
-        android:name="com.example.prekshasingla.cashlessbazar.AddProductActiivty"
+        android:name="com.example.prekshasingla.cashlessbazar.AddProductActivity"
         android:label="activity_add_product_actiivty"
-        tools:layout="@layout/activity_add_product_actiivty" />
+        tools:layout="@layout/activity_add_product" />
 </navigation>

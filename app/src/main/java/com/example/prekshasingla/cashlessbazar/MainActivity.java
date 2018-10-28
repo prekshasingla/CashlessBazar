@@ -5,7 +5,6 @@ import android.app.Activity;
 
 import instamojo.library.InstapayListener;
 import instamojo.library.InstamojoPay;
-import instamojo.library.Config;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -14,19 +13,14 @@ import android.content.IntentFilter;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import androidx.navigation.Navigation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_add_product:
-                        intent = new Intent(MainActivity.this, AddProductActiivty.class);
+                        intent = new Intent(MainActivity.this, AddProductActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;

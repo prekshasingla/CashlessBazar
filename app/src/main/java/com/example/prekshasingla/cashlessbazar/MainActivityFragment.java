@@ -64,15 +64,6 @@ public class MainActivityFragment extends Fragment {
 
         
 
-//        navigationView.setupWithNavController(navController);
-
-
-//        navOptions = NavOptions.Builder()
-//                .setEnterAnim(R.anim.nav_default_enter_anim)
-//                .setExitAnim(R.anim.slide_out_left)
-//                .setPopEnterAnim(R.anim.slide_in_left)
-//                .setPopExitAnim(R.anim.slide_out_right)
-//                .build();
 
 
         featuredItems=new ArrayList<>();
@@ -153,4 +144,6 @@ public class MainActivityFragment extends Fragment {
 
         return rootView;
     }
+
 }
+
