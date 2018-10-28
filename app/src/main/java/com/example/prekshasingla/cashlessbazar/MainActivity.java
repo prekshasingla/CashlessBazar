@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import android.content.IntentFilter;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -76,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView=findViewById(R.id.nav_view);
+        View nav_header= navigationView.getHeaderView(0);
+        TextView editProfile= nav_header.findViewById(R.id.nav_header_profile_text);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this,EditProfileActivity.class);
+                startActivity(intent);
+                mDrawerLayout.closeDrawers();
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -96,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.nav_wallet:
                          intent = new Intent(MainActivity.this, WalletActivity.class);
-                        startActivity(intent);
-                        intent = new Intent(MainActivity.this, WalletActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;

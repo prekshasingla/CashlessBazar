@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 
 /**
@@ -25,12 +27,21 @@ public class WalletFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview= inflater.inflate(R.layout.fragment_wallet, container, false);
-
-        rootview.findViewById(R.id.add_money_text).setOnClickListener(new View.OnClickListener() {
+        final LinearLayout addLayout=rootview.findViewById(R.id.add_container);
+        Button addMoney=rootview.findViewById(R.id.add_money);
+        addMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(),PaymentActivity.class);
                 getActivity().startActivity(intent);
+            }
+        });
+        rootview.findViewById(R.id.add_money_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addLayout.setVisibility(View.VISIBLE);
+
             }
         });
         return rootview;

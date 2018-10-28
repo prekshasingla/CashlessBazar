@@ -69,13 +69,7 @@ public class MainActivityFragment extends Fragment {
         featuredItems=new ArrayList<>();
         bestSellingItems=new ArrayList<>();
 
-        TextView textView=rootView.findViewById(R.id.textview);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.recentOrdersFragment);
-                }
-        });
+
 
         bannerViewpager = rootView.findViewById(R.id.trending_viewpager);
         homeBannerPagerAdapter=new HomeBannerPagerAdapter(getActivity().getSupportFragmentManager(),mBannerImages ,getActivity());
