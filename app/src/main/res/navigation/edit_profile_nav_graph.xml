@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/editProfile"
-        android:name="com.example.prekshasingla.cashlessbazar.EditProfile"
+        android:name="com.example.prekshasingla.cashlessbazar.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
 </navigation>

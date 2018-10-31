@@ -39,6 +39,12 @@ public class RecentOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_recent_orders, container, false);
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
         Intent intent=getActivity().getIntent();
