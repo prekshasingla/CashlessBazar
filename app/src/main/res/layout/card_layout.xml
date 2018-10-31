@@ -25,6 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card_number" />
 
     <EditText
+        android:id="@+id/card_cvv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="CVV          "
@@ -40,11 +41,12 @@
         android:inputType="textPersonName"
         app:layout_constraintTop_toBottomOf="@+id/card_expiry" />
     <Button
+        android:id="@+id/card_layout_proceed"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Pay"
+        android:text="Proceed"
         style="@style/Base.TextAppearance.AppCompat.Widget.Button"
         android:textSize="16sp"
         android:fontFamily="sans-serif"
