@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mBestSellingRecyclerView;
     RecyclerViewAdapter mBestSellingAdapter;
     List<ItemRecyclerView> bestSellingItems;
+
+
 //    NavOptions navOptions;
 
 
@@ -62,8 +65,22 @@ public class MainActivityFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
-        
-
+        LinearLayout topHomePay=rootView.findViewById(R.id.top_home_pay);
+        topHomePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(getActivity(), QRActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout topHomeWallet=rootView.findViewById(R.id.top_home_wallet);
+        topHomeWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         featuredItems=new ArrayList<>();
