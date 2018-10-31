@@ -74,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
+
+                    case R.id.nav_withdraw_funds:
+                        intent = new Intent(MainActivity.this, WithdrawFundsActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
                     case R.id.nav_recent_orders:
                         intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
                         intent.putExtra("screen","Recent Orders");
@@ -87,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
                         break;
 
+                    case R.id.nav_quick_requirements:
+                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
+                        intent.putExtra("screen","Quick Requirements");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
                     case R.id.nav_add_product:
                         intent = new Intent(MainActivity.this, AddProductActivity.class);
                         startActivity(intent);

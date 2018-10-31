@@ -12,12 +12,20 @@
             android:title="@string/nav_drawer_pay" />
 
         <item
+            android:id="@+id/nav_withdraw_funds"
+            android:title="Withdraw Funds" />
+
+        <item
             android:id="@+id/nav_recent_orders"
             android:title="@string/recent_orders" />
 
         <item
             android:id="@+id/nav_my_orders"
             android:title="My Orders" />
+
+        <item
+            android:id="@+id/nav_quick_requirements"
+            android:title="Quick Requirements" />
 
         <item
             android:id="@+id/nav_add_product"

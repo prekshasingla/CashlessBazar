@@ -69,7 +69,8 @@
         <activity android:name=".DashboardActivity" />
         <activity android:name=".RecentOrdersActivity" />
         <activity android:name=".AddProductActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".WithdrawFundsActivity"></activity>
     </application>
 
 </manifest>
