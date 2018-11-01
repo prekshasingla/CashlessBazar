@@ -1,6 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
-public class ItemRecyclerView {
+public class Product {
 
     String img;
     String desc;

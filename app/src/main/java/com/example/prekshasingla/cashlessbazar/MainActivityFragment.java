@@ -1,6 +1,5 @@
 package com.example.prekshasingla.cashlessbazar;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -12,13 +11,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 /**
@@ -35,10 +44,10 @@ public class MainActivityFragment extends Fragment {
     static private List<String> mBannerImages;
     RecyclerView mFeaturedRecyclerView;
     RecyclerViewAdapter mFeaturedAdapter;
-    List<ItemRecyclerView> featuredItems;
+    List<Product> featuredItems;
     RecyclerView mBestSellingRecyclerView;
     RecyclerViewAdapter mBestSellingAdapter;
-    List<ItemRecyclerView> bestSellingItems;
+    List<Product> bestSellingItems;
 //    NavOptions navOptions;
 
 
@@ -79,6 +88,8 @@ public class MainActivityFragment extends Fragment {
          final Handler handler=new Handler();
          final  int delay = 5000; //milliseconds
 
+        tokenRequest(1); //1 for featured, 2 for best selling, 3 for most selling
+
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -96,7 +107,7 @@ public class MainActivityFragment extends Fragment {
         mFeaturedRecyclerView = (RecyclerView) rootView.findViewById(R.id.featured_recycler);
         mBestSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.best_selling_recycler);
 
-        ItemRecyclerView item=new ItemRecyclerView();
+        Product item=new Product();
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
         item.setName("Gift Vouchers");
         item.setPrice(450f);
@@ -104,7 +115,7 @@ public class MainActivityFragment extends Fragment {
         featuredItems.add(item);
         bestSellingItems.add(item);
 
-        ItemRecyclerView item1=new ItemRecyclerView();
+        Product item1=new Product();
         item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
         item1.setName("Mobile Recharge");
         item.setPrice(450f);
@@ -138,6 +149,133 @@ public class MainActivityFragment extends Fragment {
 
         return rootView;
     }
+
+
+    public void tokenRequest(final int reqCode){
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if(response!=null && !response.equals("")){
+
+                            try {
+                                JSONObject tokenResponse=new JSONObject(response);
+                                String token= tokenResponse.getString("access_token");
+                                if(token != null)
+
+                                    if(reqCode==1)
+                                       getRequest(token,Configration.urlFeatured );
+                                    else if(reqCode==2)
+                                        getRequest(token,Configration.urlBestSelling);
+                                    else if(reqCode==3)
+                                        getRequest(token,Configration.urlMostSelling);
+
+                                else
+                                    Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                })
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username","developer");
+                params.put("password","SPleYwIt");
+                params.put("grant_type", "password");
+
+                return params;
+            }
+
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String,String> params = new HashMap<String, String>();
+////                params.put("Content-Type","application/x-www-form-urlencoded");
+//                //params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
+//                return params;
+//            }
+
+            public String getBodyContentType()
+            {
+                return "application/x-www-form-urlencoded"+"PageNumber=1&PageSize=10";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+
+    public void getRequest(final String token, String url){
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject loginResponse=new JSONObject(response);
+                            if(loginResponse.get("data")!=null){
+                                Toast.makeText(getActivity(),"fetched",Toast.LENGTH_SHORT).show();
+
+                            }
+                            else
+                                Toast.makeText(getActivity(),"Unable to fetch",Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                })
+        {
+//            @Override
+//            protected Map<String,String> getParams(){
+//                Map<String,String> params = new HashMap<String, String>();
+//                params.put("LoginId","8447707717");
+//                params.put("password","111111");
+//
+//                return params;
+//            }
+
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization","bearer "+token);
+                return params;
+            }
+
+            public String getBodyContentType()
+            {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+
 
 }
 
