@@ -70,7 +70,8 @@
         <activity android:name=".RecentOrdersActivity" />
         <activity android:name=".AddProductActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".WithdrawFundsActivity"></activity>
+        <activity android:name=".WithdrawFundsActivity" />
+        <activity android:name=".EventsActivity"></activity>
     </application>
 
 </manifest>

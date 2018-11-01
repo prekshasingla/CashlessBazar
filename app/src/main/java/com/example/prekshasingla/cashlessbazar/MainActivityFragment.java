@@ -81,6 +81,15 @@ public class MainActivityFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        LinearLayout topHomeEvents=rootView.findViewById(R.id.top_home_events);
+        topHomeEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EventsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
         featuredItems=new ArrayList<>();

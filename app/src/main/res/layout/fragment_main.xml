@@ -65,6 +65,7 @@
                     android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/top_home_events"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
@@ -78,7 +79,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Search"
+                    android:text="Events"
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
