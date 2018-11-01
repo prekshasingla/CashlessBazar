@@ -50,6 +50,12 @@ public class PaymentOptionsFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_payment_options, container, false);
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         final LinearLayout cardLayout = rootView.findViewById(R.id.card_layout);
         final View card = getLayoutInflater().inflate(R.layout.card_layout, null, false);
 

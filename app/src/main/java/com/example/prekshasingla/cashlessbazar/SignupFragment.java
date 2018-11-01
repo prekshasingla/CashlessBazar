@@ -30,6 +30,12 @@ public class SignupFragment extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.fragment_signup, container, false);
+        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         TextView createAccount= rootView.findViewById(R.id.create_button);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override

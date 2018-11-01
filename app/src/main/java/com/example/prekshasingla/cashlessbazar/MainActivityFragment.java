@@ -21,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +73,30 @@ public class MainActivityFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
-        
+        LinearLayout topHomePay=rootView.findViewById(R.id.top_home_pay);
+        topHomePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(getActivity(), QRActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout topHomeWallet=rootView.findViewById(R.id.top_home_wallet);
+        topHomeWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout topHomeEvents=rootView.findViewById(R.id.top_home_events);
+        topHomeEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EventsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

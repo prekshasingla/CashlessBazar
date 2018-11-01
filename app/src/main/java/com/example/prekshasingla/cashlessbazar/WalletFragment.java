@@ -27,6 +27,12 @@ public class WalletFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview= inflater.inflate(R.layout.fragment_wallet, container, false);
+        rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         final LinearLayout addLayout=rootview.findViewById(R.id.add_container);
         Button addMoney=rootview.findViewById(R.id.add_money);
         addMoney.setOnClickListener(new View.OnClickListener() {
