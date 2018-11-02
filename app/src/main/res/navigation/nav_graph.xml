@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_mainActivityFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_mainActivityFragment_to_recentOrdersActivity"
+            app:destination="@id/recentOrdersActivity" />
+        <action
+            android:id="@+id/action_mainActivityFragment_to_addProductActiivty"
+            app:destination="@id/addProductActiivty" />
     </fragment>
     <activity
         android:id="@+id/loginSignupActivity"
@@ -27,4 +33,14 @@
         android:name="com.example.prekshasingla.cashlessbazar.ProductDetailFragment"
         android:label="fragment_product_detail"
         tools:layout="@layout/fragment_product_detail" />
+    <activity
+        android:id="@+id/recentOrdersActivity"
+        android:name="com.example.prekshasingla.cashlessbazar.RecentOrdersActivity"
+        android:label="activity_recent_orders"
+        tools:layout="@layout/activity_recent_orders" />
+    <activity
+        android:id="@+id/addProductActiivty"
+        android:name="com.example.prekshasingla.cashlessbazar.AddProductActivity"
+        android:label="activity_add_product_actiivty"
+        tools:layout="@layout/activity_add_product" />
 </navigation>

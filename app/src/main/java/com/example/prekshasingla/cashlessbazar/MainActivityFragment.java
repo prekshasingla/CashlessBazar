@@ -3,6 +3,7 @@ package com.example.prekshasingla.cashlessbazar;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class MainActivityFragment extends Fragment {
 
 
     NavController navController;
+    NavigationView navigationView;
     ViewPager bannerViewpager;
     HomeBannerPagerAdapter homeBannerPagerAdapter;
     int page = 0;
@@ -34,6 +37,11 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mFeaturedRecyclerView;
     RecyclerViewAdapter mFeaturedAdapter;
     List<ItemRecyclerView> featuredItems;
+    RecyclerView mBestSellingRecyclerView;
+    RecyclerViewAdapter mBestSellingAdapter;
+    List<ItemRecyclerView> bestSellingItems;
+
+
 //    NavOptions navOptions;
 
 
@@ -57,23 +65,37 @@ public class MainActivityFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
-//        navOptions = NavOptions.Builder()
-//                .setEnterAnim(R.anim.nav_default_enter_anim)
-//                .setExitAnim(R.anim.slide_out_left)
-//                .setPopEnterAnim(R.anim.slide_in_left)
-//                .setPopExitAnim(R.anim.slide_out_right)
-//                .build();
+        LinearLayout topHomePay=rootView.findViewById(R.id.top_home_pay);
+        topHomePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(getActivity(), QRActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout topHomeWallet=rootView.findViewById(R.id.top_home_wallet);
+        topHomeWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout topHomeEvents=rootView.findViewById(R.id.top_home_events);
+        topHomeEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EventsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
         featuredItems=new ArrayList<>();
+        bestSellingItems=new ArrayList<>();
 
-        TextView textView=rootView.findViewById(R.id.textview);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.loginSignupActivity);
-                }
-        });
+
 
         bannerViewpager = rootView.findViewById(R.id.trending_viewpager);
         homeBannerPagerAdapter=new HomeBannerPagerAdapter(getActivity().getSupportFragmentManager(),mBannerImages ,getActivity());
@@ -98,6 +120,7 @@ public class MainActivityFragment extends Fragment {
         runnable.run();
 
         mFeaturedRecyclerView = (RecyclerView) rootView.findViewById(R.id.featured_recycler);
+        mBestSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.best_selling_recycler);
 
         ItemRecyclerView item=new ItemRecyclerView();
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
@@ -105,27 +128,42 @@ public class MainActivityFragment extends Fragment {
         item.setPrice(450f);
         item.setDesc("This is the description of the item");
         featuredItems.add(item);
+        bestSellingItems.add(item);
+
         ItemRecyclerView item1=new ItemRecyclerView();
         item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
         item1.setName("Mobile Recharge");
         item.setPrice(450f);
         item.setDesc("This is the description of the item");
         featuredItems.add(item1);
+        bestSellingItems.add(item1);
+
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
         item.setName("Gift Vouchers");
         item.setPrice(450f);
-        featuredItems.add(item);
         item.setDesc("This is the description of the item");
+        featuredItems.add(item);
+        bestSellingItems.add(item);
+
         item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
         item.setName("Gift Vouchers");
         item.setPrice(450f);
-        featuredItems.add(item);
         item.setDesc("This is the description of the item");
+        featuredItems.add(item);
+        bestSellingItems.add(item);
+
         mFeaturedAdapter=new RecyclerViewAdapter(featuredItems, getActivity(),navController);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFeaturedRecyclerView.setLayoutManager(mLayoutManager);
         mFeaturedRecyclerView.setAdapter(mFeaturedAdapter);
 
+        mBestSellingAdapter=new RecyclerViewAdapter(bestSellingItems, getActivity(),navController);
+        LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mBestSellingRecyclerView.setLayoutManager(mLayoutManager1);
+        mBestSellingRecyclerView.setAdapter(mBestSellingAdapter);
+
         return rootView;
     }
+
 }
+

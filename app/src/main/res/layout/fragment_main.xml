@@ -1,76 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_marginTop="50dp"
     tools:context="com.example.prekshasingla.cashlessbazar.MainActivityFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textview"
-        />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/trending_viewpager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </android.support.v4.view.ViewPager>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/home_top_background"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/top_home_pay"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_send_money" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pay"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_home_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_wallet_white_24dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wallet"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/top_home_events"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_send_money" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Events"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_send_money" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/featured_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="7dp">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/trending_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
 
-    <TextView
-        android:id="@+id/featured_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:text="Featured Products"
-        android:textSize="18sp" />
-    <android.support.v7.widget.RecyclerView
-        android:layout_margin="5dp"
-        android:id="@+id/featured_recycler"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/featured_text"/>
-    </RelativeLayout>
+        </android.support.v4.view.ViewPager>
 
-    <RelativeLayout
-        android:id="@+id/best_selling_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="7dp">
 
-        <TextView
-            android:id="@+id/best_selling_text"
+        <RelativeLayout
+            android:id="@+id/featured_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Best Selling Products"
-            android:textSize="18sp" />
-        <android.support.v7.widget.RecyclerView
-            android:layout_margin="5dp"
-            android:id="@+id/best_selling_recycler"
-            android:orientation="horizontal"
+            android:layout_marginTop="7dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/featured_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/featured_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/featured_products"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/featured_see_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:paddingRight="10dp"
+
+                    android:text="@string/see_more"
+                    android:textAlignment="viewEnd"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/featured_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/featured_linear_layout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/best_selling_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/best_selling_text"/>
-    </RelativeLayout>
+            android:layout_marginTop="7dp"
+            android:background="@color/white">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/best_selling_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/best_selling_products"
+                android:textSize="18sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/best_selling_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/best_selling_text"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_nav_graph.xml"
+    app:startDestination="@id/paymentOptionsFragment">
+
+    <fragment
+        android:id="@+id/paymentOptionsFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.PaymentOptionsFragment"
+        android:label="fragment_payment_options"
+        tools:layout="@layout/fragment_payment_options" />
+</navigation>
