@@ -30,6 +30,14 @@ public class EditProfileFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
+        rootView.findViewById(R.id.logout_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceUtils.getInstance(getActivity()).clear();
+                getActivity().onBackPressed();
+            }
+        });
         return rootView;
     }
 

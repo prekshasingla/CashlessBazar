@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
-
+    TextView customerName;
+    TextView editProfile;
 
 
 
@@ -40,17 +41,14 @@ public class MainActivity extends AppCompatActivity {
         // Call the function callInstamojo to start payment here
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView=findViewById(R.id.nav_view);
+        final NavigationView navigationView=findViewById(R.id.nav_view);
         View nav_header= navigationView.getHeaderView(0);
-        TextView editProfile= nav_header.findViewById(R.id.nav_header_profile_text);
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this,EditProfileActivity.class);
-                startActivity(intent);
-                mDrawerLayout.closeDrawers();
-            }
-        });
+         customerName= nav_header.findViewById(R.id.nav_header_customer_name);
+
+
+         editProfile= nav_header.findViewById(R.id.nav_header_profile_text);
+
+        checkLogin();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -125,6 +123,44 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
 
+
+    }
+
+    private void checkLogin() {
+        SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getApplicationContext());
+        if(sharedPreferenceUtils.getStringValue("loginName",null)!=null) {
+            customerName.setText("Hi, " + sharedPreferenceUtils.getStringValue("loginName", null));
+            editProfile.setText("Profile");
+            customerName.setVisibility(View.VISIBLE);
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent= new Intent(MainActivity.this,EditProfileActivity.class);
+                    startActivity(intent);
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+        }
+        else{
+            editProfile.setText("Login");
+            customerName.setText("");
+            customerName.setVisibility(View.GONE);
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent= new Intent(MainActivity.this,LoginSignupActivity.class);
+                    startActivity(intent);
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        checkLogin();
+        super.onResume();
 
     }
 

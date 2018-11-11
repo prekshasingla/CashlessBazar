@@ -23,6 +23,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -34,6 +37,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.instamojo.android.models.Card;
+import com.instamojo.android.models.Order;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +46,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -59,6 +65,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     LoginButton fbLoginButton;
     CallbackManager callbackManager;
     TextView signup_text;
+    TextView loginError;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -96,28 +103,52 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
 
-        EditText user= (EditText)rootView.findViewById(R.id.user_email);
-        EditText password= (EditText)rootView.findViewById(R.id.user_password);
+        final EditText user= (EditText)rootView.findViewById(R.id.user_email);
+        final EditText password= (EditText)rootView.findViewById(R.id.user_password);
 
         Button loginButton=(Button)rootView.findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tokenRequest();
+                String loginId=user.getText().toString();
+                String pass=password.getText().toString();
+//                ^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$ phone check india regex
+
+                if(loginId.trim().equals("")){
+                    loginError.setText("Enter a valid login Id");
+                }
+                if(pass.trim().equals("")){
+                    loginError.setText("Enter a valid password");
+                }
+
+
+
+                if((loginId.length()==10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()){
+                    tokenRequest();
+
+                }
+                else {
+                    loginError.setText("Invalid Credentials");
+                }
+
+
             }
         });
 
         callbackManager = CallbackManager.Factory.create();
         fbLoginButton = (LoginButton) rootView.findViewById(R.id.login_button_fb);
-        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
+        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL, "public_profile"));
         fbLoginButton.setFragment(this);
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
+                setFacebookData(loginResult);
+
                 Log.e("success","yes");
                 // App code
             }
+
 
             @Override
             public void onCancel() {
@@ -144,6 +175,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        loginError=rootView.findViewById(R.id.login_error);
+
 
 
         return rootView;
@@ -234,14 +268,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
                             if(loginResponse.get("customer")!=null){
+
                                 Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
+
+                                JSONObject customerObject=loginResponse.getJSONObject("customer");
+                                SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
+                                SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
+                                SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
+                                SharedPreferenceUtils.getInstance(getContext()).setMobile(customerObject.getString("mobile"));
+                                SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
+                                SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
+                                SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
+                                JSONObject walletObject=loginResponse.getJSONObject("wallet");
+                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
+                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
+
 
                             }
                             else
-                                Toast.makeText(getActivity(),"Please check your details",Toast.LENGTH_SHORT).show();
+                            loginError.setText("Invalid Credentials");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
+                        finally {
+                            getActivity().onBackPressed();
+
                         }
                         // Do something with the response
                     }
@@ -316,6 +368,51 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
         }
+    }
+
+
+    private void setFacebookData(final LoginResult loginResult)
+    {
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        // Application code
+                        try {
+                            Log.i("Response",response.toString());
+
+                            String email = response.getJSONObject().getString("email");
+                            String firstName = response.getJSONObject().getString("first_name");
+                            String lastName = response.getJSONObject().getString("last_name");
+                            String gender = response.getJSONObject().getString("gender");
+
+
+
+                            Profile profile = Profile.getCurrentProfile();
+                            String id = profile.getId();
+                            String link = profile.getLinkUri().toString();
+                            Log.i("Link",link);
+                            if (Profile.getCurrentProfile()!=null)
+                            {
+                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+                            }
+
+                            Log.i("Login" + "Email", email);
+                            Log.i("Login"+ "FirstName", firstName);
+                            Log.i("Login" + "LastName", lastName);
+                            Log.i("Login" + "Gender", gender);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email,first_name,last_name,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
 }

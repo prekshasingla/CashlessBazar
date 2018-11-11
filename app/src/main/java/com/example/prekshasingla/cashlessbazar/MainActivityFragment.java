@@ -1,5 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.widget.LinearLayout;
@@ -50,6 +52,9 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mBestSellingRecyclerView;
     RecyclerViewAdapter mBestSellingAdapter;
     List<Product> bestSellingItems;
+    RecyclerView mMostSellingRecyclerView;
+    RecyclerViewAdapter mMostSellingAdapter;
+    List<Product> mostSellingItems;
 //    NavOptions navOptions;
 
 
@@ -102,6 +107,7 @@ public class MainActivityFragment extends Fragment {
 
         featuredItems=new ArrayList<>();
         bestSellingItems=new ArrayList<>();
+        mostSellingItems=new ArrayList<>();
 
 
 
@@ -113,7 +119,6 @@ public class MainActivityFragment extends Fragment {
          final Handler handler=new Handler();
          final  int delay = 5000; //milliseconds
 
-        tokenRequest(1); //1 for featured, 2 for best selling, 3 for most selling
 
 
         Runnable runnable = new Runnable() {
@@ -131,36 +136,38 @@ public class MainActivityFragment extends Fragment {
 
         mFeaturedRecyclerView = (RecyclerView) rootView.findViewById(R.id.featured_recycler);
         mBestSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.best_selling_recycler);
+        mMostSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.mostselling_recycler);
 
-        Product item=new Product();
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
 
-        Product item1=new Product();
-        item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
-        item1.setName("Mobile Recharge");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item1);
-        bestSellingItems.add(item1);
+//        Product item=new Product();
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
+//
+//        Product item1=new Product();
+//        item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
+//        item1.setName("Mobile Recharge");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item1);
+//        bestSellingItems.add(item1);
+//
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
 
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
-
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
 
         mFeaturedAdapter=new RecyclerViewAdapter(featuredItems, getActivity(),navController);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -171,6 +178,16 @@ public class MainActivityFragment extends Fragment {
         LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mBestSellingRecyclerView.setLayoutManager(mLayoutManager1);
         mBestSellingRecyclerView.setAdapter(mBestSellingAdapter);
+
+        mMostSellingAdapter=new RecyclerViewAdapter(mostSellingItems, getActivity(),navController);
+        LinearLayoutManager mLayoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mMostSellingRecyclerView.setLayoutManager(mLayoutManager2);
+        mMostSellingRecyclerView.setAdapter(mMostSellingAdapter);
+
+        tokenRequest(1);
+        tokenRequest(2);
+        tokenRequest(3);//1 for featured, 2 for best selling, 3 for most selling
+
 
         return rootView;
     }
@@ -191,11 +208,11 @@ public class MainActivityFragment extends Fragment {
                                 if(token != null)
 
                                     if(reqCode==1)
-                                       getRequest(token,Configration.urlFeatured );
+                                       getRequest(token,Configration.urlFeatured+"PageNumber=1&PageSize=10" ,1);
                                     else if(reqCode==2)
-                                        getRequest(token,Configration.urlBestSelling);
+                                        getRequest(token,Configration.urlBestSelling+"PageNumber=1&PageSize=10", 2);
                                     else if(reqCode==3)
-                                        getRequest(token,Configration.urlMostSelling);
+                                        getRequest(token,Configration.urlMostSelling+"PageNumber=1&PageSize=10", 3);
 
                                 else
                                     Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
@@ -236,7 +253,7 @@ public class MainActivityFragment extends Fragment {
 
             public String getBodyContentType()
             {
-                return "application/x-www-form-urlencoded"+"PageNumber=1&PageSize=10";
+                return "application/x-www-form-urlencoded";
             }
 
         };
@@ -244,7 +261,7 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    public void getRequest(final String token, String url){
+    public void getRequest(final String token, String url, final int reqCode){
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -253,11 +270,41 @@ public class MainActivityFragment extends Fragment {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
                             if(loginResponse.get("data")!=null){
-                                Toast.makeText(getActivity(),"fetched",Toast.LENGTH_SHORT).show();
+                                JSONArray itemsJson=loginResponse.getJSONArray("data");
+                                for(int i=0;i<itemsJson.length();i++){
+                                   Product item= new Product();
+                                   JSONObject itemsObject=itemsJson.getJSONObject(i);
+                                   item.setCategoryId(itemsObject.getInt("id"));
+                                   item.setName(itemsObject.getString("name"));
+                                   item.setDesc(itemsObject.getString("description"));
+                                   item.setMrp(itemsObject.getDouble("mrp"));
+                                   item.setCbtp(itemsObject.getDouble("cbtp"));
+                                   item.setProductType(itemsObject.getInt("product_Type"));
+                                   item.setProductTypeName(itemsObject.getString("product_type_name"));
+                                   item.setImg(itemsObject.getJSONObject("store_img_url").getString("url"));
+                                   JSONArray categoryObject=itemsObject.getJSONArray("category_data");
+                                   item.setCategoryId(((JSONObject)categoryObject.get(0)).getInt("id"));
+                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("name"));
+                                   item.setProductMode(itemsObject.getInt("product_mode"));
+                                   item.setProductModeName(itemsObject.getString("product_mode_name"));
+                                   if(reqCode==1)
+                                       featuredItems.add(item);
+                                   else if(reqCode==2)
+                                       bestSellingItems.add(item);
+                                   else if(reqCode==3)
+                                       mostSellingItems.add(item);
+
+                                }
+
+                                if(reqCode==1)
+                                    mFeaturedAdapter.notifyDataSetChanged();
+                                else if(reqCode==2)
+                                    mBestSellingAdapter.notifyDataSetChanged();
+                                else if(reqCode==3)
+                                    mMostSellingAdapter.notifyDataSetChanged();
 
                             }
-                            else
-                                Toast.makeText(getActivity(),"Unable to fetch",Toast.LENGTH_SHORT).show();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -272,15 +319,6 @@ public class MainActivityFragment extends Fragment {
                     }
                 })
         {
-//            @Override
-//            protected Map<String,String> getParams(){
-//                Map<String,String> params = new HashMap<String, String>();
-//                params.put("LoginId","8447707717");
-//                params.put("password","111111");
-//
-//                return params;
-//            }
-
 
 
             @Override

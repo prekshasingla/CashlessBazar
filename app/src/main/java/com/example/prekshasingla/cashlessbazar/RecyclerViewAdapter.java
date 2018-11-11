@@ -51,6 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(item.getImg())
                 .into(holder.image);
         holder.name.setText(item.getName());
+        holder.price.setText(mContext.getString(R.string.rupee)+item.getCbtp());
 
     }
 
@@ -67,11 +68,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ImageView image;
         public TextView name;
+        public TextView price;
 
         public RecyclerViewAdapterViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.item_image);
             name = (TextView) itemView.findViewById(R.id.item_name);
+            price=(TextView) itemView.findViewById(R.id.item_price);
             image.setOnClickListener(this);
         }
 

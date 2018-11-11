@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PaymentOptionsFragment">
+    tools:context=".PaymentOptionsFragment"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:id="@+id/top_nav"
