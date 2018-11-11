@@ -12,14 +12,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 /**
@@ -36,12 +48,13 @@ public class MainActivityFragment extends Fragment {
     static private List<String> mBannerImages;
     RecyclerView mFeaturedRecyclerView;
     RecyclerViewAdapter mFeaturedAdapter;
-    List<ItemRecyclerView> featuredItems;
+    List<Product> featuredItems;
     RecyclerView mBestSellingRecyclerView;
     RecyclerViewAdapter mBestSellingAdapter;
-    List<ItemRecyclerView> bestSellingItems;
-
-
+    List<Product> bestSellingItems;
+    RecyclerView mMostSellingRecyclerView;
+    RecyclerViewAdapter mMostSellingAdapter;
+    List<Product> mostSellingItems;
 //    NavOptions navOptions;
 
 
@@ -94,6 +107,7 @@ public class MainActivityFragment extends Fragment {
 
         featuredItems=new ArrayList<>();
         bestSellingItems=new ArrayList<>();
+        mostSellingItems=new ArrayList<>();
 
 
 
@@ -104,6 +118,7 @@ public class MainActivityFragment extends Fragment {
 
          final Handler handler=new Handler();
          final  int delay = 5000; //milliseconds
+
 
 
         Runnable runnable = new Runnable() {
@@ -121,36 +136,38 @@ public class MainActivityFragment extends Fragment {
 
         mFeaturedRecyclerView = (RecyclerView) rootView.findViewById(R.id.featured_recycler);
         mBestSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.best_selling_recycler);
+        mMostSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.mostselling_recycler);
 
-        ItemRecyclerView item=new ItemRecyclerView();
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
 
-        ItemRecyclerView item1=new ItemRecyclerView();
-        item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
-        item1.setName("Mobile Recharge");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item1);
-        bestSellingItems.add(item1);
+//        Product item=new Product();
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
+//
+//        Product item1=new Product();
+//        item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
+//        item1.setName("Mobile Recharge");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item1);
+//        bestSellingItems.add(item1);
+//
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
 
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
-
-        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-        item.setName("Gift Vouchers");
-        item.setPrice(450f);
-        item.setDesc("This is the description of the item");
-        featuredItems.add(item);
-        bestSellingItems.add(item);
+//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
+//        item.setName("Gift Vouchers");
+//        item.setPrice(450f);
+//        item.setDesc("This is the description of the item");
+//        featuredItems.add(item);
+//        bestSellingItems.add(item);
 
         mFeaturedAdapter=new RecyclerViewAdapter(featuredItems, getActivity(),navController);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -162,8 +179,166 @@ public class MainActivityFragment extends Fragment {
         mBestSellingRecyclerView.setLayoutManager(mLayoutManager1);
         mBestSellingRecyclerView.setAdapter(mBestSellingAdapter);
 
+        mMostSellingAdapter=new RecyclerViewAdapter(mostSellingItems, getActivity(),navController);
+        LinearLayoutManager mLayoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mMostSellingRecyclerView.setLayoutManager(mLayoutManager2);
+        mMostSellingRecyclerView.setAdapter(mMostSellingAdapter);
+
+        tokenRequest(1);
+        tokenRequest(2);
+        tokenRequest(3);//1 for featured, 2 for best selling, 3 for most selling
+
+
         return rootView;
     }
+
+
+    public void tokenRequest(final int reqCode){
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if(response!=null && !response.equals("")){
+
+                            try {
+                                JSONObject tokenResponse=new JSONObject(response);
+                                String token= tokenResponse.getString("access_token");
+                                if(token != null)
+
+                                    if(reqCode==1)
+                                       getRequest(token,Configration.urlFeatured+"PageNumber=1&PageSize=10" ,1);
+                                    else if(reqCode==2)
+                                        getRequest(token,Configration.urlBestSelling+"PageNumber=1&PageSize=10", 2);
+                                    else if(reqCode==3)
+                                        getRequest(token,Configration.urlMostSelling+"PageNumber=1&PageSize=10", 3);
+
+                                else
+                                    Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                })
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username","developer");
+                params.put("password","SPleYwIt");
+                params.put("grant_type", "password");
+
+                return params;
+            }
+
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String,String> params = new HashMap<String, String>();
+////                params.put("Content-Type","application/x-www-form-urlencoded");
+//                //params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
+//                return params;
+//            }
+
+            public String getBodyContentType()
+            {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+
+    public void getRequest(final String token, String url, final int reqCode){
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject loginResponse=new JSONObject(response);
+                            if(loginResponse.get("data")!=null){
+                                JSONArray itemsJson=loginResponse.getJSONArray("data");
+                                for(int i=0;i<itemsJson.length();i++){
+                                   Product item= new Product();
+                                   JSONObject itemsObject=itemsJson.getJSONObject(i);
+                                   item.setCategoryId(itemsObject.getInt("id"));
+                                   item.setName(itemsObject.getString("name"));
+                                   item.setDesc(itemsObject.getString("description"));
+                                   item.setMrp(itemsObject.getDouble("mrp"));
+                                   item.setCbtp(itemsObject.getDouble("cbtp"));
+                                   item.setProductType(itemsObject.getInt("product_Type"));
+                                   item.setProductTypeName(itemsObject.getString("product_type_name"));
+                                   item.setImg(itemsObject.getJSONObject("store_img_url").getString("url"));
+                                   JSONArray categoryObject=itemsObject.getJSONArray("category_data");
+                                   item.setCategoryId(((JSONObject)categoryObject.get(0)).getInt("id"));
+                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("name"));
+                                   item.setProductMode(itemsObject.getInt("product_mode"));
+                                   item.setProductModeName(itemsObject.getString("product_mode_name"));
+                                   if(reqCode==1)
+                                       featuredItems.add(item);
+                                   else if(reqCode==2)
+                                       bestSellingItems.add(item);
+                                   else if(reqCode==3)
+                                       mostSellingItems.add(item);
+
+                                }
+
+                                if(reqCode==1)
+                                    mFeaturedAdapter.notifyDataSetChanged();
+                                else if(reqCode==2)
+                                    mBestSellingAdapter.notifyDataSetChanged();
+                                else if(reqCode==3)
+                                    mMostSellingAdapter.notifyDataSetChanged();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                })
+        {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization","bearer "+token);
+                return params;
+            }
+
+            public String getBodyContentType()
+            {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+
 
 }
 

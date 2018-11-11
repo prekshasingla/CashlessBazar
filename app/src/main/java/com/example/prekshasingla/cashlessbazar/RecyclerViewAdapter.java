@@ -1,7 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +18,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final int ITEM_VIEW_TYPE_HEADER = 1;
     private static final int ITEM_VIEW_TYPE_ITEM = 2;
-    private List<ItemRecyclerView> items;
+    private List<Product> items;
     final private Activity mContext;
     NavController navController;
 
     RecyclerViewAdapter.RecyclerViewAdapterViewHolder holder;
     private boolean headerEnabled;
 
-    public RecyclerViewAdapter(List<ItemRecyclerView> items, Activity mContext, NavController navController) {
+    public RecyclerViewAdapter(List<Product> items, Activity mContext, NavController navController) {
         this.items = items;
         this.mContext = mContext;
         this.navController=navController;
@@ -47,11 +46,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.RecyclerViewAdapterViewHolder holder, int position) {
-        ItemRecyclerView item= items.get(position);
+        Product item= items.get(position);
         Picasso.with(mContext)
                 .load(item.getImg())
                 .into(holder.image);
         holder.name.setText(item.getName());
+        holder.price.setText(mContext.getString(R.string.rupee)+item.getCbtp());
 
     }
 
@@ -68,11 +68,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ImageView image;
         public TextView name;
+        public TextView price;
 
         public RecyclerViewAdapterViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.item_image);
             name = (TextView) itemView.findViewById(R.id.item_name);
+            price=(TextView) itemView.findViewById(R.id.item_price);
             image.setOnClickListener(this);
         }
 
@@ -86,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public void addAll(List<ItemRecyclerView> items) {
+    public void addAll(List<Product> items) {
         this.items = items;
     }
 }
