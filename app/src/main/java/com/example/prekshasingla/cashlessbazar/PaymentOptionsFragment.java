@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,10 +85,10 @@ public class PaymentOptionsFragment extends Fragment {
                 card.setCvv(cardCVV.getText().toString());
 
                 //Validate the card here
-//                if (!isValidCard(card)) {
-//                    return;
-//                }
-                fetchTokenAndTransactionID();
+                if (!isValidCard(card)) {
+                    return;
+                }
+//                fetchTokenAndTransactionID();
                 //Get order details form Juspay
 //                proceedWithCard(order, card);
             }
@@ -146,6 +147,19 @@ public class PaymentOptionsFragment extends Fragment {
     }
 
     private boolean isValidCard(Card card) {
+        if (TextUtils.isEmpty(card.getCardHolderName())) {
+            Toast.makeText(getActivity(), "Enter Name on Card", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(card.getCardNumber())) {
+            Toast.makeText(getActivity(), "Enter Card Name", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(card.getCvv())) {
+            Toast.makeText(getActivity(), "Enter CVV number", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(card.getMonth()) || TextUtils.isEmpty(card.getYear()) ) {
+            Toast.makeText(getActivity(), "Enter Expiry Date", Toast.LENGTH_SHORT).show();
+        }
+
         if (!card.isCardValid()) {
 
             if (!card.isCardNameValid()) {
