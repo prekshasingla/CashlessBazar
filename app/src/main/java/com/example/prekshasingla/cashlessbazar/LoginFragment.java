@@ -66,6 +66,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     CallbackManager callbackManager;
     TextView signup_text;
     TextView loginError;
+    EditText user;
+    private EditText password;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -103,8 +105,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
 
-        final EditText user= (EditText)rootView.findViewById(R.id.user_email);
-        final EditText password= (EditText)rootView.findViewById(R.id.user_password);
+          user= (EditText)rootView.findViewById(R.id.user_email);
+         password= (EditText)rootView.findViewById(R.id.user_password);
 
         Button loginButton=(Button)rootView.findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -116,9 +118,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 if(loginId.trim().equals("")){
                     loginError.setText("Enter a valid login Id");
+                    return;
                 }
                 if(pass.trim().equals("")){
                     loginError.setText("Enter a valid password");
+                    return;
                 }
 
 
@@ -240,13 +244,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 return params;
             }
 
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String,String> params = new HashMap<String, String>();
-////                params.put("Content-Type","application/x-www-form-urlencoded");
-//                //params.put("Authorization","bearer kZnREUlqOg4CSoqmN-fvrR53Gyp6JGUG9VQh-w4J9fu0ZwAVSdsJNkzA00bw-ZsOWX6ZTuEOxCGoGqxEJz_xk-PXvZ3UnI0zEmjCbmkvsA8cyFzvtRVtpbFFNwo5SWh85D1MtVHIaKBWzJur14LQjCuFW2WX87B-UsyDZbxmgMSdxJbqgiD3cVKipsMThQJDtM6ZM1-V1OM-rL75O0t6r3Ew36Ve6HkebmcKKyrssRJeP4rgyD9m3prKJs5lr_pFTRhkYq2hi07pcIjwCet1wRe9NQo4k8xp9FF5n4U-1gScdP4JXPoikp4HG9QAPrm5");
-//                return params;
-//            }
 
             public String getBodyContentType()
             {
@@ -308,8 +305,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("LoginId","8447707717");
-                params.put("password","111111");
+                params.put("LoginId",user.getText().toString().trim());
+                params.put("password",password.getText().toString().trim());
 
                 return params;
             }

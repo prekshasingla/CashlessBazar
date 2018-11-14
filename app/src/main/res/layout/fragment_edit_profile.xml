@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditProfileFragment"
     android:orientation="vertical">
-
     <LinearLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -20,55 +23,39 @@
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:text="Profile"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"
-            android:text="SAVE"
-            android:textAlignment="viewEnd"
-            android:paddingEnd="5dp"
-            android:paddingRight="5dp"
-            android:layout_gravity="center_vertical|end"/>
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
-    <TextView
-        android:paddingTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="First Name"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="First Name"
-        android:text="Preksha"/>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:id="@+id/qr_imageview"/>
 
-    <TextView
-        android:paddingTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Last Name"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Last Name"
-        android:text="singla"/>
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/name_textview"
+    android:text="Preksha Singla"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:textSize="18sp"
+    android:textColor="@color/green"
+    android:fontFamily="@font/open_sans_bold"/>
     <TextView
         android:layout_marginTop="10dp"
         android:paddingTop="10dp"
@@ -83,10 +70,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Display Name"/>
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Display Name"
+        android:id="@+id/name_edittext"
         android:text="Preksha Singla"/>
 
     <TextView
@@ -94,20 +81,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Email"/>
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:id="@+id/email_edittext" />
 
     <TextView
         android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Mobile number"/>
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mobile Number"
+        android:id="@+id/mobile_edittext"
         android:text="9999999999"/>
     <TextView
         android:id="@+id/logout_text"
@@ -122,3 +109,4 @@
 </LinearLayout>
 
 </LinearLayout>
+</ScrollView>
