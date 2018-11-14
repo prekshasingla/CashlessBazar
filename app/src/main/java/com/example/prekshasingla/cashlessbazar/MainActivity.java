@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLogin() {
         SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getApplicationContext());
-        if(sharedPreferenceUtils.getStringValue("loginName",null)!=null) {
-            customerName.setText("Hi, " + sharedPreferenceUtils.getStringValue("loginName", null));
+        if(sharedPreferenceUtils.getName()!=null) {
+            customerName.setText("Hi, " + sharedPreferenceUtils.getName());
             editProfile.setText("Profile");
             customerName.setVisibility(View.VISIBLE);
             editProfile.setOnClickListener(new View.OnClickListener() {

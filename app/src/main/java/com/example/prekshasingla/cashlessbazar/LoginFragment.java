@@ -262,6 +262,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             JSONObject loginResponse=new JSONObject(response);
                             if(loginResponse.get("customer")!=null){

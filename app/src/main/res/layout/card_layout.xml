@@ -17,11 +17,27 @@
         />
 
     <EditText
-        android:id="@+id/card_expiry"
+        android:id="@+id/card_expiry_month"
+        android:layout_width="wrap_content"
+        android:maxLength="2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/card_number" />
+    <TextView
+        android:id="@+id/card_expiry_slash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Expiry Date"
-        android:inputType="number"
+        android:text=" / "
+        android:gravity="bottom"
+        app:layout_constraintBaseline_toBaselineOf="@+id/card_expiry_month"
+        app:layout_constraintLeft_toRightOf="@+id/card_expiry_month"
+        app:layout_constraintTop_toBottomOf="@+id/card_number"/>
+    <EditText
+        android:id="@+id/card_expiry_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="2"
+        android:text=""
+        app:layout_constraintLeft_toRightOf="@+id/card_expiry_slash"
         app:layout_constraintTop_toBottomOf="@+id/card_number" />
 
     <EditText
@@ -30,8 +46,9 @@
         android:layout_height="wrap_content"
         android:hint="CVV          "
         android:inputType="number"
+        android:maxLength="3"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/card_expiry"
+        app:layout_constraintLeft_toRightOf="@+id/card_expiry_year"
         app:layout_constraintTop_toBottomOf="@+id/card_number" />
     <EditText
         android:id="@+id/card_name"
@@ -39,7 +56,7 @@
         android:layout_height="wrap_content"
         android:hint="Name on Card"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/card_expiry" />
+        app:layout_constraintTop_toBottomOf="@+id/card_expiry_month" />
     <Button
         android:id="@+id/card_layout_proceed"
         android:layout_marginTop="10dp"

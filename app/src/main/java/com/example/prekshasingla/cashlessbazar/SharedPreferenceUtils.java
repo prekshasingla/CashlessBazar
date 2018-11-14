@@ -70,32 +70,15 @@ public class SharedPreferenceUtils {
     }
 
 
-    public String getStringValue(String key, String defaultValue) {
-        return mSharedPreferences.getString(key, defaultValue);
+    public String getName(){
+        return mSharedPreferences.getString("loginName",null);
     }
-
-
-    public int getIntValue(String key, int defaultValue) {
-        return mSharedPreferences.getInt(key, defaultValue);
+    public String getEmail(){
+        return mSharedPreferences.getString("loginEmail",null);
     }
-
-
-    public long getLongValue(String key, long defaultValue) {
-        return mSharedPreferences.getLong(key, defaultValue);
+    public String getPhone(){
+        return mSharedPreferences.getString("loginMobile",null);
     }
-
-    public boolean getBoolanValue(String keyFlag, boolean defaultValue) {
-        return mSharedPreferences.getBoolean(keyFlag, defaultValue);
-    }
-
-
-    public void removeKey(String key) {
-        if (mSharedPreferencesEditor != null) {
-            mSharedPreferencesEditor.remove(key);
-            mSharedPreferencesEditor.commit();
-        }
-    }
-
 
     public void clear() {
         mSharedPreferencesEditor.clear().commit();
