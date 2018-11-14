@@ -17,6 +17,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.security.GeneralSecurityException;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -48,9 +50,14 @@ public class EditProfileFragment extends Fragment {
         ImageView qrImageView=rootView.findViewById(R.id.qr_imageview);
         QRCodeWriter writer = new QRCodeWriter();
         try {
-
-            String contents=sharedPreferenceUtils.getStringValue("loginName", null)+"~"+sharedPreferenceUtils.getIntValue("loginCId", 0);
-            BitMatrix bitMatrix = writer.encode(contents, BarcodeFormat.QR_CODE, 512, 512);
+            String encodedString="";
+            String contents="CbAppWallet~"+sharedPreferenceUtils.getStringValue("loginName", null)+"~"+sharedPreferenceUtils.getIntValue("loginCId", 0);
+            try {
+                 encodedString=AESCrypt.encrypt(contents);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+            BitMatrix bitMatrix = writer.encode(encodedString, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
             Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);

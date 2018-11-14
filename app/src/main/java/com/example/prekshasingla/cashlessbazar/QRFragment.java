@@ -25,6 +25,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -100,10 +101,15 @@ public class QRFragment extends Fragment {
                 final SparseArray<Barcode> barcodeSparseArray = detections.getDetectedItems();
                 if (barcodeSparseArray.size() != 0) {
                     vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-
+                    String decryptedString="";
                     String qr_code_text = barcodeSparseArray.valueAt(0).displayValue;
-                    final String data[] = qr_code_text.split("~");
-                    if (qr_code_text.contains("cbapp")) {
+                    try {
+                         decryptedString=AESCrypt.decrypt(qr_code_text);
+                    } catch (GeneralSecurityException e) {
+                        e.printStackTrace();
+                    }
+                    final String data[] = decryptedString.split("~");
+                    if (qr_code_text.contains("CbAppWallet")) {
                         vibrator.vibrate(10);
                         Toast.makeText(getActivity(), data[1], Toast.LENGTH_SHORT).show();
 //                                intent.putExtra("flag", "insideOrder");
@@ -115,6 +121,11 @@ public class QRFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void proceedTransfer() {
+
+
     }
 
 
