@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -209,11 +206,11 @@ public class MainActivityFragment extends Fragment {
                                 if(token != null)
 
                                     if(reqCode==1)
-                                       getRequest(token,Configration.urlFeatured+"PageNumber=1&PageSize=10" ,1);
+                                       getRequest(token,Configuration.urlFeatured+"PageNumber=1&PageSize=10" ,1);
                                     else if(reqCode==2)
-                                        getRequest(token,Configration.urlBestSelling+"PageNumber=1&PageSize=10", 2);
+                                        getRequest(token,Configuration.urlBestSelling+"PageNumber=1&PageSize=10", 2);
                                     else if(reqCode==3)
-                                        getRequest(token,Configration.urlMostSelling+"PageNumber=1&PageSize=10", 3);
+                                        getRequest(token,Configuration.urlMostSelling+"PageNumber=1&PageSize=10", 3);
 
                                 else
                                     Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();

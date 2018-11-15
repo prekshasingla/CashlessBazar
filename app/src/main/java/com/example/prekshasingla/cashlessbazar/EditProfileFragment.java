@@ -51,7 +51,8 @@ public class EditProfileFragment extends Fragment {
         QRCodeWriter writer = new QRCodeWriter();
         try {
             String encodedString="";
-            String contents="CbAppWallet~"+sharedPreferenceUtils.getStringValue("loginName", null)+"~"+sharedPreferenceUtils.getIntValue("loginCId", 0);
+            String contents="CbAppWallet~"+sharedPreferenceUtils.getName()+"~"+sharedPreferenceUtils.getCId()
+                         +"~"+sharedPreferenceUtils.getPhone();
             try {
                  encodedString=AESCrypt.encrypt(contents);
             } catch (GeneralSecurityException e) {
@@ -69,16 +70,16 @@ public class EditProfileFragment extends Fragment {
             qrImageView.setImageBitmap(bmp);
 
             TextView nameTextView=rootView.findViewById(R.id.name_textview);
-            nameTextView.setText(sharedPreferenceUtils.getStringValue("loginName", null));
+            nameTextView.setText(sharedPreferenceUtils.getName());
 
             TextView nameEditText=rootView.findViewById(R.id.name_edittext);
-            nameEditText.setText(sharedPreferenceUtils.getStringValue("loginName", null));
+            nameEditText.setText(sharedPreferenceUtils.getName());
 
             TextView emailEditText=rootView.findViewById(R.id.email_edittext);
-            emailEditText.setText(sharedPreferenceUtils.getStringValue("loginEmail", null));
+            emailEditText.setText(sharedPreferenceUtils.getEmail());
 
             TextView mobileEditText=rootView.findViewById(R.id.mobile_edittext);
-            mobileEditText.setText(sharedPreferenceUtils.getStringValue("loginMobile", null));
+            mobileEditText.setText(sharedPreferenceUtils.getPhone());
 
         } catch (WriterException e) {
             e.printStackTrace();

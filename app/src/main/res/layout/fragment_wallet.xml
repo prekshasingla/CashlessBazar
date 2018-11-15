@@ -57,6 +57,7 @@
 
 
             <TextView
+                android:id="@+id/wallet_balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
@@ -111,13 +112,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/amount"
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:layout_height="wrap_content"
                     android:hint="Amount" />
+
 
                 <Button
                     android:id="@+id/add_money"

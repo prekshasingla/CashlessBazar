@@ -19,13 +19,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -101,20 +111,18 @@ public class QRFragment extends Fragment {
                 final SparseArray<Barcode> barcodeSparseArray = detections.getDetectedItems();
                 if (barcodeSparseArray.size() != 0) {
                     vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    String decryptedString="";
+                    String decryptedString = "";
                     String qr_code_text = barcodeSparseArray.valueAt(0).displayValue;
                     try {
-                         decryptedString=AESCrypt.decrypt(qr_code_text);
+                        decryptedString = AESCrypt.decrypt(qr_code_text);
                     } catch (GeneralSecurityException e) {
                         e.printStackTrace();
                     }
                     final String data[] = decryptedString.split("~");
-                    if (qr_code_text.contains("CbAppWallet")) {
+                    if (decryptedString.contains("CbAppWallet")) {
                         vibrator.vibrate(10);
-                        Toast.makeText(getActivity(), data[1], Toast.LENGTH_SHORT).show();
-//                                intent.putExtra("flag", "insideOrder");
-//                                startActivity(intent);
-
+                        tokenRequest(data[2]);
+                        barcodeDetector.release();
                     }
                 }
 
@@ -123,9 +131,105 @@ public class QRFragment extends Fragment {
         return rootView;
     }
 
-    private void proceedTransfer() {
+    private void proceedTransfer(final String regNo, final String token) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlWalletTransfer,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if (response != null && !response.equals("")) {
+
+                            Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("senderRegno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
+                params.put("receiverRegno", regNo);
+                params.put("amount", "500");
+
+                return params;
+            }
 
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+
+    }
+
+    public void tokenRequest(final String regNo) {
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if (response != null && !response.equals("")) {
+
+                            try {
+                                JSONObject tokenResponse = new JSONObject(response);
+                                String token = tokenResponse.getString("access_token");
+                                if (token != null)
+                                    proceedTransfer(regNo, token);
+                                else
+                                    Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else
+                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", "developer");
+                params.put("password", "SPleYwIt");
+                params.put("grant_type", "password");
+
+                return params;
+            }
+
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
 
