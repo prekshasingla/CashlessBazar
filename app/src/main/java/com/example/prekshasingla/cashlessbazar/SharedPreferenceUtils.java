@@ -39,6 +39,9 @@ public class SharedPreferenceUtils {
         mSharedPreferencesEditor.commit();
     }
 
+    public int getCId(){
+        return mSharedPreferences.getInt("loginCId",0);
+    }
     public void setEmail(String value) {
         mSharedPreferencesEditor.putString("loginEmail", value);
         mSharedPreferencesEditor.commit();
@@ -54,13 +57,13 @@ public class SharedPreferenceUtils {
         mSharedPreferencesEditor.commit();
     }
 
-    public void setCBTPBalance(int value) {
-        mSharedPreferencesEditor.putInt("loginCBTP_Balance", value);
+    public void setCBTPBalance(float value) {
+        mSharedPreferencesEditor.putFloat("loginCBTP_Balance", value);
         mSharedPreferencesEditor.commit();
     }
 
-    public void setRewardBalance(int value) {
-        mSharedPreferencesEditor.putInt("loginReward_Balance", value);
+    public void setRewardBalance(float value) {
+        mSharedPreferencesEditor.putFloat("loginReward_Balance", value);
         mSharedPreferencesEditor.commit();
     }
 
@@ -79,7 +82,9 @@ public class SharedPreferenceUtils {
     public String getPhone(){
         return mSharedPreferences.getString("loginMobile",null);
     }
-
+ public float getCBTPBalance(){
+        return mSharedPreferences.getFloat("loginCBTP_Balance",0);
+ }
     public void clear() {
         mSharedPreferencesEditor.clear().commit();
     }

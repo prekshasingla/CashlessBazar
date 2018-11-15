@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +21,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,8 +33,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.instamojo.android.models.Card;
-import com.instamojo.android.models.Order;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,14 +40,12 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import static android.provider.ContactsContract.Intents.Insert.EMAIL;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -78,7 +70,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(Configration.ClientID)
+                        .requestIdToken(Configuration.ClientID)
                 .requestEmail()
                 .build();
 
@@ -277,7 +269,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
                                 SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
                                 SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
-                                JSONObject walletObject=loginResponse.getJSONObject("wallet");
+
+                                JSONObject walletObject=customerObject.getJSONObject("wallet");
                                 SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
                                 SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 

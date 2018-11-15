@@ -1,30 +1,23 @@
 package com.example.prekshasingla.cashlessbazar;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.instamojo.android.Instamojo;
 import com.instamojo.android.activities.PaymentActivity;
 import com.instamojo.android.activities.PaymentDetailsActivity;
 import com.instamojo.android.callbacks.JusPayRequestCallback;
@@ -38,14 +31,8 @@ import com.instamojo.android.network.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 
 
 public class PaymentOptionsFragment extends Fragment {
@@ -101,7 +88,7 @@ public class PaymentOptionsFragment extends Fragment {
                 dialog.setMessage("please wait...");
                 dialog.setCancelable(false);
                 dialog.show();
-                 cardDetails = new Card();
+                cardDetails = new Card();
                 cardDetails.setCardNumber(cardNumber.getText().toString());
                 cardDetails.setDate(cardExpiryMonth.getText().toString() + "/" + cardExpiryYear.getText().toString());
                 cardDetails.setCardHolderName(cardName.getText().toString());
@@ -111,11 +98,18 @@ public class PaymentOptionsFragment extends Fragment {
                 if (!isValidCard(cardDetails)) {
                     dialog.dismiss();
                     return;
-                } else
-                    tokenRequest();
+                } else {
+                    dialog.dismiss();
+                    SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getActivity());
+                    ((com.example.prekshasingla.cashlessbazar.PaymentActivity) getActivity()).callInstamojoPay(
+                            sharedPreferenceUtils.getEmail(),sharedPreferenceUtils.getPhone(),"500",
+                            "wallet",sharedPreferenceUtils.getName()
+                    );
+//                    tokenRequest();
 //                fetchTokenAndTransactionID();
-                //Get order details form Juspay
+                    //Get order details form Juspay
 //                proceedWithCard(order, card);
+                }
             }
         });
         return rootView;
@@ -123,7 +117,7 @@ public class PaymentOptionsFragment extends Fragment {
 
     private void fetchTokenAndTransactionID(final String token) {
 
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Configration.urlPayFetchToken,
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Configuration.urlPayFetchToken,
                 new Response.Listener<String>() {
                     private String transactionID;
                     private String accessToken;
@@ -152,7 +146,7 @@ public class PaymentOptionsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(), "Some error occured. Try again later.", Toast.LENGTH_SHORT).show();
-                   dialog.dismiss();
+                        dialog.dismiss();
                     }
                 }) {
 //            @Override
@@ -248,12 +242,14 @@ public class PaymentOptionsFragment extends Fragment {
         });
         request.execute();
     }
+
     private void startPreCreatedUI(Order order) {
         //Using Pre created UI
         Intent intent = new Intent(getActivity(), PaymentDetailsActivity.class);
         intent.putExtra(Constants.ORDER, order);
         startActivityForResult(intent, Constants.REQUEST_CODE);
     }
+
     private boolean isValidCard(Card card) {
         if (TextUtils.isEmpty(card.getCardHolderName())) {
             Toast.makeText(getActivity(), "Enter Name on Card", Toast.LENGTH_SHORT).show();
@@ -343,6 +339,7 @@ public class PaymentOptionsFragment extends Fragment {
         intent.putExtra(Constants.PAYMENT_BUNDLE, bundle);
         startActivityForResult(intent, Constants.REQUEST_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -361,6 +358,7 @@ public class PaymentOptionsFragment extends Fragment {
             }
         }
     }
+
     public void tokenRequest() {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://api2.cashlessbazar.com/token",
@@ -384,7 +382,7 @@ public class PaymentOptionsFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                            dialog.dismiss();
                         }
                         // Do something with the response
                     }
@@ -431,7 +429,7 @@ public class PaymentOptionsFragment extends Fragment {
 //        }
 //
 ////        showToast("checking transaction status");
-//        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Configration.urlPayFetchToken,
+//        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Configuration.urlPayFetchToken,
 //                new Response.Listener<String>() {
 //                    private String transactionID;
 //                    private String accessToken;
