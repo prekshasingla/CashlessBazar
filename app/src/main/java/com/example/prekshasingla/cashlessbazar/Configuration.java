@@ -11,4 +11,8 @@ public class Configuration {
     final public  static String urlWalletTransfer="http://api2.cashlessbazar.com/api/wallet/transfer";
 
     final public static String urlWalletUpdate="http://api2.cashlessbazar.com/api/wallet/update";
+
+    final public static String urlWalletHistory="http://api2.cashlessbazar.com/api/wallet/GetWallet?";
+
+    final public static String urlUserInfo="http://api2.cashlessbazar.com/api/customer/Info?";
 }

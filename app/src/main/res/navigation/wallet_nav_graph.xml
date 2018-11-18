@@ -9,5 +9,14 @@
         android:id="@+id/walletFragment"
         android:name="com.example.prekshasingla.cashlessbazar.WalletFragment"
         android:label="fragment_wallet"
-        tools:layout="@layout/fragment_wallet" />
+        tools:layout="@layout/fragment_wallet" >
+        <action
+            android:id="@+id/action_walletFragment_to_addFundFragment"
+            app:destination="@id/addFundFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFundFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.AddFundFragment"
+        android:label="fragment_add_fund"
+        tools:layout="@layout/fragment_add_fund" />
 </navigation>

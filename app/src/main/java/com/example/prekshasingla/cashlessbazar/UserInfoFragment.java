@@ -1,20 +1,11 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,36 +19,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
-import instamojo.library.InstamojoPay;
-import instamojo.library.InstapayListener;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WalletFragment extends Fragment {
-
-    NavController navController;
-    int pagenumber;
-
-    List<TransactionHistoryItem> transactionHistoryItems;
-
-    RecyclerView mTransactionHistoryRecyclerView;
-    TransactionHistoryAdapter mTransactionHistoryAdapter;
+public class UserInfoFragment extends Fragment {
 
 
+    String userName;
+    String userMobile;
+    TextView textViewName;
+    TextView textViewMobile;
 
-    InstapayListener listener;
-    public WalletFragment() {
-        pagenumber=1;
+    public UserInfoFragment() {
         // Required empty public constructor
     }
 
@@ -66,47 +43,15 @@ public class WalletFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview= inflater.inflate(R.layout.fragment_wallet, container, false);
-        rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        View rootView= inflater.inflate(R.layout.fragment_user_info, container, false);
 
-        transactionHistoryItems=new ArrayList<>();
-        mTransactionHistoryRecyclerView=(RecyclerView) rootview.findViewById(R.id.transaction_history_recycler);
-
-        mTransactionHistoryAdapter=new TransactionHistoryAdapter(transactionHistoryItems, getActivity());
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mTransactionHistoryRecyclerView.setLayoutManager(mLayoutManager);
-        mTransactionHistoryRecyclerView.setAdapter(mTransactionHistoryAdapter);
-
+        textViewName=rootView.findViewById(R.id.user_name);
+        textViewMobile=rootView.findViewById(R.id.user_mobile);
 
         tokenRequest();
 
-        final SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getActivity());
-        TextView walletBalance= rootview.findViewById(R.id.wallet_balance);
-        final AppCompatEditText amount=rootview.findViewById(R.id.amount);
-
-        walletBalance.setText(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance()+"");
-
-        navController = Navigation.findNavController(getActivity(), R.id.fragment);
-
-
-        rootview.findViewById(R.id.add_money_text).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                navController.navigate(R.id.addFundFragment);
-
-
-
-            }
-        });
-        return rootview;
+        return rootView;
     }
-
 
 
     public void tokenRequest(){
@@ -123,9 +68,9 @@ public class WalletFragment extends Fragment {
                                 String token= tokenResponse.getString("access_token");
                                 if(token != null)
 
-                                        getTransactionHistory(token,Configuration.urlWalletHistory+"regno="+SharedPreferenceUtils.getInstance(getActivity()).getCId()+"&pagenumber="+pagenumber);
-                                    else
-                                        Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                                    getTransactionHistory(token,Configuration.urlUserInfo+"regno=2091");
+                                else
+                                    Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -171,22 +116,16 @@ public class WalletFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
-                            if(loginResponse.get("data")!=null){
-                                JSONArray itemsJson=loginResponse.getJSONArray("data");
+                            if(loginResponse.get("customer")!=null){
+                                JSONArray itemsJson=loginResponse.getJSONArray("customer");
                                 for(int i=0;i<itemsJson.length();i++){
-                                    TransactionHistoryItem item= new TransactionHistoryItem();
                                     JSONObject itemsObject=itemsJson.getJSONObject(i);
-                                    item.setSno(itemsObject.getInt("sno"));
-                                    item.setDate(itemsObject.getString("date"));
-                                    item.setCredit(itemsObject.getDouble("credit"));
-                                    item.setDebit(itemsObject.getDouble("debit"));
-                                    item.setDescription(itemsObject.getString("description"));
-                                    transactionHistoryItems.add(item);
+                                    userName=itemsObject.getString("name");
+                                    textViewName.setText(userName);
+                                    userMobile=itemsObject.getString("mobile");
+                                    textViewMobile.setText(userMobile);
 
                                 }
-
-                                    mTransactionHistoryAdapter.notifyDataSetChanged();
-
 
                             }
 
