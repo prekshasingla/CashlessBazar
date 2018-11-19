@@ -9,5 +9,24 @@
         android:id="@+id/QRFragment"
         android:name="com.example.prekshasingla.cashlessbazar.QRFragment"
         android:label="fragment_qr"
-        tools:layout="@layout/fragment_qr" />
+        tools:layout="@layout/fragment_qr" >
+        <action
+            android:id="@+id/action_QRFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <argument
+            android:name="cId"
+            android:defaultValue="0" />
+        <argument
+            android:name="name"
+            android:defaultValue="abc" />
+        <argument
+            android:name="phone"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

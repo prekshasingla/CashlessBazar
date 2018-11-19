@@ -2,6 +2,7 @@ package com.example.prekshasingla.cashlessbazar;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -36,6 +38,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -131,56 +137,6 @@ public class QRFragment extends Fragment {
         return rootView;
     }
 
-    private void proceedTransfer(final String regNo, final String token) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlWalletTransfer,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        if (response != null && !response.equals("")) {
-
-                            Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                        } else
-                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
-
-                        // Do something with the response
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle error
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("senderRegno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
-                params.put("receiverRegno", regNo);
-                params.put("amount", "500");
-
-                return params;
-            }
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-//                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Authorization", "bearer " + token);
-                return params;
-            }
-
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded";
-            }
-
-        };
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-
-    }
 
     public void tokenRequest(final String regNo) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
@@ -195,22 +151,41 @@ public class QRFragment extends Fragment {
                                 JSONObject tokenResponse = new JSONObject(response);
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
-                                    proceedTransfer(regNo, token);
+                                    findUser(regNo, null, token);
+//                                    proceedTransfer(regNo, token);
                                 else
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else
-                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Cannot Find User. Try Again");
+                            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    getActivity().onBackPressed();
+                                }
+                            });
 
+                            builder.create();
+                            builder.show();
+                        }
                         // Do something with the response
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Handle error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Cannot Find User. Try Again");
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                getActivity().onBackPressed();
+                            }
+                        });
+
+                        builder.create();
+                        builder.show();
                     }
                 }) {
             @Override
@@ -223,6 +198,82 @@ public class QRFragment extends Fragment {
                 return params;
             }
 
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    private void findUser(final String regNo, String phone, final String token) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlUserInfo + "regno=" + regNo,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject responseObject = new JSONObject(response);
+                            if (responseObject.getInt("status_code") == 200) {
+                                JSONObject customer = responseObject.getJSONObject("customer");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("name", customer.getString("name"));
+                                bundle.putString("phone", customer.getString("mobile"));
+                                bundle.putString("cId", customer.getString("cId"));
+                                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                navController.navigate(R.id.userInfoFragment, bundle);
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage("Cannot Find User. Try Again");
+                                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        getActivity().onBackPressed();
+                                    }
+                                });
+
+                                builder.create();
+                                builder.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Cannot Find User. Try Again");
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                getActivity().onBackPressed();
+                            }
+                        });
+
+                        builder.create();
+                        builder.show();
+                    }
+                }) {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("regno", regNo);
+//
+//                return params;
+//            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
 
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded";

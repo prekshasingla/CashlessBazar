@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     TextView customerName;
     TextView editProfile;
-
+     NavigationView navigationView;
 
 
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         // Call the function callInstamojo to start payment here
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        final NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView=findViewById(R.id.nav_view);
         View nav_header= navigationView.getHeaderView(0);
          customerName= nav_header.findViewById(R.id.nav_header_customer_name);
 
@@ -140,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
+            nav_Menu.findItem(R.id.nav_pay).setVisible(true);
+
         }
         else{
             editProfile.setText("Login");
@@ -153,7 +158,10 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
-
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
+            nav_Menu.findItem(R.id.nav_pay).setVisible(false);
         }
     }
 

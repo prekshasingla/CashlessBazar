@@ -37,32 +37,41 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/email_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pay_button"
-        android:padding="10dp"
-        android:background="@color/white">
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/user_email"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pay by mobile"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_above="@+id/pay_button"
+            android:background="@color/white"
+            android:padding="10dp">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pay_button"
-        android:text="Pay"
-        android:background="@color/cb_blue_dark"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true" />
+            <EditText
+                android:id="@+id/user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pay by mobile"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/round_btn"
+            android:text="Pay"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"

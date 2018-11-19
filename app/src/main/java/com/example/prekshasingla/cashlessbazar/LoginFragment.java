@@ -277,7 +277,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             }
                             else
-                            loginError.setText("Invalid Credentials");
+                            loginError.setText("Login Failed. Try Again");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
