@@ -1,6 +1,7 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     TextView loginError;
     EditText user;
     private EditText password;
+    ProgressDialog dialog;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -93,6 +95,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 getActivity().onBackPressed();
             }
         });
+
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Please Wait");
+        dialog.setCancelable(false);
+
         SignInButton signInButton = rootView.findViewById(R.id.google_sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
@@ -195,6 +202,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public void tokenRequest(){
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        dialog.show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
                     @Override
@@ -207,14 +216,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 String token= tokenResponse.getString("access_token");
                                 if(token != null)
                                   loginRequest(token);
-                                else
-                                    Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                                else {
+                                    dialog.dismiss();
+
+                                    Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        else
-                            Toast.makeText(getActivity(),"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
+                        else {
+                            dialog.dismiss();
+                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                        }
 
                         // Do something with the response
                     }
@@ -249,6 +263,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
     public void loginRequest(final String token){
+
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/api/customer/login",
                 new Response.Listener<String>() {
@@ -258,8 +273,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
                             if(loginResponse.get("customer")!=null){
-
-                                Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
 
                                 JSONObject customerObject=loginResponse.getJSONObject("customer");
                                 SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
@@ -274,18 +287,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
                                 SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
+                                dialog.dismiss();
+
+                                Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
+
+                                getActivity().onBackPressed();
+
 
                             }
-                            else
-                            loginError.setText("Login Failed. Try Again");
+                            else {
+                                dialog.dismiss();
+                                loginError.setText("Login Failed. Try Again");
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        finally {
-                            getActivity().onBackPressed();
 
-                        }
                         // Do something with the response
                     }
                 },

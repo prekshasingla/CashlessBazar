@@ -53,11 +53,12 @@ public class EditProfileFragment extends Fragment {
             String encodedString="";
             String contents="CbAppWallet~"+sharedPreferenceUtils.getName()+"~"+sharedPreferenceUtils.getCId()
                          +"~"+sharedPreferenceUtils.getPhone();
-            try {
-                 encodedString=AESCrypt.encrypt(contents);
-            } catch (GeneralSecurityException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                 encodedString=AESCrypt.encrypt(contents);
+//            } catch (GeneralSecurityException e) {
+//                e.printStackTrace();
+//            }
+            encodedString=contents;
             BitMatrix bitMatrix = writer.encode(encodedString, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();

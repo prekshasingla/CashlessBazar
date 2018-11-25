@@ -71,10 +71,12 @@
         <activity android:name=".AddProductActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".WithdrawFundsActivity" />
-        <activity android:name=".EventsActivity"></activity>
-    <meta-data android:name="instamojo.orderauth.url"
-                   android:value="http://halfbit.in/access_token.php"
-            />
+        <activity android:name=".EventsActivity" />
+
+        <meta-data
+            android:name="instamojo.orderauth.url"
+            android:value="http://halfbit.in/access_token.php" />
+
     </application>
 
 </manifest>

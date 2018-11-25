@@ -11,6 +11,10 @@
             android:id="@+id/nav_pay"
             android:title="@string/nav_drawer_pay" />
 
+        <item android:id="@+id/nav_request_payment"
+            android:title="Request Payment"/>
+
+
         <item
             android:id="@+id/nav_withdraw_funds"
             android:title="Withdraw Funds" />
@@ -30,6 +34,7 @@
         <item
             android:id="@+id/nav_add_product"
             android:title="Add Product" />
+
 
     </group>
 </menu>

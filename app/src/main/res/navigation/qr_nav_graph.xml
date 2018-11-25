@@ -28,5 +28,20 @@
         <argument
             android:name="phone"
             android:defaultValue="0" />
+        <argument
+            android:name="screenName"
+            android:defaultValue="null" />
+        <argument
+            android:name="request_id"
+            android:defaultValue="0" />
+        <argument
+            android:name="amount"
+            android:defaultValue="0" />
+        <argument
+            android:name="sendRegNo"
+            android:defaultValue="0" />
+        <argument
+            android:name="recRegNo"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

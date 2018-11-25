@@ -52,7 +52,7 @@
         </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/name_layout"
+            android:id="@+id/first_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_heading"
@@ -64,15 +64,39 @@
             android:layout_marginEnd="20dp">
 
             <EditText
-                android:id="@+id/user_name"
+                android:id="@+id/user_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
-                android:inputType="textEmailAddress"
+                android:hint="First Name"
+                android:inputType="textPersonName"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:textSize="12sp" />
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/last_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_first_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp">
+
+            <EditText
+                android:id="@+id/user_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:textSize="12sp" />
+        </android.support.design.widget.TextInputLayout>
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email_layout"
@@ -125,7 +149,7 @@
             android:id="@+id/phone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/email_layout"
+            android:layout_below="@+id/password_layout"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginStart="20dp"
@@ -138,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textSize="12sp" />
 
@@ -229,7 +254,8 @@
                 android:id="@+id/google_sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                />
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button_fb"

@@ -1,20 +1,14 @@
 package com.example.prekshasingla.cashlessbazar;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +24,6 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +38,7 @@ import androidx.navigation.Navigation;
 public class SignupFragment extends Fragment {
 
 
-    EditText name, email, phone, password;
+    EditText firstName, lastName, email, phone, password;
     TextView signupError;
     String otp;
     ProgressDialog dialog;
@@ -65,7 +58,8 @@ public class SignupFragment extends Fragment {
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Please Wait");
         dialog.setCancelable(false);
-        name = rootView.findViewById(R.id.user_name);
+        firstName = rootView.findViewById(R.id.user_first_name);
+        lastName = rootView.findViewById(R.id.user_last_name);
         email = rootView.findViewById(R.id.user_email);
         phone = rootView.findViewById(R.id.user_phone);
         password = rootView.findViewById(R.id.user_password);
@@ -95,14 +89,18 @@ public class SignupFragment extends Fragment {
     }
 
     private boolean validate() {
-        if (name.getText().toString().trim().equals("")) {
-            signupError.setText("Enter Name");
+        if (firstName.getText().toString().trim().equals("")) {
+            signupError.setText("Enter First Name");
             return false;
         }
-        if (email.getText().toString().trim().equals("")) {
-            signupError.setText("Enter email");
+        if (lastName.getText().toString().trim().equals("")) {
+            signupError.setText("Enter Last Name");
             return false;
         }
+//        if (email.getText().toString().trim().equals("")) {
+//           signupError.setText("Enter email");
+//            return false;
+//        }
         if (password.getText().toString().trim().equals("")) {
             signupError.setText("Enter password");
             return false;
@@ -282,9 +280,29 @@ public class SignupFragment extends Fragment {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getInt("status_code") == 201) {
                                 dialog.dismiss();
+                                if(responseObject.get("customer")!=null){
+
+//                                    Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
+
+                                    JSONObject customerObject=responseObject.getJSONObject("customer");
+                                    SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("firstName"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setMobile(customerObject.getString("mobile"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
+
+                                    JSONObject walletObject=customerObject.getJSONObject("wallet");
+                                    SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
+
+
+                                }
                                 Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
                                 getActivity().onBackPressed();
-                            } else {
+                            }
+                            else {
                                 dialog.dismiss();
                                 Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
                             }
@@ -304,12 +322,12 @@ public class SignupFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("FirstName", name.getText().toString());
-                params.put("LastName", "null");
+                params.put("FirstName", firstName.getText().toString());
+                params.put("LastName", lastName.getText().toString());
                 params.put("Email", email.getText().toString());
                 params.put("Mobile", phone.getText().toString());
                 params.put("ReferId", "null");
-                params.put("Ischecked", "true");
+//                params.put("Ischecked", "true");
                 params.put("Password", password.getText().toString());
 
                 return params;

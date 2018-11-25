@@ -273,7 +273,7 @@ public class MainActivityFragment extends Fragment {
                                    Product item= new Product();
                                    JSONObject itemsObject=itemsJson.getJSONObject(i);
                                    item.setCategoryId(itemsObject.getInt("id"));
-                                   item.setName(itemsObject.getString("name"));
+                                   item.setName(itemsObject.getString("firstName"));
                                    item.setDesc(itemsObject.getString("description"));
                                    item.setMrp(itemsObject.getDouble("mrp"));
                                    item.setCbtp(itemsObject.getDouble("cbtp"));
@@ -282,7 +282,7 @@ public class MainActivityFragment extends Fragment {
                                    item.setImg(itemsObject.getJSONObject("store_img_url").getString("url"));
                                    JSONArray categoryObject=itemsObject.getJSONArray("category_data");
                                    item.setCategoryId(((JSONObject)categoryObject.get(0)).getInt("id"));
-                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("name"));
+                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("firstName"));
                                    item.setProductMode(itemsObject.getInt("product_mode"));
                                    item.setProductModeName(itemsObject.getString("product_mode_name"));
                                    if(reqCode==1)

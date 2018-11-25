@@ -104,8 +104,17 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_pay:
                          intent = new Intent(MainActivity.this, QRActivity.class);
+                        intent.putExtra("screen","Payment");
+
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
+
+                    case R.id.nav_request_payment:
+                        intent = new Intent(MainActivity.this, QRActivity.class);
+                        intent.putExtra("screen","Request Payment");
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+
 
 
                 }
