@@ -10,7 +10,11 @@ public class Configuration {
     final public  static  String urlFeatured="http://api2.cashlessbazar.com/api/product/featured-product?";
     final public  static String urlBestSelling="http://api2.cashlessbazar.com/api/product/bestselling-product?";
     final public  static String urlMostSelling="http://api2.cashlessbazar.com/api/product/mostselling-product?";
+
     final public  static String urlWalletTransfer="http://api2.cashlessbazar.com/api/wallet/transfer";
+    final public static String urlCollectPayment="http://api2.cashlessbazar.com/api/wallet/collectpayment";
+
+    final public static String urlCheckBalance="http://api2.cashlessbazar.com/api/wallet/checkbalance";
 
     final public static String urlWalletUpdate="http://api2.cashlessbazar.com/api/wallet/update";
 

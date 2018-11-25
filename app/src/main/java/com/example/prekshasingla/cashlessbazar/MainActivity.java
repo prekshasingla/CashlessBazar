@@ -104,14 +104,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_pay:
                          intent = new Intent(MainActivity.this, QRActivity.class);
-                        intent.putExtra("screen","Payment");
-
+                        intent.putExtra("screen","payment");
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
                     case R.id.nav_request_payment:
                         intent = new Intent(MainActivity.this, QRActivity.class);
-                        intent.putExtra("screen","Request Payment");
+                        intent.putExtra("screen","requestPayment");
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
 
@@ -153,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
             nav_Menu.findItem(R.id.nav_pay).setVisible(true);
+            nav_Menu.findItem(R.id.nav_request_payment).setVisible(true);
 
         }
         else{
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_login).setVisible(true);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
             nav_Menu.findItem(R.id.nav_pay).setVisible(false);
+            nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
         }
     }
 

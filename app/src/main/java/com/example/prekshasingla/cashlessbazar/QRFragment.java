@@ -84,39 +84,13 @@ public class QRFragment extends Fragment {
         LinearLayout linearLayoutMobilePay=rootView.findViewById(R.id.mobile_pay_ll);
 
         Intent intent=getActivity().getIntent();
+
         final String screenName=intent.getStringExtra("screen");
 
-        if(screenName.equals("Request Payment")){
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_amount, null);
-            final AppCompatEditText amountField = dialogView.findViewById(R.id.amount_field);
-            builder.setView(dialogView)
-                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            if (amountField.getText().toString().length() <0 ) {
-                                amountField.setError("Enter Amount");
-                            } else {
-                                if (amountField.getText().toString().trim().length()>0) {
-                                  amount=amountField.getText().toString().trim();
-
-                                } else {
-                                    getActivity().onBackPressed();
-                                    Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            getActivity().onBackPressed();
-                            // User cancelled the dialog
-                        }
-                    });
-            builder.create();
-            builder.show();
+        if(screenName.equals("requestPayment")){
 
             linearLayoutMobilePay.setVisibility(View.GONE);
-
+            enterAmount();
 
         }
 
@@ -201,6 +175,36 @@ public class QRFragment extends Fragment {
         return rootView;
     }
 
+    private void enterAmount() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_amount, null);
+        final AppCompatEditText amountField = dialogView.findViewById(R.id.amount_field);
+        builder.setView(dialogView)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (amountField.getText().toString().length() <0 ) {
+                            amountField.setError("Enter Amount");
+                        } else {
+                            if (amountField.getText().toString().trim().length()>0) {
+                                amount=amountField.getText().toString().trim();
+
+                            } else {
+                                getActivity().onBackPressed();
+                                Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getActivity().onBackPressed();
+                        // User cancelled the dialog
+                    }
+                });
+        builder.create();
+        builder.show();
+    }
+
 
     public void tokenRequest(final String regNo, final String phone, final String amount, final String screenName) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
@@ -215,7 +219,7 @@ public class QRFragment extends Fragment {
                                     JSONObject tokenResponse = new JSONObject(response);
                                     String token = tokenResponse.getString("access_token");
                                     if (token != null)
-                                        if(screenName.equals("Request Payment")){
+                                        if(screenName.equals("requestPayment")){
 
                                          findUserCheckBalance(regNo,amount,token,screenName);
                                         }
@@ -379,6 +383,18 @@ public class QRFragment extends Fragment {
                                 bundle.putString("recRegNo",SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
                                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
                                 navController.navigate(R.id.userInfoFragment, bundle);
+                            } else if(responseObject.getInt("status_code")==306){
+                                String status = responseObject.getString("status_txt");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("screenName",screenName);
+                                bundle.putString("status",status);
+//                                bundle.putString("request_id", customer.getString("request_id"));
+//                                bundle.putString("amount", customer.getString("amount"));
+//                                bundle.putString("sendRegNo", regNo);
+//                                bundle.putString("recRegNo",SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                navController.navigate(R.id.userInfoFragment, bundle);
+
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Cannot Find User. Try Again");

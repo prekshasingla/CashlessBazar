@@ -80,7 +80,7 @@ public class UserInfoFragment extends Fragment {
 
         TextView confirm=rootView.findViewById(R.id.confirm);
 
-        if(args.getString("screenName").equals("null")) {
+        if(args.getString("screenName").equals("payment")) {
             linearLayoutPin.setVisibility(View.GONE);
             linearLayoutError.setVisibility(View.GONE);
             amount.setVisibility(View.VISIBLE);
@@ -108,6 +108,12 @@ public class UserInfoFragment extends Fragment {
 
         else{
 
+            if(args.getString("status")!=null && args.getString("status").equals("0")){
+                linearLayoutError.setVisibility(View.VISIBLE);
+                textViewError.setText("*"+args.getString("status"));
+                linearLayoutPin.setVisibility(View.GONE);
+
+            }
             linearLayoutPin.setVisibility(View.VISIBLE);
             linearLayoutError.setVisibility(View.GONE);
             amount.setVisibility(View.GONE);
@@ -121,7 +127,6 @@ public class UserInfoFragment extends Fragment {
                         dialog.setMessage("Please Wait");
                         dialog.setCancelable(false);
                         dialog.show();
-
 
                         tokenRequest(args.getString("amount"),args.getString("recRegNo"),args.getString("sendRegNo"),args.getString("request_id"),pin.getText().toString().trim());
                     } else {
@@ -301,12 +306,7 @@ public class UserInfoFragment extends Fragment {
                                     builder.create();
                                     builder.show();
                                 }
-                                else if(responseObject.getInt("status_code")==306){
-                                    linearLayoutError.setVisibility(View.VISIBLE);
-                                    textViewError.setText("*"+responseObject.getString("status_txt"));
-                                    linearLayoutPin.setVisibility(View.GONE);
 
-                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -322,7 +322,7 @@ public class UserInfoFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
                         dialog.dismiss();
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override

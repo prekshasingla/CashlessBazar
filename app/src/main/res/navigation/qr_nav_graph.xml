@@ -43,5 +43,8 @@
         <argument
             android:name="recRegNo"
             android:defaultValue="0" />
+        <argument
+            android:name="status"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

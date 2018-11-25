@@ -82,6 +82,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                Intent intent = new Intent(getActivity(), QRActivity.class);
+                intent.putExtra("screen","payment");
                 startActivity(intent);
             }
         });
