@@ -44,6 +44,7 @@ public class UserInfoFragment extends Fragment {
     ProgressDialog dialog;
     LinearLayout linearLayoutError;
     LinearLayout linearLayoutPin;
+    LinearLayout linearLayoutAmount;
     TextView textViewError;
 
 
@@ -68,6 +69,11 @@ public class UserInfoFragment extends Fragment {
         linearLayoutError=rootView.findViewById(R.id.ll_error);
         textViewError=rootView.findViewById(R.id.text_error);
         linearLayoutPin=rootView.findViewById(R.id.ll_pin);
+        linearLayoutAmount=rootView.findViewById(R.id.ll_amount);
+
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Please Wait");
+        dialog.setCancelable(false);
 
 
         textViewName=rootView.findViewById(R.id.user_name);
@@ -84,56 +90,67 @@ public class UserInfoFragment extends Fragment {
             linearLayoutPin.setVisibility(View.GONE);
             linearLayoutError.setVisibility(View.GONE);
             amount.setVisibility(View.VISIBLE);
+            linearLayoutAmount.setVisibility(View.VISIBLE);
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     if (!amount.getText().toString().trim().equals("")) {
-                        dialog = new ProgressDialog(getActivity());
-                        dialog.setMessage("Please Wait");
-                        dialog.setCancelable(false);
                         dialog.show();
 
-                        tokenRequest(amount.getText().toString().trim(), args.getString("cId"),null,null,null);
+                        tokenRequest(amount.getText().toString().trim(), args.getString("cId"),
+                                null,null,null,args.getString("screenName"));
                     } else {
                         amount.setError("Enter Amount");
                     }
                 }
             });
 
-            textViewName.setText(args.getString("firstName"));
+            textViewName.setText(args.getString("name"));
             textViewMobile.setText(args.getString("phone"));
 
         }
 
         else{
 
-            if(args.getString("status")!=null && args.getString("status").equals("0")){
+            if(args.getString("status")!=null && !args.getString("status").equals("0")){
                 linearLayoutError.setVisibility(View.VISIBLE);
                 textViewError.setText("*"+args.getString("status"));
                 linearLayoutPin.setVisibility(View.GONE);
+                amount.setVisibility(View.GONE);
+                confirm.setVisibility(View.GONE);
+                LinearLayout linearLayoutUserInfo=rootView.findViewById(R.id.ll_user_info);
+                linearLayoutUserInfo.setVisibility(View.GONE);
+
 
             }
-            linearLayoutPin.setVisibility(View.VISIBLE);
-            linearLayoutError.setVisibility(View.GONE);
-            amount.setVisibility(View.GONE);
+            else {
+                linearLayoutPin.setVisibility(View.VISIBLE);
+                linearLayoutError.setVisibility(View.GONE);
+                amount.setVisibility(View.GONE);
 
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    if (!pin.getText().toString().trim().equals("")) {
-                        dialog = new ProgressDialog(getActivity());
-                        dialog.setMessage("Please Wait");
-                        dialog.setCancelable(false);
-                        dialog.show();
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                        tokenRequest(args.getString("amount"),args.getString("recRegNo"),args.getString("sendRegNo"),args.getString("request_id"),pin.getText().toString().trim());
-                    } else {
-                        pin.setError("Please enter a valid pin");
+                        if (!pin.getText().toString().trim().equals("")) {
+                            dialog = new ProgressDialog(getActivity());
+                            dialog.setMessage("Please Wait");
+                            dialog.setCancelable(false);
+                            dialog.show();
+
+                            tokenRequest(args.getString("amount"), args.getString("recRegNo"),
+                                    args.getString("sendRegNo"), args.getString("request_id"),
+                                    pin.getText().toString().trim(),args.getString("screenName"));
+                        } else {
+                            pin.setError("Please enter a valid pin");
+                        }
                     }
-                }
-            });
+                });
+                textViewName.setText(args.getString("name"));
+                textViewMobile.setText(args.getString("phone"));
+            }
 
         }
 
@@ -142,7 +159,7 @@ public class UserInfoFragment extends Fragment {
     }
 
 
-    public void tokenRequest(final String amount, final String cId, final String sendRegNo,final String requestId,final String pin){
+    public void tokenRequest(final String amount, final String cId, final String sendRegNo, final String requestId, final String pin, final String screenName){
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
@@ -157,7 +174,7 @@ public class UserInfoFragment extends Fragment {
                                 String token= tokenResponse.getString("access_token");
                                 if(token != null)
 
-                                    if(sendRegNo.equals(null)) {
+                                    if(screenName.equals("payment")) {
 
                                         proceedTransfer(amount, cId, token);
                                     }
@@ -289,22 +306,28 @@ public class UserInfoFragment extends Fragment {
                         if (response != null && !response.equals("")) {
                             try {
                                 JSONObject responseObject=new JSONObject(response);
-                                if(responseObject.getInt("status_code")==200){
-                                    JSONObject data= responseObject.getJSONObject("data");
-                                    if(data.getString("message").equals("payment successful")){
-                                        SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance()+Float.parseFloat(data.get("amount").toString()));
-                                    }
-                                    SharedPreferenceUtils.getInstance(getActivity());
-                                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                                    builder.setMessage("Success");
-                                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            getActivity().onBackPressed();
+                                if(responseObject.getInt("status_code")==200) {
+                                    if (responseObject.getString("status_txt").equals("success")) {
+                                        JSONObject data = responseObject.getJSONObject("data");
+                                        if (data.getString("message").equals("payment successful")) {
+                                            SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance() + Float.parseFloat(data.get("amount").toString()));
                                         }
-                                    });
+                                        SharedPreferenceUtils.getInstance(getActivity());
+                                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                        builder.setMessage("Success");
+                                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                getActivity().onBackPressed();
+                                            }
+                                        });
 
-                                    builder.create();
-                                    builder.show();
+                                        builder.create();
+                                        builder.show();
+                                    }
+                                    else {
+                                        Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
                             } catch (JSONException e) {

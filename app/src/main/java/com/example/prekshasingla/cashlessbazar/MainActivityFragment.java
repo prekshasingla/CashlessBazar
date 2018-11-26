@@ -138,35 +138,7 @@ public class MainActivityFragment extends Fragment {
         mMostSellingRecyclerView=(RecyclerView) rootView.findViewById(R.id.mostselling_recycler);
 
 
-//        Product item=new Product();
-//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-//        item.setName("Gift Vouchers");
-//        item.setPrice(450f);
-//        item.setDesc("This is the description of the item");
-//        featuredItems.add(item);
-//        bestSellingItems.add(item);
-//
-//        Product item1=new Product();
-//        item1.setImg("https://cashlessbazar.com/images/homepage2018/block-01-mobile-recharge-125percent.jpg");
-//        item1.setName("Mobile Recharge");
-//        item.setPrice(450f);
-//        item.setDesc("This is the description of the item");
-//        featuredItems.add(item1);
-//        bestSellingItems.add(item1);
-//
-//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-//        item.setName("Gift Vouchers");
-//        item.setPrice(450f);
-//        item.setDesc("This is the description of the item");
-//        featuredItems.add(item);
-//        bestSellingItems.add(item);
 
-//        item.setImg("https://cashlessbazar.com/images/homepage2018/block-02-gift-vouchers-125percent.jpg");
-//        item.setName("Gift Vouchers");
-//        item.setPrice(450f);
-//        item.setDesc("This is the description of the item");
-//        featuredItems.add(item);
-//        bestSellingItems.add(item);
 
         mFeaturedAdapter=new RecyclerViewAdapter(featuredItems, getActivity(),navController);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -274,7 +246,7 @@ public class MainActivityFragment extends Fragment {
                                    Product item= new Product();
                                    JSONObject itemsObject=itemsJson.getJSONObject(i);
                                    item.setCategoryId(itemsObject.getInt("id"));
-                                   item.setName(itemsObject.getString("firstName"));
+                                   item.setName(itemsObject.getString("name"));
                                    item.setDesc(itemsObject.getString("description"));
                                    item.setMrp(itemsObject.getDouble("mrp"));
                                    item.setCbtp(itemsObject.getDouble("cbtp"));
@@ -283,7 +255,7 @@ public class MainActivityFragment extends Fragment {
                                    item.setImg(itemsObject.getJSONObject("store_img_url").getString("url"));
                                    JSONArray categoryObject=itemsObject.getJSONArray("category_data");
                                    item.setCategoryId(((JSONObject)categoryObject.get(0)).getInt("id"));
-                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("firstName"));
+                                   item.setCategoryName(((JSONObject)categoryObject.get(0)).getString("name"));
                                    item.setProductMode(itemsObject.getInt("product_mode"));
                                    item.setProductModeName(itemsObject.getString("product_mode_name"));
                                    if(reqCode==1)

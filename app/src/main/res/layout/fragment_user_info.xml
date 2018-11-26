@@ -40,6 +40,17 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_user_info"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
@@ -53,7 +64,20 @@
             android:id="@+id/user_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="9999999999" />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ll_amount">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/amount"
@@ -63,18 +87,11 @@
             android:layout_marginTop="10dp"
             android:inputType="number"
             android:hint="Amount" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:animateLayoutChanges="true"
-            android:orientation="horizontal">
-
-
-
+        </android.support.v7.widget.CardView>
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,14 +100,22 @@
             android:animateLayoutChanges="true"
             android:id="@+id/ll_error"
             android:orientation="horizontal">
-
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="*"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
                 android:id="@+id/text_error"
                 android:textColor="@color/red"
                 android:textStyle="bold"/>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
         <LinearLayout
@@ -102,11 +127,16 @@
             android:orientation="vertical"
             >
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pin"
                 android:textStyle="bold"
+
                 android:textSize="20sp"/>
 
             <android.support.v7.widget.AppCompatEditText
@@ -115,8 +145,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:maxLength="6"
                 android:inputType="number"
                 android:hint="Six digit pin" />
+
+            </android.support.v7.widget.CardView>
+
 
 
         </LinearLayout>

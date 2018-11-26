@@ -28,7 +28,7 @@ public class PaymentActivity extends AppCompatActivity {
             pay.put("phone", phone);
             pay.put("purpose", purpose);
             pay.put("amount", amount);
-            pay.put("firstName", buyername);
+            pay.put("name", buyername);
             pay.put("send_sms", true);
             pay.put("send_email", true);
         } catch (JSONException e) {

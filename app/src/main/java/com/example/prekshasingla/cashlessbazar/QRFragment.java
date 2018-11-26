@@ -1,6 +1,7 @@
 package com.example.prekshasingla.cashlessbazar;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class QRFragment extends Fragment {
     CameraSource cameraSource;
     final int camera_permission = 100;
     Vibrator vibrator;
+
     TextView text;
     Intent intent;
     String amount;
@@ -86,6 +88,7 @@ public class QRFragment extends Fragment {
         Intent intent=getActivity().getIntent();
 
         final String screenName=intent.getStringExtra("screen");
+
 
         if(screenName.equals("requestPayment")){
 
@@ -294,13 +297,25 @@ public class QRFragment extends Fragment {
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getInt("status_code") == 200) {
-                                JSONObject customer = responseObject.getJSONObject("customer");
-                                Bundle bundle = new Bundle();
-                                bundle.putString("firstName", customer.getString("firstName"));
-                                bundle.putString("phone", customer.getString("mobile"));
-                                bundle.putString("cId", customer.getString("cId"));
-                                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                                navController.navigate(R.id.userInfoFragment, bundle);
+                                if(responseObject.getString("status_txt").equals("Success")) {
+
+                                    JSONObject customer = responseObject.getJSONObject("customer");
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("screenName","payment");
+                                    bundle.putString("name", customer.getString("name"));
+                                    bundle.putString("phone", customer.getString("mobile"));
+                                    bundle.putString("cId", customer.getString("cId"));
+                                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                    navController.navigate(R.id.userInfoFragment, bundle);
+
+                                }
+                                else {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("status", responseObject.getString("status_txt"));
+                                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                    navController.navigate(R.id.userInfoFragment, bundle);
+
+                                }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Cannot Find User. Try Again");
@@ -374,28 +389,28 @@ public class QRFragment extends Fragment {
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getInt("status_code") == 200) {
-                                JSONObject customer = responseObject.getJSONObject("data");
-                                Bundle bundle = new Bundle();
-                                bundle.putString("screenName",screenName);
-                                bundle.putString("request_id", customer.getString("request_id"));
-                                bundle.putString("amount", customer.getString("amount"));
-                                bundle.putString("sendRegNo", regNo);
-                                bundle.putString("recRegNo",SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
-                                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                                navController.navigate(R.id.userInfoFragment, bundle);
-                            } else if(responseObject.getInt("status_code")==306){
+                                if(responseObject.getString("status_txt").equals("success")) {
+
+                                    JSONObject customer = responseObject.getJSONObject("data");
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("screenName", screenName);
+                                    bundle.putString("name", customer.getString("name"));
+                                    bundle.putString("phone", customer.getString("mobile"));
+                                    bundle.putString("request_id", customer.getString("request_id"));
+                                    bundle.putString("amount", customer.getString("amount"));
+                                    bundle.putString("sendRegNo", regNo);
+                                    bundle.putString("recRegNo", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
+                                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                    navController.navigate(R.id.userInfoFragment, bundle);
+                                }
+                             else {
                                 String status = responseObject.getString("status_txt");
                                 Bundle bundle = new Bundle();
-                                bundle.putString("screenName",screenName);
                                 bundle.putString("status",status);
-//                                bundle.putString("request_id", customer.getString("request_id"));
-//                                bundle.putString("amount", customer.getString("amount"));
-//                                bundle.putString("sendRegNo", regNo);
-//                                bundle.putString("recRegNo",SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
                                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
                                 navController.navigate(R.id.userInfoFragment, bundle);
 
-                            } else {
+                            }} else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Cannot Find User. Try Again");
                                 builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {

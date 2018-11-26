@@ -286,7 +286,7 @@ public class SignupFragment extends Fragment {
 
                                     JSONObject customerObject=responseObject.getJSONObject("customer");
                                     SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("firstName"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
                                     SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
                                     SharedPreferenceUtils.getInstance(getContext()).setMobile(customerObject.getString("mobile"));
                                     SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
