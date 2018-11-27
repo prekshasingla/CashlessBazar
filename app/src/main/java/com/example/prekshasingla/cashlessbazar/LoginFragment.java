@@ -52,7 +52,7 @@ import static android.provider.ContactsContract.Intents.Insert.EMAIL;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
-    private int RC_SIGN_IN=100;
+    private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
     LoginButton fbLoginButton;
@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(Configuration.ClientID)
+                .requestIdToken(Configuration.ClientID)
                 .requestEmail()
                 .build();
 
@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView= inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,33 +104,31 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
 
-          user= (EditText)rootView.findViewById(R.id.user_email);
-         password= (EditText)rootView.findViewById(R.id.user_password);
+        user = (EditText) rootView.findViewById(R.id.user_email);
+        password = (EditText) rootView.findViewById(R.id.user_password);
 
-        Button loginButton=(Button)rootView.findViewById(R.id.login_button);
+        Button loginButton = (Button) rootView.findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String loginId=user.getText().toString();
-                String pass=password.getText().toString();
+                String loginId = user.getText().toString();
+                String pass = password.getText().toString();
 //                ^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$ phone check india regex
 
-                if(loginId.trim().equals("")){
+                if (loginId.trim().equals("")) {
                     loginError.setText("Enter a valid login Id");
                     return;
                 }
-                if(pass.trim().equals("")){
+                if (pass.trim().equals("")) {
                     loginError.setText("Enter a valid password");
                     return;
                 }
 
 
-
-                if((loginId.length()==10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()){
+                if ((loginId.length() == 10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()) {
                     tokenRequest();
 
-                }
-                else {
+                } else {
                     loginError.setText("Invalid Credentials");
                 }
 
@@ -148,7 +146,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 setFacebookData(loginResult);
 
-                Log.e("success","yes");
+                Log.e("success", "yes");
                 // App code
             }
 
@@ -156,12 +154,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onCancel() {
                 // App code
-                Log.e("error","yes");
+                Log.e("error", "yes");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Log.e("error","yes");
+                Log.e("error", "yes");
 
                 // App code
             }
@@ -171,7 +169,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         signup_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
                 navController.navigate(R.id.signupFragment, null,
                         new NavOptions.Builder()
                                 .setClearTask(true).build());
@@ -179,8 +177,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        loginError=rootView.findViewById(R.id.login_error);
-
+        loginError = rootView.findViewById(R.id.login_error);
 
 
         return rootView;
@@ -199,8 +196,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-    public void tokenRequest(){
+    public void tokenRequest() {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         dialog.show();
 
@@ -209,13 +205,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(String response) {
 
-                        if(response!=null && !response.equals("")){
+                        if (response != null && !response.equals("")) {
 
                             try {
-                                JSONObject tokenResponse=new JSONObject(response);
-                                String token= tokenResponse.getString("access_token");
-                                if(token != null)
-                                  loginRequest(token);
+                                JSONObject tokenResponse = new JSONObject(response);
+                                String token = tokenResponse.getString("access_token");
+                                if (token != null)
+                                    loginRequest(token);
                                 else {
                                     dialog.dismiss();
 
@@ -224,8 +220,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
-                        else {
+                        } else {
                             dialog.dismiss();
                             Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                         }
@@ -238,21 +233,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
                     }
-                })
-        {
+                }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("username","developer");
-                params.put("password","SPleYwIt");
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", "developer");
+                params.put("password", "SPleYwIt");
                 params.put("grant_type", "password");
 
                 return params;
             }
 
 
-            public String getBodyContentType()
-            {
+            public String getBodyContentType() {
                 return "application/x-www-form-urlencoded";
             }
 
@@ -261,8 +254,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-    public void loginRequest(final String token){
+    public void loginRequest(final String token) {
 
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/api/customer/login",
@@ -271,10 +263,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onResponse(String response) {
 
                         try {
-                            JSONObject loginResponse=new JSONObject(response);
-                            if(loginResponse.get("customer")!=null){
+                            JSONObject loginResponse = new JSONObject(response);
+                            if (loginResponse.get("customer") != null) {
 
-                                JSONObject customerObject=loginResponse.getJSONObject("customer");
+                                JSONObject customerObject = loginResponse.getJSONObject("customer");
                                 SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
                                 SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
                                 SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
@@ -283,25 +275,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
                                 SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
 
-                                JSONObject walletObject=customerObject.getJSONObject("wallet");
+                                JSONObject walletObject = customerObject.getJSONObject("wallet");
                                 SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
                                 SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
                                 dialog.dismiss();
 
-                                Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
 
                                 getActivity().onBackPressed();
 
 
-                            }
-                            else {
+                            } else {
                                 dialog.dismiss();
                                 loginError.setText("Login Failed. Try Again");
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            dialog.dismiss();
+                            loginError.setText("Login Failed. Try Again");
                         }
 
                         // Do something with the response
@@ -310,29 +303,28 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
                         // Handle error
                     }
-                })
-        {
+                }) {
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("LoginId",user.getText().toString().trim());
-                params.put("password",password.getText().toString().trim());
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("LoginId", user.getText().toString().trim());
+                params.put("password", password.getText().toString().trim());
 
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
 //                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Authorization","bearer "+token);
+                params.put("Authorization", "bearer " + token);
                 return params;
             }
 
-            public String getBodyContentType()
-            {
+            public String getBodyContentType() {
                 return "application/x-www-form-urlencoded";
             }
 
@@ -360,17 +352,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-        }
-        else if(requestCode== 64206){
+        } else if (requestCode == 64206) {
             callbackManager.onActivityResult(requestCode, resultCode, data);
 //            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
         }
     }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Log.e("inside",account.getDisplayName());
+            Log.e("inside", account.getDisplayName());
 
             // Signed in successfully, show authenticated UI.
         } catch (ApiException e) {
@@ -380,8 +372,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void setFacebookData(final LoginResult loginResult)
-    {
+    private void setFacebookData(final LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -389,7 +380,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
                         try {
-                            Log.i("Response",response.toString());
+                            Log.i("Response", response.toString());
 
                             String email = response.getJSONObject().getString("email");
                             String firstName = response.getJSONObject().getString("first_name");
@@ -397,18 +388,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             String gender = response.getJSONObject().getString("gender");
 
 
-
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
-                            Log.i("Link",link);
-                            if (Profile.getCurrentProfile()!=null)
-                            {
+                            Log.i("Link", link);
+                            if (Profile.getCurrentProfile() != null) {
                                 Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
                             }
 
                             Log.i("Login" + "Email", email);
-                            Log.i("Login"+ "FirstName", firstName);
+                            Log.i("Login" + "FirstName", firstName);
                             Log.i("Login" + "LastName", lastName);
                             Log.i("Login" + "Gender", gender);
 
