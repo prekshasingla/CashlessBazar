@@ -246,6 +246,10 @@ public class UserInfoFragment extends Fragment {
                                     builder.create();
                                     builder.show();
                                 }
+                                else {
+                                    Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
+
+                                }
 
 
                             } catch (JSONException e) {
@@ -271,7 +275,7 @@ public class UserInfoFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
                 params.put("Receiver_regno", cId);
-                params.put("Receiver_mobile","null");
+                params.put("Receiver_mobile","");
                 params.put("Amount", amount);
 
                 return params;
@@ -328,6 +332,10 @@ public class UserInfoFragment extends Fragment {
                                         Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
 
                                     }
+                                }
+                                else {
+                                    Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
+
                                 }
 
                             } catch (JSONException e) {
