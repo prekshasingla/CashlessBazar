@@ -6,8 +6,8 @@
 
     <gradient
         android:angle="-45"
-        android:endColor="#5c5d60"
-        android:startColor="#565759"
+        android:endColor="#A73F51B5"
+        android:startColor="#3f51b5"
         android:type="linear" />
 
     <!--If your shape requires only one solid color-->

@@ -32,7 +32,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/ic_send_money" />
+                    android:background="@drawable/ic_action_send_money" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,6 +40,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/white"/>
             </LinearLayout>
 
@@ -62,6 +63,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
@@ -75,7 +77,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/ic_send_money" />
+                    android:background="@drawable/ic_action_events" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,6 +85,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/white"/>
             </LinearLayout>
             <LinearLayout
@@ -95,7 +98,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/ic_send_money" />
+                    android:background="@drawable/ic_add_circle_outline_black_24dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,6 +106,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/white"/>
             </LinearLayout>
         </LinearLayout>

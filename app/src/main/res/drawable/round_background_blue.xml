@@ -1,0 +1,31 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:shape="oval">
+
+
+
+    <!--<gradient-->
+        <!--android:angle="-45"-->
+        <!--android:endColor="#A73F51B5"-->
+        <!--android:startColor="#3f51b5"-->
+        <!--android:type="linear" />-->
+
+    <!--If your shape requires only one solid color-->
+    <solid
+        android:color="@color/cb_blue"
+        />
+
+
+
+    <!--Use android:dashWidth="2dp" and android:dashGap="2dp"
+    to add dashes to your stroke-->
+
+
+    <!--If you want to add padding-->
+    <!-- <padding
+         android:left="10dp"
+         android:top="20dp"
+         android:right="40dp"
+         android:bottom="8dp" />-->
+
+</shape>
