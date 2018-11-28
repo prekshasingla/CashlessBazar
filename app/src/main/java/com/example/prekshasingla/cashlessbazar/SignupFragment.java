@@ -40,7 +40,7 @@ public class SignupFragment extends Fragment {
 
     EditText firstName, lastName, email, phone, password;
     TextView signupError;
-    String otp;
+    String otp = null;
     ProgressDialog dialog;
 
     @Nullable
@@ -70,8 +70,12 @@ public class SignupFragment extends Fragment {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validate())
+                if (validate()) {
+                    if(otp==null)
                     confirmNumber();
+                    else
+                        authenticateUser();
+                }
             }
         });
 
@@ -163,7 +167,7 @@ public class SignupFragment extends Fragment {
                 .appendPath("sendsms")
                 .appendQueryParameter("username", "barterapi")
                 .appendQueryParameter("password", "barterapi123")
-                .appendQueryParameter("to", phone.getText().toString().trim() )
+                .appendQueryParameter("to", phone.getText().toString().trim())
                 .appendQueryParameter("from", "BARTER")
                 .appendQueryParameter("text", "Hi! Thanks for registering with Cashless Bazar. Your OTP is " + otp);
 
@@ -232,7 +236,7 @@ public class SignupFragment extends Fragment {
                                 if (token != null)
                                     createUser(token);
                                 else {
-                                 dialog.dismiss();
+                                    dialog.dismiss();
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
@@ -280,11 +284,11 @@ public class SignupFragment extends Fragment {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getInt("status_code") == 201) {
                                 dialog.dismiss();
-                                if(responseObject.get("customer")!=null){
+                                if (responseObject.get("customer") != null) {
 
 //                                    Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
 
-                                    JSONObject customerObject=responseObject.getJSONObject("customer");
+                                    JSONObject customerObject = responseObject.getJSONObject("customer");
                                     SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
                                     SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
                                     SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
@@ -293,7 +297,7 @@ public class SignupFragment extends Fragment {
                                     SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
                                     SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
 
-                                    JSONObject walletObject=customerObject.getJSONObject("wallet");
+                                    JSONObject walletObject = customerObject.getJSONObject("wallet");
                                     SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
                                     SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
@@ -301,8 +305,7 @@ public class SignupFragment extends Fragment {
                                 }
                                 Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
                                 getActivity().onBackPressed();
-                            }
-                            else {
+                            } else {
                                 dialog.dismiss();
                                 Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
                             }

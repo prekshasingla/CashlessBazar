@@ -188,11 +188,12 @@ public class QRFragment extends Fragment {
                         if (amountField.getText().toString().length() <0 ) {
                             amountField.setError("Enter Amount");
                         } else {
-                            if (amountField.getText().toString().trim().length()>0) {
+                            if (amountField.getText().toString().trim().length()>0 &&
+                                    Float.parseFloat(amountField.getText().toString().trim())!=0) {
                                 amount=amountField.getText().toString().trim();
 
                             } else {
-                                getActivity().onBackPressed();
+                                enterAmount();
                                 Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -204,6 +205,7 @@ public class QRFragment extends Fragment {
                         // User cancelled the dialog
                     }
                 });
+        builder.setCancelable(false);
         builder.create();
         builder.show();
     }

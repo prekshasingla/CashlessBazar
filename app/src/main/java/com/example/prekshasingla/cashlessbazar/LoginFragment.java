@@ -55,7 +55,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
-    LoginButton fbLoginButton;
+//    LoginButton fbLoginButton;
     CallbackManager callbackManager;
     TextView signup_text;
     TextView loginError;
@@ -100,9 +100,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         dialog.setMessage("Please Wait");
         dialog.setCancelable(false);
 
-        SignInButton signInButton = rootView.findViewById(R.id.google_sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(this);
+//        SignInButton signInButton = rootView.findViewById(R.id.google_sign_in_button);
+//        signInButton.setSize(SignInButton.SIZE_STANDARD);
+//        signInButton.setOnClickListener(this);
 
         user = (EditText) rootView.findViewById(R.id.user_email);
         password = (EditText) rootView.findViewById(R.id.user_password);
@@ -137,33 +137,33 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         });
 
         callbackManager = CallbackManager.Factory.create();
-        fbLoginButton = (LoginButton) rootView.findViewById(R.id.login_button_fb);
-        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL, "public_profile"));
-        fbLoginButton.setFragment(this);
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                setFacebookData(loginResult);
-
-                Log.e("success", "yes");
-                // App code
-            }
-
-
-            @Override
-            public void onCancel() {
-                // App code
-                Log.e("error", "yes");
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Log.e("error", "yes");
-
-                // App code
-            }
-        });
+//        fbLoginButton = (LoginButton) rootView.findViewById(R.id.login_button_fb);
+//        fbLoginButton.setReadPermissions(Arrays.asList(EMAIL, "public_profile"));
+//        fbLoginButton.setFragment(this);
+//        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//
+//                setFacebookData(loginResult);
+//
+//                Log.e("success", "yes");
+//                // App code
+//            }
+//
+//
+//            @Override
+//            public void onCancel() {
+//                // App code
+//                Log.e("error", "yes");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException exception) {
+//                Log.e("error", "yes");
+//
+//                // App code
+//            }
+//        });
 
         signup_text = rootView.findViewById(R.id.signup_text);
         signup_text.setOnClickListener(new View.OnClickListener() {

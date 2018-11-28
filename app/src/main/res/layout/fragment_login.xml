@@ -62,7 +62,7 @@
                 android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Email"
+                android:hint="Enter Mobile or Email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:maxLength="50"
@@ -154,61 +154,61 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"/>
+            <!--<ImageView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/colorPrimaryDark"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="OR"
-                android:textAppearance="?android:textAppearanceMedium"
-                />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingLeft="2dp"-->
+                <!--android:paddingRight="2dp"-->
+                <!--android:text="OR"-->
+                <!--android:textAppearance="?android:textAppearanceMedium"-->
+                <!--/>-->
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"/>
+            <!--<ImageView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/colorPrimaryDark"/>-->
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/thirdPartyBtn"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_below="@+id/fsu_or_layout"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/thirdPartyBtn"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_below="@+id/fsu_or_layout"-->
+            <!--android:layout_marginLeft="3dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginTop="10dp">-->
+
+            <!--&lt;!&ndash;<com.facebook.login.widget.LoginButton&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/fb_sign_in_button"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginRight="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"/>&ndash;&gt;-->
+
+            <!--<com.google.android.gms.common.SignInButton-->
+                <!--android:id="@+id/google_sign_in_button"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"/>-->
 
             <!--<com.facebook.login.widget.LoginButton-->
-            <!--android:id="@+id/fb_sign_in_button"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:layout_weight="1"/>-->
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/google_sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"/>
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button_fb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp" />
-        </LinearLayout>
+                <!--android:id="@+id/login_button_fb"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--android:layout_marginBottom="30dp" />-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

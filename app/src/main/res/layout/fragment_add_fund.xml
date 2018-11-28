@@ -117,6 +117,7 @@
                 android:background="@drawable/round_btn"
                 android:id="@+id/add_money"
                 android:text="Add"
+                android:inputType="number"
                 android:textStyle="bold"
                 android:textColor="@color/white"/>
 

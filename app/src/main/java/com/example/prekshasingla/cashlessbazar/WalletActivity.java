@@ -139,14 +139,15 @@ public class WalletActivity extends AppCompatActivity {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
 
-//                            if(loginResponse.get("customer")!=null){
-//
-//
-//
-//                            }
-//                            else{
-//
-//                            }
+                            if(loginResponse.getInt("status_code")==200){
+                                JSONObject wallet= loginResponse.getJSONObject("wallet");
+                                SharedPreferenceUtils.getInstance(WalletActivity.this).
+                                        setCBTPBalance(Float.parseFloat(wallet.getDouble("CBTP_Balance")+""));
+
+                            }
+                            else{
+                                Toast.makeText(WalletActivity.this, "There is some error. Please try again.", Toast.LENGTH_LONG).show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

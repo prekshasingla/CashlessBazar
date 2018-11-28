@@ -95,7 +95,7 @@ public class UserInfoFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    if (!amount.getText().toString().trim().equals("")) {
+                    if (!amount.getText().toString().trim().equals("")&& Float.parseFloat(amount.getText().toString().trim())!=0) {
                         dialog.show();
 
                         tokenRequest(amount.getText().toString().trim(), args.getString("cId"),
@@ -134,7 +134,7 @@ public class UserInfoFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        if (!pin.getText().toString().trim().equals("")) {
+                        if (!pin.getText().toString().trim().equals("")&& Float.parseFloat(pin.getText().toString().trim())!=0) {
                             dialog = new ProgressDialog(getActivity());
                             dialog.setMessage("Please Wait");
                             dialog.setCancelable(false);
@@ -275,7 +275,7 @@ public class UserInfoFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
                 params.put("Receiver_regno", cId);
-                params.put("Receiver_mobile","");
+                params.put("Receiver_mobile",textViewMobile.getText().toString());
                 params.put("Amount", amount);
 
                 return params;

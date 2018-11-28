@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,12 @@ public class AddFundFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview= inflater.inflate(R.layout.fragment_add_fund, container, false);
-
+        rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getActivity(), R.id.fragment).navigateUp();
+            }
+        });
         final SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getActivity());
 
         final AppCompatEditText amount=rootview.findViewById(R.id.amount);
@@ -43,7 +50,7 @@ public class AddFundFragment extends Fragment {
                 if(!amount.getText().toString().trim().equals(""))
                 {
                     ((WalletActivity)getActivity()).callInstamojoPay(sharedPreferenceUtils.getEmail(),
-                            sharedPreferenceUtils.getPhone(),amount.getText().toString().trim(),"wallet",
+                            sharedPreferenceUtils.getPhone(),amount.getText().toString().trim(),"Indplas_event",
                             sharedPreferenceUtils.getName());
 
                 }else{

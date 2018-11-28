@@ -136,6 +136,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLogin() {
         SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getApplicationContext());
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_add_product).setVisible(false);
+        nav_Menu.findItem(R.id.nav_my_orders).setVisible(false);
+        nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(false);
+        nav_Menu.findItem(R.id.nav_recent_orders).setVisible(false);
+        nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(false);
+
+
+
+
+
         if(sharedPreferenceUtils.getName()!=null) {
             customerName.setText("Hi, " + sharedPreferenceUtils.getName());
             editProfile.setText("Profile");
@@ -148,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
-            Menu nav_Menu = navigationView.getMenu();
+
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
             nav_Menu.findItem(R.id.nav_pay).setVisible(true);
@@ -167,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
-            Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_login).setVisible(true);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
             nav_Menu.findItem(R.id.nav_pay).setVisible(false);
