@@ -232,6 +232,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), "Login Failed", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
