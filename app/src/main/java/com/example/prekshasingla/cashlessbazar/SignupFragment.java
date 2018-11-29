@@ -113,15 +113,17 @@ public class SignupFragment extends Fragment {
         Pattern pattern;
         Matcher matcher;
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-        matcher = pattern.matcher(password.getText().toString().trim());
-        if (!matcher.matches()) {
-            signupError.setText("Password must contain 8 characters, 1 capital, 1 small, 1 digit and a special symbol");
+       // pattern = Pattern.compile(PASSWORD_PATTERN);
+       // matcher = pattern.matcher(password.getText().toString().trim());
+        if (password.getText().toString().trim().length()<6 || password.getText().toString().trim().length()>15) {
+            signupError.setText("Password must be 6 to 15 characters long");
             return false;
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()) {
-            signupError.setText("Invalid Email");
-            return false;
+        if(!email.getText().toString().trim().equals(null) || !email.getText().toString().trim().equals("")) {
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()) {
+                signupError.setText("Invalid Email");
+                return false;
+            }
         }
         final String PHONE_PATTERN = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
         pattern = Pattern.compile(PHONE_PATTERN);

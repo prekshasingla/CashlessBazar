@@ -144,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
         nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(false);
 
 
-
-
-
         if(sharedPreferenceUtils.getName()!=null) {
             customerName.setText("Hi, " + sharedPreferenceUtils.getName());
             editProfile.setText("Profile");
@@ -160,10 +157,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            if(sharedPreferenceUtils.getType()!=null){
+                if(sharedPreferenceUtils.getType().equals("Customer")){
+                    nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
+
+                }
+                else {
+                    nav_Menu.findItem(R.id.nav_request_payment).setVisible(true);
+
+                }
+            }
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
             nav_Menu.findItem(R.id.nav_pay).setVisible(true);
-            nav_Menu.findItem(R.id.nav_request_payment).setVisible(true);
 
         }
         else{
@@ -192,24 +198,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
-                return true;
+//            case R.id.action_settings:
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {

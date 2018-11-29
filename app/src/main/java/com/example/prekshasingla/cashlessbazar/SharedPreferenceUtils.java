@@ -82,6 +82,11 @@ public class SharedPreferenceUtils {
         return mSharedPreferences.getString("loginName", null);
     }
 
+    public String getType() {
+        return mSharedPreferences.getString("type", null);
+    }
+
+
     public String getEmail() {
         return mSharedPreferences.getString("loginEmail", null);
     }

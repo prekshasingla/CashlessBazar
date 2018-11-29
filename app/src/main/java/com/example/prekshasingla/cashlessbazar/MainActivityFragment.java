@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.instamojo.android.models.Wallet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +33,8 @@ import java.util.Map;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -77,29 +80,68 @@ public class MainActivityFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
+        final SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getApplicationContext());
+
         LinearLayout topHomePay=rootView.findViewById(R.id.top_home_pay);
         topHomePay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(getActivity(), QRActivity.class);
-                intent.putExtra("screen","payment");
-                startActivity(intent);
+                if(sharedPreferenceUtils.getName()!=null) {
+
+                    Intent intent = new Intent(getActivity(), QRActivity.class);
+                    intent.putExtra("screen", "payment");
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent= new Intent(getActivity(),LoginSignupActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         LinearLayout topHomeWallet=rootView.findViewById(R.id.top_home_wallet);
         topHomeWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WalletActivity.class);
-                startActivity(intent);
+                if(sharedPreferenceUtils.getName()!=null) {
+
+                    Intent intent = new Intent(getActivity(), WalletActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent= new Intent(getActivity(),LoginSignupActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         LinearLayout topHomeEvents=rootView.findViewById(R.id.top_home_events);
         topHomeEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EventsActivity.class);
+                if(sharedPreferenceUtils.getName()!=null) {
+
+                    Intent intent = new Intent(getActivity(), EventsActivity.class);
                 startActivity(intent);
+            }
+                else{
+                    Intent intent= new Intent(getActivity(),LoginSignupActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        LinearLayout topHomeAdd=rootView.findViewById(R.id.top_home_add);
+        topHomeAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sharedPreferenceUtils.getName()!=null) {
+
+                    Intent intent = new Intent(getActivity(), WalletActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent= new Intent(getActivity(),LoginSignupActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
