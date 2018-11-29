@@ -2,9 +2,12 @@ package com.example.prekshasingla.cashlessbazar;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +44,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -52,16 +57,23 @@ import static android.provider.ContactsContract.Intents.Insert.EMAIL;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
+    private int LOGIN=1;
+    private int FORGOT_PASSWORD=2;
+    private int NEW_PASSWORD=3;
     private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
 //    LoginButton fbLoginButton;
     CallbackManager callbackManager;
     TextView signup_text;
+    TextView forgot_password_text;
     TextView loginError;
     EditText user;
     private EditText password;
     ProgressDialog dialog;
+    String mobile;
+    String otp;
+    String newPass;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -126,7 +138,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
                 if ((loginId.length() == 10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()) {
-                    tokenRequest();
+                    tokenRequest(LOGIN,null, null);
 
                 } else {
                     loginError.setText("Invalid Credentials");
@@ -177,6 +189,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        forgot_password_text=rootView.findViewById(R.id.forgot_password_text);
+        forgot_password_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                enterMobile();
+            }
+        });
         loginError = rootView.findViewById(R.id.login_error);
 
 
@@ -196,7 +216,88 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void tokenRequest() {
+    private void enterMobile() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_mobile, null);
+        final AppCompatEditText mobileField = dialogView.findViewById(R.id.mobile_field);
+
+        builder.setView(dialogView)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        final String PHONE_PATTERN = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
+                        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+                        Matcher matcher = pattern.matcher(mobileField.getText().toString().trim());
+                        if (!matcher.matches()) {
+                            enterMobile();
+                            Toast.makeText(getActivity(), "Please enter a valid mobile number", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                                mobile=mobileField.getText().toString().trim();
+                                tokenRequest(FORGOT_PASSWORD,null,null);
+
+                            }
+
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getActivity().onBackPressed();
+                        // User cancelled the dialog
+                    }
+                });
+        builder.setCancelable(false);
+        builder.create();
+        builder.show();
+    }
+
+    private void enterOtpPassword() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_otp_password, null);
+        final AppCompatEditText otpField = dialogView.findViewById(R.id.otp_field);
+        final AppCompatEditText passwordField = dialogView.findViewById(R.id.password_field);
+        builder.setView(dialogView)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (otpField.getText().toString().length() <=0 ) {
+                            enterOtpPassword();
+                            Toast.makeText(getActivity(), "Enter OTP", Toast.LENGTH_SHORT).show();
+
+                        } else if(otpField.toString().trim().length() <6) {
+                            enterOtpPassword();
+                            Toast.makeText(getActivity(), "Enter correct otp", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(passwordField.toString().trim().length() <=0 ) {
+                            enterOtpPassword();
+                            Toast.makeText(getActivity(), "Enter Password", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(passwordField.toString().trim().length() <6 ) {
+                            enterOtpPassword();
+                            Toast.makeText(getActivity(), "Password length should be between 6 and 15", Toast.LENGTH_SHORT).show();
+                        }
+                        else   if (otpField.getText().toString().trim().length()>0 &&
+                                    passwordField.getText().toString().trim().length()>6) {
+                            tokenRequest(NEW_PASSWORD,otpField.getText().toString().trim(), passwordField.getText().toString().trim());
+
+
+                            } else {
+                                enterOtpPassword();
+                                Toast.makeText(getActivity(), "Some Error occured, please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getActivity().onBackPressed();
+                        // User cancelled the dialog
+                    }
+                });
+        builder.setCancelable(false);
+        builder.create();
+        builder.show();
+    }
+
+    public void tokenRequest(final int urlType, final String otp, final String newPass) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         dialog.show();
 
@@ -210,8 +311,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             try {
                                 JSONObject tokenResponse = new JSONObject(response);
                                 String token = tokenResponse.getString("access_token");
-                                if (token != null)
-                                    loginRequest(token);
+                                if (token != null) {
+                                    if(urlType==1)
+                                     loginRequest(token);
+                                    else if(urlType==2)
+                                      passwordRequest(token, mobile) ;
+                                    else
+                                        newPasswordRequest(token, mobile, otp, newPass);
+                                }
                                 else {
                                     dialog.dismiss();
 
@@ -334,6 +441,117 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
+    public void passwordRequest(final String token, final String mobile) {
+
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestOtp,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog.dismiss();
+
+                        if(response.contains("Sent")) {
+
+                            enterOtpPassword();
+
+                            Toast.makeText(getActivity(), "OTP sent to "+mobile, Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Some error occurred, please try again", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), "Some error occurred, please try again", Toast.LENGTH_SHORT).show();
+
+                        // Handle error
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Mobile", mobile);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    public void newPasswordRequest(final String token, final String mobile, final String otp, final String newPass) {
+
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlForgotPassword,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog.dismiss();
+
+                        if(response.contains("Success")) {
+                            Toast.makeText(getActivity(), "Password Change Successful", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Invalid details, please try again", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        // Do something with the response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), "Some error occurred, please try again", Toast.LENGTH_SHORT).show();
+
+                        // Handle error
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Mobile", mobile);
+                params.put("OTP", otp);
+                params.put("NewPassword", newPass);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();

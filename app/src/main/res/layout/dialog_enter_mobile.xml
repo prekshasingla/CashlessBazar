@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cb_blue"
+        android:gravity="center"
+        android:fontFamily="@font/open_sans_bold"
+        android:padding="10dp"
+        android:text="Enter Mobile"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Enter your mobile number"
+        android:textColor="#000"
+        app:fontFamily="@font/open_sans_light" />
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/mobile_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:text=""
+        android:inputType="number"
+        android:maxLength="10"
+        android:textSize="18sp"/>
+</LinearLayout>
