@@ -119,7 +119,7 @@ public class SignupFragment extends Fragment {
             signupError.setText("Password must be 6 to 15 characters long");
             return false;
         }
-        if(!email.getText().toString().trim().equals(null) || !email.getText().toString().trim().equals("")) {
+        if( !email.getText().toString().trim().equals("")) {
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()) {
                 signupError.setText("Invalid Email");
                 return false;

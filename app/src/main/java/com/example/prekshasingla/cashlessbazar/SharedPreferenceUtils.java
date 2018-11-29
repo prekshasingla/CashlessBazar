@@ -83,7 +83,7 @@ public class SharedPreferenceUtils {
     }
 
     public String getType() {
-        return mSharedPreferences.getString("type", null);
+        return mSharedPreferences.getString("loginType", null);
     }
 
 

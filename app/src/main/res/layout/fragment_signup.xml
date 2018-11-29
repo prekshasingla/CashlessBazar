@@ -208,6 +208,7 @@
             android:layout_below="@id/login_button"
             android:layout_margin="10dp"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
@@ -241,6 +242,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="3dp"
+            android:visibility="gone"
             android:gravity="center">
 
             <!--<com.facebook.login.widget.LoginButton-->
