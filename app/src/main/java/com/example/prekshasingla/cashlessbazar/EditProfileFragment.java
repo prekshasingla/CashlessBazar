@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
@@ -18,6 +19,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.security.GeneralSecurityException;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -93,6 +97,18 @@ public class EditProfileFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
+        LinearLayout changePassword=rootView.findViewById(R.id.change_password);
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.changePasswordFragment);
+
+            }
+        });
+
+
         return rootView;
     }
 

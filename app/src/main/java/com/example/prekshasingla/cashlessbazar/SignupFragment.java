@@ -101,10 +101,7 @@ public class SignupFragment extends Fragment {
             signupError.setText("Enter Last Name");
             return false;
         }
-//        if (email.getText().toString().trim().equals("")) {
-//           signupError.setText("Enter email");
-//            return false;
-//        }
+
         if (password.getText().toString().trim().equals("")) {
             signupError.setText("Enter password");
             return false;
