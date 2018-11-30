@@ -70,7 +70,7 @@
                 android:layout_marginRight="10sp"
                 android:paddingTop="2dp"
                 android:paddingBottom="5dp"
-                android:text="200"
+                android:text=""
                 android:textColor="@color/cb_blue_dark"
                 android:textSize="35sp"
                 android:textStyle="bold" />

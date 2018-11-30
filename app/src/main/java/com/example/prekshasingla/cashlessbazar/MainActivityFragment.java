@@ -67,9 +67,10 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBannerImages = new ArrayList<>();
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/TIECONBANNER.png");
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/TIECONBANNER.png");
-
+        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER1.png");
+        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER2.png");
+        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER3.png");
+        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER4.png");
     }
 
     @Override

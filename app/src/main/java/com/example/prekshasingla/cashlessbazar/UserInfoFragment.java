@@ -4,6 +4,7 @@ package com.example.prekshasingla.cashlessbazar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
@@ -46,6 +47,9 @@ public class UserInfoFragment extends Fragment {
     LinearLayout linearLayoutPin;
     LinearLayout linearLayoutAmount;
     TextView textViewError;
+    TextView confirm;
+
+    boolean flag;
 
 
     public UserInfoFragment() {
@@ -65,6 +69,7 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        flag=false;
         final Bundle args=getArguments();
         linearLayoutError=rootView.findViewById(R.id.ll_error);
         textViewError=rootView.findViewById(R.id.text_error);
@@ -84,7 +89,7 @@ public class UserInfoFragment extends Fragment {
         final AppCompatEditText pin=rootView.findViewById(R.id.pin);
         TextView textViewError=rootView.findViewById(R.id.text_error);
 
-        TextView confirm=rootView.findViewById(R.id.confirm);
+        confirm=rootView.findViewById(R.id.confirm);
 
         if(args.getString("screenName").equals("payment")) {
             linearLayoutPin.setVisibility(View.GONE);
@@ -98,7 +103,8 @@ public class UserInfoFragment extends Fragment {
                     if (!amount.getText().toString().trim().equals("")&& Float.parseFloat(amount.getText().toString().trim())!=0) {
                         dialog.show();
 
-                        tokenRequest(amount.getText().toString().trim(), args.getString("cId"),
+                        if(!flag)
+                            tokenRequest(amount.getText().toString().trim(), args.getString("cId"),
                                 null,null,null,args.getString("screenName"));
                     } else {
                         amount.setError("Enter Amount");
@@ -133,6 +139,7 @@ public class UserInfoFragment extends Fragment {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        confirm.setClickable(false);
 
                         if (!pin.getText().toString().trim().equals("")&& Float.parseFloat(pin.getText().toString().trim())!=0) {
                             dialog = new ProgressDialog(getActivity());
@@ -233,15 +240,21 @@ public class UserInfoFragment extends Fragment {
                             try {
                                 JSONObject responseObject=new JSONObject(response);
                                 if(responseObject.getInt("status_code")==200){
-                                    JSONObject wallet= responseObject.getJSONObject("wallet");
-                                    SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(Float.parseFloat(wallet.get("CBTP_Balance").toString()));
+//                                    JSONObject wallet= responseObject.getJSONObject("wallet");
+//                                    SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(Float.parseFloat(wallet.get("CBTP_Balance").toString()));
                                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                                     builder.setMessage("Success");
                                     builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            getActivity().onBackPressed();
+
+                                            flag=true;
+                                            Intent intent=new Intent(getActivity(), MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+//                                            getActivity().onBackPressed();
+
                                         }
-                                    });
+                                    }).setCancelable(false);
 
                                     builder.create();
                                     builder.show();
@@ -314,16 +327,21 @@ public class UserInfoFragment extends Fragment {
                                     if (responseObject.getString("status_txt").equals("success")) {
                                         JSONObject data = responseObject.getJSONObject("data");
                                         if (data.getString("message").equals("payment successful")) {
-                                            SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance() + Float.parseFloat(data.get("amount").toString()));
+                                            Toast.makeText(getActivity(), "Payment Received", Toast.LENGTH_SHORT).show();
+
+//                                            SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance() + Float.parseFloat(data.get("amount").toString()));
                                         }
                                         SharedPreferenceUtils.getInstance(getActivity());
                                         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                                         builder.setMessage("Success");
                                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                getActivity().onBackPressed();
+                                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+//                                                getActivity().onBackPressed();
                                             }
-                                        });
+                                        }).setCancelable(false);
 
                                         builder.create();
                                         builder.show();

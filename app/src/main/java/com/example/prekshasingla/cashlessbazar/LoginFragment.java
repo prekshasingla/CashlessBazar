@@ -384,9 +384,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
                                 SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
 
-                                JSONObject walletObject = customerObject.getJSONObject("wallet");
-                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
-                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
+//                                JSONObject walletObject = customerObject.getJSONObject("wallet");
+//                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
+//                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
                                 dialog.dismiss();
 

@@ -96,6 +96,9 @@ public class QRFragment extends Fragment {
             enterAmount();
 
         }
+        else{
+            linearLayoutMobilePay.setVisibility(View.VISIBLE);
+        }
 
 
 

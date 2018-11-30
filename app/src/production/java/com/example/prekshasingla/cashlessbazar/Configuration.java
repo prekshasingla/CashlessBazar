@@ -21,5 +21,10 @@ public class Configuration {
     final public static String urlWalletHistory="http://api2.cashlessbazar.com/api/wallet/GetWallet?";
 
     final public static String urlUserInfo="http://api2.cashlessbazar.com/api/customer/Info";
+    final public static String urlChangePassword="http://api2.cashlessbazar.com/api/customer/reset-password";
+
+    final public static String urlRequestOtp="http://api2.cashlessbazar.com/api/customer/PasswordRecovery";
+    final public static String urlForgotPassword="http://api2.cashlessbazar.com/api/customer/PasswordRecoveryConfirm";
+
 
 }
