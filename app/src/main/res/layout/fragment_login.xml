@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical"
 
-        >
+    >
+
     <LinearLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
@@ -40,225 +40,219 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/alegreya"
-            android:textStyle="bold"
             android:text="Login"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:fontFamily="@font/alegreya" />
     </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/email_layout"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/email_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp">
+
+        <EditText
+            android:id="@+id/user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp">
-
-            <EditText
-                android:id="@+id/user_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Mobile or Email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:maxLength="50"
-                />
-        </android.support.design.widget.TextInputLayout>
+            android:hint="Enter Mobile or Email"
+            android:inputType="textEmailAddress"
+            android:maxLength="50"
+            android:maxLines="1" />
+    </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_layout"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email_layout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/user_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/email_layout"
-            app:passwordToggleEnabled="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            >
-
-            <EditText
-                android:id="@+id/user_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
 
-        </android.support.design.widget.TextInputLayout>
+    </android.support.design.widget.TextInputLayout>
 
 
+    <!--<CheckBox-->
+    <!--android:id="@+id/fsu_show_password"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Show Password"-->
+    <!--android:layout_below="@+id/password_layout"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_marginLeft="-3dp"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_marginStart="20dp"-->
+    <!--android:layout_marginEnd="20dp"/>-->
 
 
-        <!--<CheckBox-->
-            <!--android:id="@+id/fsu_show_password"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Show Password"-->
-            <!--android:layout_below="@+id/password_layout"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_marginLeft="-3dp"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_marginStart="20dp"-->
-            <!--android:layout_marginEnd="20dp"/>-->
+    <TextView
+        android:id="@+id/login_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+
+        android:padding="10dp"
+        android:text=""
+        android:textColor="#F44336"
+        android:textSize="16sp" />
 
 
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_error"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/round_btn"
+        android:elevation="5dp"
+        android:text="Log In"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/fsu_or_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_button"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!--<ImageView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/colorPrimaryDark"/>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingLeft="2dp"-->
+        <!--android:paddingRight="2dp"-->
+        <!--android:text="OR"-->
+        <!--android:textAppearance="?android:textAppearanceMedium"-->
+        <!--/>-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/colorPrimaryDark"/>-->
+    </LinearLayout>
+
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/thirdPartyBtn"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="35dp"-->
+    <!--android:layout_below="@+id/fsu_or_layout"-->
+    <!--android:layout_marginLeft="3dp"-->
+    <!--android:layout_marginRight="3dp"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_marginTop="10dp">-->
+
+    <!--&lt;!&ndash;<com.facebook.login.widget.LoginButton&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/fb_sign_in_button"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_marginRight="5dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_weight="1"/>&ndash;&gt;-->
+
+    <!--<com.google.android.gms.common.SignInButton-->
+    <!--android:id="@+id/google_sign_in_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"/>-->
+
+    <!--<com.facebook.login.widget.LoginButton-->
+    <!--android:id="@+id/login_button_fb"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="30dp"-->
+    <!--android:layout_marginBottom="30dp" />-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/buttonSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thirdPartyBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="2dp"
+        android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/login_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/password_layout"
-            android:padding="10dp"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:text=""
+            android:text="New to Cashless Bazar? "
+            android:textSize="16sp" />
 
-            android:textColor="#F44336"
-            android:textSize="16sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
-
-
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/signup_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_error"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/round_btn"
-            android:elevation="5dp"
-            android:text="Log In"
-            android:textColor="@color/white"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
-
-        <LinearLayout
-            android:id="@+id/fsu_or_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_button"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <!--<ImageView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@color/colorPrimaryDark"/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingLeft="2dp"-->
-                <!--android:paddingRight="2dp"-->
-                <!--android:text="OR"-->
-                <!--android:textAppearance="?android:textAppearanceMedium"-->
-                <!--/>-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@color/colorPrimaryDark"/>-->
-        </LinearLayout>
-
-
-        <!--<LinearLayout-->
-            <!--android:id="@+id/thirdPartyBtn"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:layout_below="@+id/fsu_or_layout"-->
-            <!--android:layout_marginLeft="3dp"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_marginTop="10dp">-->
-
-            <!--&lt;!&ndash;<com.facebook.login.widget.LoginButton&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/fb_sign_in_button"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_marginRight="5dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_weight="1"/>&ndash;&gt;-->
-
-            <!--<com.google.android.gms.common.SignInButton-->
-                <!--android:id="@+id/google_sign_in_button"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"/>-->
-
-            <!--<com.facebook.login.widget.LoginButton-->
-                <!--android:id="@+id/login_button_fb"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginTop="30dp"-->
-                <!--android:layout_marginBottom="30dp" />-->
-        <!--</LinearLayout>-->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/thirdPartyBtn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:id="@+id/buttonSignUp"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="2dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="New to Cashless Bazar? "
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/signup_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="Sign Up"
-                android:textColor="#06a9f4"
-                android:textSize="16sp"/>
-        </LinearLayout>
+            android:text="Sign Up"
+            android:textColor="#06a9f4"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonSignUp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="2dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Forgot password? "
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/forgot_password_text"
@@ -268,11 +262,9 @@
             android:gravity="center"
             android:text="Click here"
             android:textColor="#06a9f4"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 
-
-
-    </LinearLayout>
+</LinearLayout>
 

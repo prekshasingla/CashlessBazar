@@ -25,6 +25,7 @@
     <string name="nav_drawer_wallet">Wallet</string>
     <string name="recent_orders">Recent Orders</string>
     <string name="rupee">\u20B9</string>
+    <string name="payments_notification_channel_id">1</string>
 
 
 </resources>
