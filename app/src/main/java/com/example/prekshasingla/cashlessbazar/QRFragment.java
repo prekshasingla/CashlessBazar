@@ -386,7 +386,7 @@ public class QRFragment extends Fragment {
 
     private void findUserCheckBalance(final String regNo, final String amount, final String token,final String screenName) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlCheckBalance,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestTransfer,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -454,7 +454,9 @@ public class QRFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                    params.put("sender_regno", regNo);
                    params.put("receiver_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                   params.put("receiver_mobile",SharedPreferenceUtils.getInstance(getActivity()).getPhone());
                    params.put("amount",amount);
+                   params.put("mode","");
                 return params;
             }
 
