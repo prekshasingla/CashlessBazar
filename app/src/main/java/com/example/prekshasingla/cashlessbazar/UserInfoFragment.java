@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 
@@ -175,7 +176,7 @@ public class UserInfoFragment extends Fragment {
     }
 
 
-    public void tokenRequest(final String amount, final String cId, final String sendRegNo, final String requestId, final String pin, final String screenName) {
+    public void tokenRequest(final String amount, final String recRegNo, final String sendRegNo, final String requestId, final String pin, final String screenName) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
@@ -192,9 +193,10 @@ public class UserInfoFragment extends Fragment {
 
                                     if (screenName.equals("payment")) {
 
-                                        proceedTransfer(amount, cId, token);
+//                                        proceedTransfer(amount, cId, token);
+                                        requestPayment(recRegNo,amount,token);
                                     } else {
-                                        collectPayment(amount, cId, sendRegNo, requestId, token, pin);
+                                        collectPayment(amount, recRegNo, sendRegNo, requestId, token, pin);
                                     }
                                 else {
                                     flag = true;
@@ -245,10 +247,82 @@ public class UserInfoFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
+    private void requestPayment(final String regNo, final String amount, final String token) {
 
-    private void proceedTransfer(final String amount, final String cId, final String token) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestTransfer,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    dialog.dismiss();
+                        try {
+                            JSONObject responseObject = new JSONObject(response);
+                            if (responseObject.getInt("status_code") == 200) {
+                                if(responseObject.getString("status_txt").equals("success")) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlWalletTransfer,
+                                    JSONObject customer = responseObject.getJSONObject("data");
+                                    proceedTransfer(amount,regNo,token,customer.getString("request_id"));
+
+                                }
+                                else {
+                                    flag=true;
+                                    String status = responseObject.getString("status_txt");
+                                    Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
+
+                                }
+                            } else {
+                                flag=true;
+                                Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            flag=true;
+                            Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        dialog.dismiss();
+                        flag=true;
+                        Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                params.put("receiver_regno", regNo);
+                params.put("receiver_mobile","");
+                params.put("amount",amount);
+                params.put("mode","transfer");
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+    private void proceedTransfer(final String amount, final String recRegNo, final String token,final String requestId) {
+
+        dialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlTransferPayment,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -257,8 +331,6 @@ public class UserInfoFragment extends Fragment {
                             try {
                                 JSONObject responseObject = new JSONObject(response);
                                 if (responseObject.getInt("status_code") == 200) {
-//                                    JSONObject wallet= responseObject.getJSONObject("wallet");
-//                                    SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(Float.parseFloat(wallet.get("CBTP_Balance").toString()));
                                     sendNotification("Money Transfered Successfully");
                                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                                     builder.setMessage("Success");
@@ -308,10 +380,11 @@ public class UserInfoFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
-                params.put("Receiver_regno", cId);
-                params.put("Receiver_mobile", textViewMobile.getText().toString());
-                params.put("Amount", amount);
+                params.put("payment_request_id", requestId);
+                params.put("amount", amount);
+                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                params.put("receiver_regno", recRegNo);
+                params.put("mode", "transfer");
 
                 return params;
             }
@@ -352,11 +425,11 @@ public class UserInfoFragment extends Fragment {
                                 if (responseObject.getInt("status_code") == 200) {
                                     if (responseObject.getString("status_txt").equals("success")) {
                                         JSONObject data = responseObject.getJSONObject("data");
-                                        if (data.getString("message").equals("payment successful")) {
-                                            Toast.makeText(getActivity(), "Payment Received", Toast.LENGTH_SHORT).show();
+//                                        if (data.getString("message").equals("payment successful")) {
+                                            Toast.makeText(getActivity(), data.getString("message"), Toast.LENGTH_SHORT).show();
 
 //                                            SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance() + Float.parseFloat(data.get("amount").toString()));
-                                        }
+//                                        }
                                         sendNotification("Payment Recieved successfully");
                                         SharedPreferenceUtils.getInstance(getActivity());
                                         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
@@ -413,6 +486,7 @@ public class UserInfoFragment extends Fragment {
                 params.put("amount", amount);
                 params.put("payment_request_id", requestId);
                 params.put("user_pin", pin);
+                params.put("mode", "collect");
 
                 return params;
             }

@@ -1,7 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,12 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -229,7 +226,7 @@ public class QRFragment extends Fragment {
                                     if (token != null)
                                         if(screenName.equals("requestPayment")){
 
-                                         findUserCheckBalance(regNo,amount,token,screenName);
+                                         requestPayment(regNo,amount,token,screenName);
                                         }
                                         else {
 
@@ -384,7 +381,7 @@ public class QRFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
-    private void findUserCheckBalance(final String regNo, final String amount, final String token,final String screenName) {
+    private void requestPayment(final String regNo, final String amount, final String token, final String screenName) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestTransfer,
                 new Response.Listener<String>() {
@@ -456,7 +453,7 @@ public class QRFragment extends Fragment {
                    params.put("receiver_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
                    params.put("receiver_mobile",SharedPreferenceUtils.getInstance(getActivity()).getPhone());
                    params.put("amount",amount);
-                   params.put("mode","");
+                   params.put("mode","collect");
                 return params;
             }
 

@@ -30,4 +30,7 @@ public class Configuration {
     final public static String urlRequestOtp="http://api2.cashlessbazar.com/api/customer/PasswordRecovery";
     final public static String urlForgotPassword="http://api2.cashlessbazar.com/api/customer/PasswordRecoveryConfirm";
 
+    final public static String urlTrasferPayment="http://api2.cashlessbazar.com/api/wallet/transferpayment";
+
+
 }
