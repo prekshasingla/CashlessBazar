@@ -69,7 +69,7 @@
 
         <meta-data
             android:name="instamojo.orderauth.url"
-            android:value="http://halfbit.in/access_token_live.php" />
+            android:value="http://halfbit.in/access_token.php" />
 
     </application>
 

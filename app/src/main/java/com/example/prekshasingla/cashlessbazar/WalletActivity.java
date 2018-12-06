@@ -129,11 +129,11 @@ public class WalletActivity extends AppCompatActivity {
             }
 
         };
-        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
     private void updateWallet(final String orderId, final String txnId, final String payementId, final String token) {
@@ -145,7 +145,7 @@ public class WalletActivity extends AppCompatActivity {
                         try {
                             JSONObject loginResponse=new JSONObject(response);
 
-                            if(loginResponse.getInt("status_code")==200){
+                            if(loginResponse.getString("resultType").equalsIgnoreCase("success")){
                                 JSONObject wallet= loginResponse.getJSONObject("wallet");
                                 SharedPreferenceUtils.getInstance(WalletActivity.this).
                                         setCBTPBalance(Float.parseFloat(wallet.getDouble("CBTP_Balance")+""));
@@ -196,7 +196,7 @@ public class WalletActivity extends AppCompatActivity {
             }
 
         };
-        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

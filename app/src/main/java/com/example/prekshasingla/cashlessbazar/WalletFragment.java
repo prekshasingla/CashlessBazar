@@ -242,17 +242,12 @@ public class WalletFragment extends Fragment {
 
                         try {
                             JSONObject responseObject = new JSONObject(response);
-                            if (responseObject.getInt("status_code") == 200) {
-                                if(responseObject.getString("status_txt").equals("Success")) {
+                            if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONObject customer = responseObject.getJSONObject("customer");
-                                    JSONObject wallet=customer.getJSONObject("wallet");
+                                    JSONObject data = responseObject.getJSONObject("data");
+                                    JSONObject wallet=data.getJSONObject("wallet");
                                     walletBalance.setText(wallet.getString("CBTP_Balance"));
 
-                                }
-                                else {
-
-                                }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Cannot update wallet information, try again");

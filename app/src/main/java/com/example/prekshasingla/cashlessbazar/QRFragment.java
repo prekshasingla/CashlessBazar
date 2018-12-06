@@ -298,26 +298,17 @@ public class QRFragment extends Fragment {
 
                         try {
                             JSONObject responseObject = new JSONObject(response);
-                            if (responseObject.getInt("status_code") == 200) {
-                                if(responseObject.getString("status_txt").equals("Success")) {
+                            if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONObject customer = responseObject.getJSONObject("customer");
+                                    JSONObject customer = responseObject.getJSONObject("data");
                                     Bundle bundle = new Bundle();
                                     bundle.putString("screenName","payment");
-                                    bundle.putString("name", customer.getString("name"));
+                                    bundle.putString("name", customer.getString("firstname")+customer.getString("lastname"));
                                     bundle.putString("phone", customer.getString("mobile"));
-                                    bundle.putString("cId", customer.getString("cId"));
+                                    bundle.putString("cId", customer.getString("regno"));
                                     NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
                                     navController.navigate(R.id.userInfoFragment, bundle);
 
-                                }
-                                else {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("status", responseObject.getString("status_txt"));
-                                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                                    navController.navigate(R.id.userInfoFragment, bundle);
-
-                                }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage("Cannot Find User. Try Again");

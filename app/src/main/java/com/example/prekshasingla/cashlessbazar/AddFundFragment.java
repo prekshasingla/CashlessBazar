@@ -53,7 +53,8 @@ public class AddFundFragment extends Fragment {
                             sharedPreferenceUtils.getPhone(),amount.getText().toString().trim(),"Indplas_event",
                             sharedPreferenceUtils.getName());
 
-                }else{
+                }
+                else{
                     amount.setError("enter amount");
                 }
 //                Intent intent=new Intent(getActivity(),PaymentActivity.class);

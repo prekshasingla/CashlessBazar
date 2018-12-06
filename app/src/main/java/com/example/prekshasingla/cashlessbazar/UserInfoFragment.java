@@ -240,10 +240,10 @@ public class UserInfoFragment extends Fragment {
             }
 
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                0,
+//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
@@ -251,24 +251,17 @@ public class UserInfoFragment extends Fragment {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestTransfer,
                 new Response.Listener<String>() {
-                    @Override
+
+            @Override
                     public void onResponse(String response) {
                     dialog.dismiss();
                         try {
                             JSONObject responseObject = new JSONObject(response);
-                            if (responseObject.getInt("status_code") == 200) {
-                                if(responseObject.getString("status_txt").equals("success")) {
+                            if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONObject customer = responseObject.getJSONObject("data");
-                                    proceedTransfer(amount,regNo,token,customer.getString("request_id"));
+                                    JSONObject data = responseObject.getJSONObject("data");
+                                    proceedTransfer(amount,regNo,token,data.getString("request_id"));
 
-                                }
-                                else {
-                                    flag=true;
-                                    String status = responseObject.getString("status_txt");
-                                    Toast.makeText(getActivity(), status, Toast.LENGTH_SHORT).show();
-
-                                }
                             } else {
                                 flag=true;
                                 Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
@@ -330,7 +323,7 @@ public class UserInfoFragment extends Fragment {
                         if (response != null && !response.equals("")) {
                             try {
                                 JSONObject responseObject = new JSONObject(response);
-                                if (responseObject.getInt("status_code") == 200) {
+                                if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
                                     sendNotification("Money Transfered Successfully");
                                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
                                     builder.setMessage("Success");
@@ -349,7 +342,7 @@ public class UserInfoFragment extends Fragment {
                                     builder.show();
                                 } else {
                                     flag = true;
-                                    Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Some error occurred. Try again later", Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -403,12 +396,12 @@ public class UserInfoFragment extends Fragment {
             }
 
         };
+
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
 
@@ -422,8 +415,8 @@ public class UserInfoFragment extends Fragment {
                         if (response != null && !response.equals("")) {
                             try {
                                 JSONObject responseObject = new JSONObject(response);
-                                if (responseObject.getInt("status_code") == 200) {
-                                    if (responseObject.getString("status_txt").equals("success")) {
+                                if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
+
                                         JSONObject data = responseObject.getJSONObject("data");
 //                                        if (data.getString("message").equals("payment successful")) {
                                             Toast.makeText(getActivity(), data.getString("message"), Toast.LENGTH_SHORT).show();
@@ -445,12 +438,8 @@ public class UserInfoFragment extends Fragment {
 
                                         builder.create();
                                         builder.show();
-                                    } else {
-                                        flag=true;
-                                        Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
 
-                                    }
-                                } else {
+                                        } else {
                                     flag=true;
                                     Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
 
@@ -505,12 +494,12 @@ public class UserInfoFragment extends Fragment {
             }
 
         };
+
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
     private void sendNotification(String messageBody) {

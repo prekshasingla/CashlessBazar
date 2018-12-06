@@ -57,13 +57,13 @@ import static android.provider.ContactsContract.Intents.Insert.EMAIL;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
-    private int LOGIN=1;
-    private int FORGOT_PASSWORD=2;
-    private int NEW_PASSWORD=3;
+    private int LOGIN = 1;
+    private int FORGOT_PASSWORD = 2;
+    private int NEW_PASSWORD = 3;
     private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
-//    LoginButton fbLoginButton;
+    //    LoginButton fbLoginButton;
     CallbackManager callbackManager;
     TextView signup_text;
     TextView forgot_password_text;
@@ -138,7 +138,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
                 if ((loginId.length() == 10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()) {
-                    tokenRequest(LOGIN,null, null);
+                    tokenRequest(LOGIN, null, null);
 
                 } else {
                     loginError.setText("Invalid Credentials");
@@ -189,7 +189,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        forgot_password_text=rootView.findViewById(R.id.forgot_password_text);
+        forgot_password_text = rootView.findViewById(R.id.forgot_password_text);
         forgot_password_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,10 +232,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             Toast.makeText(getActivity(), "Please enter a valid mobile number", Toast.LENGTH_SHORT).show();
 
                         } else {
-                                mobile=mobileField.getText().toString().trim();
-                                tokenRequest(FORGOT_PASSWORD,null,null);
+                            mobile = mobileField.getText().toString().trim();
+                            tokenRequest(FORGOT_PASSWORD, null, null);
 
-                            }
+                        }
 
                     }
                 })
@@ -258,32 +258,29 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         builder.setView(dialogView)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (otpField.getText().toString().length() <=0 ) {
+                        if (otpField.getText().toString().length() <= 0) {
                             enterOtpPassword();
                             Toast.makeText(getActivity(), "Enter OTP", Toast.LENGTH_SHORT).show();
 
-                        } else if(otpField.toString().trim().length() <6) {
+                        } else if (otpField.toString().trim().length() < 6) {
                             enterOtpPassword();
                             Toast.makeText(getActivity(), "Enter correct otp", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(passwordField.toString().trim().length() <=0 ) {
+                        } else if (passwordField.toString().trim().length() <= 0) {
                             enterOtpPassword();
                             Toast.makeText(getActivity(), "Enter Password", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(passwordField.toString().trim().length() <6 ) {
+                        } else if (passwordField.toString().trim().length() < 6) {
                             enterOtpPassword();
                             Toast.makeText(getActivity(), "Password length should be between 6 and 15", Toast.LENGTH_SHORT).show();
-                        }
-                        else   if (otpField.getText().toString().trim().length()>0 &&
-                                    passwordField.getText().toString().trim().length()>6) {
-                            tokenRequest(NEW_PASSWORD,otpField.getText().toString().trim(), passwordField.getText().toString().trim());
+                        } else if (otpField.getText().toString().trim().length() > 0 &&
+                                passwordField.getText().toString().trim().length() > 6) {
+                            tokenRequest(NEW_PASSWORD, otpField.getText().toString().trim(), passwordField.getText().toString().trim());
 
 
-                            } else {
-                                enterOtpPassword();
-                                Toast.makeText(getActivity(), "Some Error occured, please try again", Toast.LENGTH_SHORT).show();
-                            }
+                        } else {
+                            enterOtpPassword();
+                            Toast.makeText(getActivity(), "Some Error occured, please try again", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -312,14 +309,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 JSONObject tokenResponse = new JSONObject(response);
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null) {
-                                    if(urlType==1)
-                                     loginRequest(token);
-                                    else if(urlType==2)
-                                      passwordRequest(token, mobile) ;
+                                    if (urlType == 1)
+                                        loginRequest(token);
+                                    else if (urlType == 2)
+                                        passwordRequest(token, mobile);
                                     else
                                         newPasswordRequest(token, mobile, otp, newPass);
-                                }
-                                else {
+                                } else {
                                     dialog.dismiss();
 
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
@@ -373,26 +369,27 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                         try {
                             JSONObject loginResponse = new JSONObject(response);
-                            if (loginResponse.get("customer") != null) {
+                            if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
 
-                                JSONObject customerObject = loginResponse.getJSONObject("customer");
-                                SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
-                                SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
-                                SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
-                                SharedPreferenceUtils.getInstance(getContext()).setMobile(customerObject.getString("mobile"));
-                                SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
-                                SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
-                                SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
+                                JSONObject data= loginResponse.getJSONObject("data");
+                                    SharedPreferenceUtils.getInstance(getContext()).setCId(data.getInt("regno"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setName(data.getString("firstname")
+                                            +data.getString("lastname"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setEmail(data.getString("email"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setMobile(data.getString("mobile"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setUsername(data.getString("username"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setType(data.getString("type"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setAddress(data.getString("address"));
 
 //                                JSONObject walletObject = customerObject.getJSONObject("wallet");
 //                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
 //                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
-                                dialog.dismiss();
+                                    dialog.dismiss();
 
-                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
 
-                                getActivity().onBackPressed();
+                                    getActivity().onBackPressed();
 
 
                             } else {
@@ -450,14 +447,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onResponse(String response) {
                         dialog.dismiss();
 
-                        if(response.contains("Sent")) {
+                        if (response.contains("Sent")) {
 
                             enterOtpPassword();
 
-                            Toast.makeText(getActivity(), "OTP sent to "+mobile, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "OTP sent to " + mobile, Toast.LENGTH_SHORT).show();
 
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getActivity(), "Some error occurred, please try again", Toast.LENGTH_SHORT).show();
 
                         }
@@ -506,12 +502,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onResponse(String response) {
                         dialog.dismiss();
 
-                        if(response.contains("Success")) {
+                        if (response.contains("Success")) {
                             Toast.makeText(getActivity(), "Password Change Successful", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
 
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getActivity(), "Invalid details, please try again", Toast.LENGTH_SHORT).show();
 
                         }
