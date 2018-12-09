@@ -24,13 +24,14 @@ import instamojo.library.InstapayListener;
 
 public class WalletActivity extends AppCompatActivity {
     InstapayListener listener;
+    String paymentReqId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
     }
-    public void callInstamojoPay(String email, String phone, String amount, String purpose, String buyername) {
+    public void callInstamojoPay(String email, String phone, String amount, String purpose, String buyername,final String paymentReqId1) {
         final Activity activity = this;
         InstamojoPay instamojoPay = new InstamojoPay();
         IntentFilter filter = new IntentFilter("ai.devsupport.instamojo");
@@ -47,6 +48,7 @@ public class WalletActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        paymentReqId=paymentReqId1;
         initListener();
         instamojoPay.start(activity, pay, listener);
     }
@@ -61,7 +63,7 @@ public class WalletActivity extends AppCompatActivity {
                         String orderId= (data[1].split("="))[1];
                         String txnId= (data[2].split("="))[1];
                         String paymentId= (data[3].split("="))[1];
-                        tokenRequest(orderId,txnId,paymentId);
+                        tokenRequest(orderId,txnId,paymentId,paymentReqId);
 
                     }
                     else {
@@ -79,7 +81,7 @@ public class WalletActivity extends AppCompatActivity {
             }
         };
     }
-    public void tokenRequest(final String orderId, final String txnId, final String payementId){
+    public void tokenRequest(final String orderId, final String txnId, final String payementId, final String paymentReqId){
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
@@ -92,7 +94,7 @@ public class WalletActivity extends AppCompatActivity {
                                 JSONObject tokenResponse=new JSONObject(response);
                                 String token= tokenResponse.getString("access_token");
                                 if(token != null)
-                                    updateWallet( orderId, txnId, payementId,token);
+                                    updateWallet( orderId, txnId, payementId,token, paymentReqId);
                                 else
                                     Toast.makeText(WalletActivity.this,"Could not connect, please try again later",Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
@@ -136,8 +138,8 @@ public class WalletActivity extends AppCompatActivity {
 
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
-    private void updateWallet(final String orderId, final String txnId, final String payementId, final String token) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlWalletUpdate,
+    private void updateWallet(final String orderId, final String txnId, final String payementId, final String token, final String paymentReqId) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlAddFund,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -168,6 +170,8 @@ public class WalletActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(WalletActivity.this, "There is some error. Please try again.", Toast.LENGTH_LONG).show();
+
                         // Handle error
                     }
                 })
@@ -175,9 +179,10 @@ public class WalletActivity extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("orderId",orderId);
-                params.put("txnId",txnId);
-                params.put("paymentId",payementId);
+                params.put("payment_request_id",paymentReqId);
+                params.put("instaorderId",orderId);
+//                params.put("txnId",txnId);
+                params.put("instapaymentId",payementId);
 
                 return params;
             }
@@ -197,10 +202,10 @@ public class WalletActivity extends AppCompatActivity {
 
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                0,
+//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 }

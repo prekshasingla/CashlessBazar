@@ -32,5 +32,10 @@ public class Configuration {
 
     final public static String urlTrasferPayment="http://api2.cashlessbazar.com/api/wallet/transferpayment";
 
+    final public static String urlSocialLogin="http://api2.cashlessbazar.com/api/customer/sociallogin";
+    final public static String urlSocialRegister="http://api2.cashlessbazar.com/api/customer/socialRegister";
+    final public static String urlRequestAddFund="http://api2.cashlessbazar.com/api/wallet/createfundaddrequest";
+    final public static String urlAddFund="http://api2.cashlessbazar.com/api/wallet/updatefundaddrequest";
+
 
 }
