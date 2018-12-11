@@ -43,6 +43,16 @@ public class SharedPreferenceUtils {
         return mSharedPreferences.getInt("loginCId", 0);
     }
 
+    public void setWalletPin(int value) {
+        mSharedPreferencesEditor.putInt("loginWalletPin", value);
+        mSharedPreferencesEditor.commit();
+    }
+
+    public int getWalletPin() {
+        return mSharedPreferences.getInt("loginWalletPin", 0);
+    }
+
+
     public void setEmail(String value) {
         mSharedPreferencesEditor.putString("loginEmail", value);
         mSharedPreferencesEditor.commit();

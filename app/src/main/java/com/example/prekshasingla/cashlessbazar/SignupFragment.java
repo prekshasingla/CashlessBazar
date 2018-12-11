@@ -281,20 +281,22 @@ public class SignupFragment extends Fragment {
 
                         try {
                             JSONObject responseObject = new JSONObject(response);
-                            if (responseObject.getInt("status_code") == 201) {
+                            if (responseObject.getString("resultType").equalsIgnoreCase("SUCCESS")) {
                                 dialog.dismiss();
-                                if (responseObject.get("customer") != null) {
+                                if (responseObject.get("data") != null) {
 
 //                                    Toast.makeText(getActivity(),"Login Successful",Toast.LENGTH_SHORT).show();
 
-                                    JSONObject customerObject = responseObject.getJSONObject("customer");
-                                    SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("cId"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("name"));
+                                    JSONObject customerObject = responseObject.getJSONObject("data");
+                                    SharedPreferenceUtils.getInstance(getContext()).setCId(customerObject.getInt("regno"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setName(customerObject.getString("fname")+" "+customerObject.getString("lname"));
                                     SharedPreferenceUtils.getInstance(getContext()).setEmail(customerObject.getString("email"));
                                     SharedPreferenceUtils.getInstance(getContext()).setMobile(customerObject.getString("mobile"));
                                     SharedPreferenceUtils.getInstance(getContext()).setUsername(customerObject.getString("username"));
                                     SharedPreferenceUtils.getInstance(getContext()).setType(customerObject.getString("type"));
                                     SharedPreferenceUtils.getInstance(getContext()).setAddress(customerObject.getString("address"));
+                                    SharedPreferenceUtils.getInstance(getContext()).setWalletPin(customerObject.getInt("walletpin"));
+
 
 //                                    JSONObject walletObject = customerObject.getJSONObject("wallet");
 //                                    SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
@@ -302,11 +304,11 @@ public class SignupFragment extends Fragment {
 
 
                                 }
-                                Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_LONG).show();
                                 getActivity().onBackPressed();
                             } else {
                                 dialog.dismiss();
-                                Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), responseObject.getString("errormessage"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
