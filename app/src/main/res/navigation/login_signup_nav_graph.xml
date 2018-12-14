@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" app:popUpTo="@id/login_signup_nav_graph" app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_loginFragment_to_verifyMobileFragment"
+            app:destination="@+id/verifyMobileFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -22,5 +25,18 @@
         <action
             android:id="@+id/action_signupFragment_to_loginFragment2"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyMobileFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.VerifyMobileFragment"
+        android:label="fragment_verify_mobile"
+        tools:layout="@layout/fragment_verify_mobile" >
+
+        <argument android:name="email"
+            android:defaultValue="0"/>
+        <argument android:name="firstname"
+            android:defaultValue="0"/>
+        <argument android:name="social_site"
+            android:defaultValue="0"/>
     </fragment>
 </navigation>

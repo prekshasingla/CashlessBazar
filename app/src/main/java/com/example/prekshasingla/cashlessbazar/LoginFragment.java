@@ -30,6 +30,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -70,7 +71,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private int RC_SIGN_IN = 100;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
-        LoginButton fbLoginButton;
+    LoginButton fbLoginButton;
     CallbackManager callbackManager;
     TextView signup_text;
     TextView forgot_password_text;
@@ -145,7 +146,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
                 if ((loginId.length() == 10) || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId).matches()) {
-                    tokenRequest(LOGIN, null, null, null, null, -1);
+                    tokenRequest(LOGIN, null, null, null, null, -1,null);
 
                 } else {
                     loginError.setText("Invalid Credentials");
@@ -164,6 +165,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(LoginResult loginResult) {
 
                 setFacebookData(loginResult);
+                LoginManager.getInstance().logOut();
 
                 Log.e("success", "yes");
                 // App code
@@ -201,7 +203,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
 
-                enterMobile(FORGOT_PASSWORD,null,null,-1);
+                enterMobile(FORGOT_PASSWORD, null, null, -1);
             }
         });
         loginError = rootView.findViewById(R.id.login_error);
@@ -223,7 +225,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void enterMobile(final int urlType,final String email, final String mobileno, final int socialSite) {
+    private void enterMobile(final int urlType, final String email, final String mobileno, final int socialSite) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_mobile, null);
         final AppCompatEditText mobileField = dialogView.findViewById(R.id.mobile_field);
@@ -235,17 +237,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         Pattern pattern = Pattern.compile(PHONE_PATTERN);
                         Matcher matcher = pattern.matcher(mobileField.getText().toString().trim());
                         if (!matcher.matches()) {
-                            enterMobile(urlType,email,mobileno,socialSite);
+                            enterMobile(urlType, email, mobileno, socialSite);
                             Toast.makeText(getActivity(), "Please enter a valid mobile number", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            if(urlType==FORGOT_PASSWORD) {
+                            if (urlType == FORGOT_PASSWORD) {
                                 mobile = mobileField.getText().toString().trim();
-                                tokenRequest(FORGOT_PASSWORD, null, null,null, null, -1);
-                            }
-                            else if(urlType==SOCIALREGISTER){
+                                tokenRequest(FORGOT_PASSWORD, null, null, null, null, -1,null);
+                            } else if (urlType == SOCIALREGISTER) {
                                 mobile = mobileField.getText().toString().trim();
-                                tokenRequest(SOCIALREGISTER, null, null, email, mobileno, socialSite);
+                                tokenRequest(SOCIALREGISTER, null, null, email, mobileno, socialSite,null);
 
                             }
 
@@ -287,7 +288,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             Toast.makeText(getActivity(), "Password length should be between 6 and 15", Toast.LENGTH_SHORT).show();
                         } else if (otpField.getText().toString().trim().length() > 0 &&
                                 passwordField.getText().toString().trim().length() > 6) {
-                            tokenRequest(NEW_PASSWORD, otpField.getText().toString().trim(), passwordField.getText().toString().trim(),null,null,-1);
+                            tokenRequest(NEW_PASSWORD, otpField.getText().toString().trim(), passwordField.getText().toString().trim(),
+                                    null, null, -1,null);
 
 
                         } else {
@@ -308,7 +310,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         builder.show();
     }
 
-    public void tokenRequest(final int urlType, final String otp, final String newPass, final  String email, final String mobile, final int socialSite) {
+    public void tokenRequest(final int urlType, final String otp, final String newPass,
+                             final String email, final String mobile, final int socialSite,final String firstname) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         dialog.show();
 
@@ -327,12 +330,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                         loginRequest(token);
                                     else if (urlType == FORGOT_PASSWORD)
                                         passwordRequest(token, mobile);
-                                    else if(urlType==NEW_PASSWORD)
+                                    else if (urlType == NEW_PASSWORD)
                                         newPasswordRequest(token, mobile, otp, newPass);
-                                    else if(urlType==SOCIALLOGIN)
-                                        socialLogin(token,email,socialSite);
-                                    else if(urlType==SOCIALREGISTER)
-                                        socialRegister(token,email,socialSite,mobile);
+                                    else if (urlType == SOCIALLOGIN)
+                                        socialLogin(token, email, socialSite,firstname);
+
                                 } else {
                                     dialog.dismiss();
 
@@ -389,26 +391,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             JSONObject loginResponse = new JSONObject(response);
                             if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
 
-                                JSONObject data= loginResponse.getJSONObject("data");
-                                    SharedPreferenceUtils.getInstance(getContext()).setCId(data.getInt("regno"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setName(data.getString("firstname")
-                                            +data.getString("lastname"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setEmail(data.getString("email"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setMobile(data.getString("mobile"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setUsername(data.getString("username"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setType(data.getString("type"));
-                                    SharedPreferenceUtils.getInstance(getContext()).setAddress(data.getString("address"));
+                                JSONObject data = loginResponse.getJSONObject("data");
+                                SharedPreferenceUtils.getInstance(getContext()).setCId(data.getInt("regno"));
+                                SharedPreferenceUtils.getInstance(getContext()).setName(data.getString("firstname")
+                                        + data.getString("lastname"));
+                                SharedPreferenceUtils.getInstance(getContext()).setEmail(data.getString("email"));
+                                SharedPreferenceUtils.getInstance(getContext()).setMobile(data.getString("mobile"));
+                                SharedPreferenceUtils.getInstance(getContext()).setUsername(data.getString("username"));
+                                SharedPreferenceUtils.getInstance(getContext()).setType(data.getString("type"));
+                                SharedPreferenceUtils.getInstance(getContext()).setAddress(data.getString("address"));
                                 SharedPreferenceUtils.getInstance(getContext()).setWalletPin(data.getInt("walletpin"));
 
 //                                JSONObject walletObject = customerObject.getJSONObject("wallet");
 //                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
 //                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
 
-                                    dialog.dismiss();
+                                dialog.dismiss();
 
-                                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
 
-                                    getActivity().onBackPressed();
+                                getActivity().onBackPressed();
 
 
                             } else {
@@ -594,7 +596,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void socialLogin(final String token, final String email, final int socialSite) {
+    public void socialLogin(final String token, final String email, final int socialSite,final String firstname) {
 
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlSocialLogin,
@@ -606,10 +608,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             JSONObject loginResponse = new JSONObject(response);
                             if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
 
-                                JSONObject data= loginResponse.getJSONObject("data");
+                                JSONObject data = loginResponse.getJSONObject("data");
                                 SharedPreferenceUtils.getInstance(getContext()).setCId(data.getInt("regno"));
                                 SharedPreferenceUtils.getInstance(getContext()).setName(data.getString("firstname")
-                                        +data.getString("lastname"));
+                                        + data.getString("lastname"));
                                 SharedPreferenceUtils.getInstance(getContext()).setEmail(data.getString("email"));
                                 SharedPreferenceUtils.getInstance(getContext()).setMobile(data.getString("mobile"));
                                 SharedPreferenceUtils.getInstance(getContext()).setUsername(data.getString("username"));
@@ -629,96 +631,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
                             } else if (loginResponse.getString("errorcode").equalsIgnoreCase("ER003")) {
-                                    dialog.dismiss();
-                                    enterMobile(SOCIALREGISTER, email, null, socialSite);
-
-
-                                }
-
-                                else {
-                                    dialog.dismiss();
-                                    loginError.setText("Login Failed. Try Again");
-                                }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            dialog.dismiss();
-                            loginError.setText("Login Failed. Try Again");
-                        }
-
-                        // Do something with the response
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        dialog.dismiss();
-                        // Handle error
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", email);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-//                params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Authorization", "bearer " + token);
-                return params;
-            }
-
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded";
-            }
-
-        };
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-    }
-
-    public void socialRegister(final String token, final String email, final int socialSite, final String mobile) {
-
-//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlSocialRegister,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONObject loginResponse = new JSONObject(response);
-                            if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
-
-                                JSONObject data= loginResponse.getJSONObject("data");
-                                SharedPreferenceUtils.getInstance(getContext()).setCId(data.getInt("regno"));
-                                SharedPreferenceUtils.getInstance(getContext()).setName(data.getString("firstname")
-                                        +data.getString("lastname"));
-                                SharedPreferenceUtils.getInstance(getContext()).setEmail(data.getString("email"));
-                                SharedPreferenceUtils.getInstance(getContext()).setMobile(data.getString("mobile"));
-                                SharedPreferenceUtils.getInstance(getContext()).setUsername(data.getString("username"));
-                                SharedPreferenceUtils.getInstance(getContext()).setType(data.getString("type"));
-                                SharedPreferenceUtils.getInstance(getContext()).setAddress(data.getString("address"));
-                                SharedPreferenceUtils.getInstance(getContext()).setWalletPin(data.getInt("walletpin"));
-
-//                                JSONObject walletObject = customerObject.getJSONObject("wallet");
-//                                SharedPreferenceUtils.getInstance(getContext()).setCBTPBalance(walletObject.getInt("CBTP_Balance"));
-//                                SharedPreferenceUtils.getInstance(getContext()).setRewardBalance(walletObject.getInt("Reward_Balance"));
-
                                 dialog.dismiss();
-
-                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
-
-                                getActivity().onBackPressed();
+                                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                                Bundle args=new Bundle();
+                                args.putString("email",email);
+                                args.putString("social_site",socialSite+"");
+                                args.putString("firstname",firstname);
+                                navController.navigate(R.id.verifyMobileFragment, args);
+//                                enterMobile(SOCIALREGISTER, email, null, socialSite);
 
 
                             } else {
-                                    dialog.dismiss();
-                                    loginError.setText("Login Failed. Try Again");
-
+                                dialog.dismiss();
+                                loginError.setText("Login Failed. Try Again");
                             }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -740,8 +667,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
-                params.put("mobile",mobile);
-                params.put("socialsite", socialSite+"");
                 return params;
             }
 
@@ -766,9 +691,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Log.e("inside", account.getDisplayName());
+            String email=account.getEmail();
+            String firstName=account.getDisplayName();
+            tokenRequest(SOCIALLOGIN, null, null, email, null, GOOGLE,firstName);
 
             // Signed in successfully, show authenticated UI.
         } catch (ApiException e) {
+
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
         }
@@ -786,12 +715,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             Log.i("Response", response.toString());
 
                             String email = response.getJSONObject().getString("email");
-//                            String firstName = response.getJSONObject().getString("first_name");
+                            String firstName = response.getJSONObject().getString("first_name");
 //                            String lastName = response.getJSONObject().getString("last_name");
 //
 
 
-                            tokenRequest(SOCIALLOGIN,null,null,email,null, FB);
+                            tokenRequest(SOCIALLOGIN, null, null, email, null, FB,firstName);
 
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
