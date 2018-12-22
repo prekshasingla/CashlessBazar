@@ -5,8 +5,8 @@ public class Product {
     int id;
     String name;
     String desc;
-    Double mrp;
-    Double cbtp;
+    Double mrp=0d;
+    Double cbtp=0d;
     int productType;
     String ProductTypeName;
     String img;

@@ -13,6 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_mascot"
         android:label="@string/app_name"
+        android:name=".BaseApplication"
         android:roundIcon="@mipmap/ic_launcher_mascot"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -69,7 +70,7 @@
 
         <meta-data
             android:name="instamojo.orderauth.url"
-            android:value="http://halfbit.in/access_token.php" />
+            android:value="http://halfbit.in/access_token_live.php" />
 
     </application>
 

@@ -152,7 +152,8 @@ public class VerifyMobileFragment extends Fragment {
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(DialogInterface dialog1, int id) {
+                        dialog.cancel();
                         // User cancelled the dialog
                     }
                 });

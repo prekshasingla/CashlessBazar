@@ -429,7 +429,7 @@ public class PaymentOptionsFragment extends Fragment {
 //        }
 //
 ////        showToast("checking transaction status");
-//        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Configuration.urlPayFetchToken,
+//        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, Config.urlPayFetchToken,
 //                new Response.Listener<String>() {
 //                    private String transactionID;
 //                    private String accessToken;

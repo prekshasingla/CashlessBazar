@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 
@@ -47,29 +45,25 @@ public class AddFundFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview= inflater.inflate(R.layout.fragment_add_fund, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_add_fund, container, false);
         rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(getActivity(), R.id.fragment).navigateUp();
             }
         });
-         sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getActivity());
+        sharedPreferenceUtils = SharedPreferenceUtils.getInstance(getActivity());
 
-        amount=rootview.findViewById(R.id.amount);
+        amount = rootview.findViewById(R.id.amount);
 
-        TextView walletBalance= rootview.findViewById(R.id.wallet_balance);
-        walletBalance.setText(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance()+"");
 
-        Button addMoney=rootview.findViewById(R.id.add_money);
+        Button addMoney = rootview.findViewById(R.id.add_money);
         addMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!amount.getText().toString().trim().equals(""))
-                {
-                   tokenRequest();
-                }
-                else{
+                if (!amount.getText().toString().trim().equals("")) {
+                    tokenRequest();
+                } else {
                     amount.setError("enter amount");
                 }
 //                Intent intent=new Intent(getActivity(),PaymentActivity.class);
@@ -94,7 +88,7 @@ public class AddFundFragment extends Fragment {
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
 
-                                        requestAddFund(token);
+                                    requestAddFund(token);
 
                                 else
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
@@ -165,9 +159,9 @@ public class AddFundFragment extends Fragment {
 
                                 JSONObject data = responseObject.getJSONObject("data");
 
-                                ((WalletActivity)getActivity()).callInstamojoPay(sharedPreferenceUtils.getEmail(),
-                                        sharedPreferenceUtils.getPhone(),amount.getText().toString().trim(),"Indplas_event",
-                                        sharedPreferenceUtils.getName(),data.getString("request_id"));
+                                ((WalletActivity) getActivity()).callInstamojoPay(sharedPreferenceUtils.getEmail(),
+                                        sharedPreferenceUtils.getPhone(), amount.getText().toString().trim(), "Indplas_event",
+                                        sharedPreferenceUtils.getName(), data.getString("request_id"));
 
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -211,8 +205,10 @@ public class AddFundFragment extends Fragment {
                 params.put("email", sharedPreferenceUtils.getEmail());
                 params.put("phone", sharedPreferenceUtils.getPhone());
                 params.put("amount", amount.getText().toString().trim());
-                params.put("mode", "TEST");
-
+                if (Config.isDebugMode)
+                    params.put("mode", "TEST");
+                else
+                    params.put("mode", "LIVE");
 
                 return params;
             }
@@ -233,7 +229,6 @@ public class AddFundFragment extends Fragment {
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
-
 
 
 }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "888537596886",
+    "firebase_url": "https://cbandroid-65d64.firebaseio.com",
+    "project_id": "cbandroid-65d64",
+    "storage_bucket": "cbandroid-65d64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888537596886:android:5ce5524aab2ba364",
+        "android_client_info": {
+          "package_name": "com.cashlessbazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888537596886-f7770qp2hbhtnqtjpjt1bkvk078jvo36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cashlessbazar",
+            "certificate_hash": "04e32bfb918bb4b9e8bc30e8a2c00dd214699b97"
+          }
+        },
+        {
+          "client_id": "888537596886-ggubav1110dslnmesng5aikh7re7jo7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2UVIeCvVw_NqxnumVszRYepCNF4evZsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888537596886-ggubav1110dslnmesng5aikh7re7jo7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

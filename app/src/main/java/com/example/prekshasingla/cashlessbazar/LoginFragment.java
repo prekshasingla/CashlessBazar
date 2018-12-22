@@ -28,7 +28,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -92,7 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(Configuration.ClientID)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -718,19 +717,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             String firstName = response.getJSONObject().getString("first_name");
 //                            String lastName = response.getJSONObject().getString("last_name");
 //
-
-
                             tokenRequest(SOCIALLOGIN, null, null, email, null, FB,firstName);
 
-                            Profile profile = Profile.getCurrentProfile();
-                            String id = profile.getId();
-                            String link = profile.getLinkUri().toString();
-                            Log.i("Link", link);
-                            if (Profile.getCurrentProfile() != null) {
-                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
-                            }
 
-                            Log.i("Login" + "Email", email);
 
 
                         } catch (JSONException e) {

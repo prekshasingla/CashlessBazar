@@ -1,9 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
 public class Configuration {
-
-    final public static String ClientID="178902503529-f3h5aqh01ju6j6jvrnch4vm67j7lk1ld.apps.googleusercontent.com" ;
-
     final public  static String urlRegisterUser= "http://api2.cashlessbazar.com/api/customer/register";
 
     final public  static String urlPayFetchToken= "http://api2.cashlessbazar.com/api/getAccessToken";
@@ -11,8 +8,12 @@ public class Configuration {
     final public  static String urlBestSelling="http://api2.cashlessbazar.com/api/product/bestselling-product?";
     final public  static String urlMostSelling="http://api2.cashlessbazar.com/api/product/mostselling-product?";
 
-    final public  static String urlWalletTransfer="http://api2.cashlessbazar.com/api/wallet/transfer";
+    final public static String urlRequestTransfer="http://api2.cashlessbazar.com/api/wallet/requestpayment";
+    final public static String urlTransferPayment="http://api2.cashlessbazar.com/api/wallet/transferpayment";
     final public static String urlCollectPayment="http://api2.cashlessbazar.com/api/wallet/collectpayment";
+
+    final public  static String urlWalletTransfer="http://api2.cashlessbazar.com/api/wallet/transfer";
+//    final public static String urlCollectPayment="http://api2.cashlessbazar.com/api/wallet/collectpayment";
 
     final public static String urlCheckBalance="http://api2.cashlessbazar.com/api/wallet/checkbalance";
 
@@ -26,5 +27,13 @@ public class Configuration {
     final public static String urlRequestOtp="http://api2.cashlessbazar.com/api/customer/PasswordRecovery";
     final public static String urlForgotPassword="http://api2.cashlessbazar.com/api/customer/PasswordRecoveryConfirm";
 
+    final public static String urlTrasferPayment="http://api2.cashlessbazar.com/api/wallet/transferpayment";
 
+    final public static String urlSocialLogin="http://api2.cashlessbazar.com/api/customer/sociallogin";
+    final public static String urlSocialRegister="http://api2.cashlessbazar.com/api/customer/socialRegister";
+    final public static String urlRequestAddFund="http://api2.cashlessbazar.com/api/wallet/createfundaddrequest";
+    final public static String urlAddFund="http://api2.cashlessbazar.com/api/wallet/updatefundaddrequest";
+
+    final public static String urlUpdateToken="http://api2.cashlessbazar.com/api/customer/updatetoken";
+    final public static String urlProductDescription="http://api2.cashlessbazar.com/api/product/";
 }

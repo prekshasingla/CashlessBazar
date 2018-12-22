@@ -70,8 +70,7 @@ public class WalletActivity extends AppCompatActivity {
                         Toast.makeText(WalletActivity.this, "Payment Failed. Try again later", Toast.LENGTH_SHORT).show();
                     }
 
-                Toast.makeText(WalletActivity.this, response, Toast.LENGTH_LONG)
-                        .show();
+
             }
 
             @Override
@@ -149,8 +148,8 @@ public class WalletActivity extends AppCompatActivity {
 
                             if(loginResponse.getString("resultType").equalsIgnoreCase("success")){
                                 JSONObject wallet= loginResponse.getJSONObject("wallet");
-                                SharedPreferenceUtils.getInstance(WalletActivity.this).
-                                        setCBTPBalance(Float.parseFloat(wallet.getDouble("CBTP_Balance")+""));
+//                                SharedPreferenceUtils.getInstance(WalletActivity.this).
+//                                        setCBTPBalance(Float.parseFloat(wallet.getDouble("CBTP_Balance")+""));
 
                             }
                             else{

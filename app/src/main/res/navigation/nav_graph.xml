@@ -32,7 +32,12 @@
         android:id="@+id/productDetailFragment"
         android:name="com.example.prekshasingla.cashlessbazar.ProductDetailFragment"
         android:label="fragment_product_detail"
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail" >
+        <argument
+            android:name="item_id"
+            android:defaultValue="0"
+            />
+    </fragment>
     <activity
         android:id="@+id/recentOrdersActivity"
         android:name="com.example.prekshasingla.cashlessbazar.RecentOrdersActivity"
