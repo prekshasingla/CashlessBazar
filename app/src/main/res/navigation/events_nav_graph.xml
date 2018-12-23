@@ -9,5 +9,20 @@
         android:id="@+id/eventsFragment"
         android:name="com.example.prekshasingla.cashlessbazar.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.EventDetailFragment"
+        android:label="EventDetailFragment" >
+        <argument
+            android:name="event_url"
+            android:defaultValue="0"/>
+        <argument
+            android:name="event_name"
+            android:defaultValue="0"/>
+    </fragment>
 </navigation>

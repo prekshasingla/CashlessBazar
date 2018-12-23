@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             if(sharedPreferenceUtils.getType()!=null){
-                if(sharedPreferenceUtils.getType().equals("Customer")){
+                if(sharedPreferenceUtils.getType().equalsIgnoreCase("customer")){
                     nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
 
                 }

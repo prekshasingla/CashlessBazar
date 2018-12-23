@@ -8,8 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 
 
 public class EventsFragment extends Fragment {
@@ -32,10 +37,51 @@ public class EventsFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        ImageView eventImage=rootView.findViewById(R.id.event_image);
+        ImageView eventImage1=rootView.findViewById(R.id.event_image1);
+        ImageView eventImage2=rootView.findViewById(R.id.event_image2);
+        ImageView eventImage3=rootView.findViewById(R.id.event_image3);
 
-        Picasso.with(getActivity()).load("https://storage.googleapis.com/ehimages/2017/4/5/" +
-                "img_08e5e2af7d75af167105bce7d3793e98_1491386523571_processed_original.jpg").into(eventImage);
+        TextView bookTickets1= rootView.findViewById(R.id.book1);
+        TextView bookTickets2= rootView.findViewById(R.id.book2);
+        TextView bookTickets3= rootView.findViewById(R.id.book3);
+
+        bookTickets1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args=new Bundle();
+                args.putString("event_name","DILBAR NIGHT 2018");
+                args.putString("event_url","https://cashlessbazar.com/NYE/Dilbarnight");
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.eventDetailFragment,args);
+            }
+        });
+        bookTickets2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args=new Bundle();
+                args.putString("event_name","UNITED -  THE GREAT GATSBY PARTY 2018");
+                args.putString("event_url", "https://cashlessbazar.com/unitedwestand");
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.eventDetailFragment,args);
+            }
+        });
+        bookTickets3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args=new Bundle();
+                args.putString("event_name","SOCIAL ELEGANZA 2018");
+                args.putString("event_url", "https://cashlessbazar.com/social");
+                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                navController.navigate(R.id.eventDetailFragment,args);
+            }
+        });
+
+
+        Picasso.with(getActivity()).load("https://cashlessbazar.com/images/home-slider-banners/cbbanner1.png").into(eventImage1);
+        Picasso.with(getActivity()).load("https://cashlessbazar.com/images/home-slider-banners/cb2.png").into(eventImage2);
+        Picasso.with(getActivity()).load("https://www.cashlessbazar.com/images/Newsletter/Socialbanner.JPG").into(eventImage3);
+
+
         return rootView;
     }
 
