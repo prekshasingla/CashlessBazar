@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
     implementation 'com.instamojo:android-sdk:1.2.6'
     implementation files('libs/commons-codec-1.11.jar')
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.onesignal:OneSignal:[3.9.1, 3.99.99]'
 }

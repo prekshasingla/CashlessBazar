@@ -18,5 +18,11 @@
     <color name="cb_blue_dark">#002984</color>
     <color name="separator_line_grey">#d7d5d5</color>
 
+    <!-- circular page indicator-->
+    <color name="fpi_default_indicator_inactive_color">#C0C0C0</color>
+    <color name="fpi_default_indicator_active_color">#002984</color>
+    <color name="transparent">#00000000</color>
+    <color name="silver">#C0C0C0</color>
+
 
 </resources>

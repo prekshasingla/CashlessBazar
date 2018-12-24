@@ -1,3 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <!-- circle page indicator-->
+    <dimen name="fvp_default_circle_radius">4dp</dimen>
+    <dimen name="fvp_default_circle_padding">12dp</dimen>
+
 </resources>

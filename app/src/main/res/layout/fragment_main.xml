@@ -10,38 +10,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@drawable/home_top_background"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/top_home_pay"
                 android:layout_width="0dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_action_send_money" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pay"
-                    android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:text="Pay"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -56,16 +58,18 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_wallet_white_24dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wallet"
-                    android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:text="Wallet"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/top_home_events"
                 android:layout_width="0dp"
@@ -78,16 +82,18 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_action_events" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Events"
-                    android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:text="Events"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/top_home_add"
                 android:layout_width="0dp"
@@ -100,25 +106,46 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_add_circle_outline_black_24dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add"
-                    android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:text="Add"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/trending_viewpager"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="wrap_content"
+            >
 
-        </android.support.v4.view.ViewPager>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/trending_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                >
+
+            </android.support.v4.view.ViewPager>
+
+            <com.example.prekshasingla.cashlessbazar.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/transparent"
+                android:padding="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/trending_viewpager"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -182,16 +209,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/best_selling_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:layout_margin="10dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/best_selling_products"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/best_selling_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/best_selling_products"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/best_selling_see_more"
@@ -206,6 +233,7 @@
                     android:textSize="10sp" />
 
             </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/best_selling_recycler"
                 android:layout_width="match_parent"
@@ -261,7 +289,6 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal" />
         </RelativeLayout>
-
 
 
     </LinearLayout>

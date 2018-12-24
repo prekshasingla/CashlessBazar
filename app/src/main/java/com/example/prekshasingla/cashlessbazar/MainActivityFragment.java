@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -157,6 +158,9 @@ public class MainActivityFragment extends Fragment {
         homeBannerPagerAdapter = new HomeBannerPagerAdapter(getActivity().getSupportFragmentManager(), mBannerImages, getActivity());
 
         bannerViewpager.setAdapter(homeBannerPagerAdapter);
+        CirclePageIndicator indicator = (CirclePageIndicator)rootView.findViewById(R.id.indicator);
+        indicator.initViewPager(bannerViewpager);
+
 
         final Handler handler = new Handler();
         final int delay = 5000; //milliseconds
