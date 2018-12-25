@@ -136,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
     private void checkLogin() {
         SharedPreferenceUtils sharedPreferenceUtils=SharedPreferenceUtils.getInstance(getApplicationContext());
         Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_add_product).setVisible(false);
-        nav_Menu.findItem(R.id.nav_my_orders).setVisible(false);
-        nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(false);
-        nav_Menu.findItem(R.id.nav_recent_orders).setVisible(false);
-        nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(false);
+        nav_Menu.findItem(R.id.nav_add_product).setVisible(true);
+        nav_Menu.findItem(R.id.nav_my_orders).setVisible(true);
+        nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(true);
+        nav_Menu.findItem(R.id.nav_recent_orders).setVisible(true);
+        nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(true);
 
 
         if(sharedPreferenceUtils.getName()!=null) {
