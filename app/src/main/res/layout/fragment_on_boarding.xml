@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#FF4500"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/onboarding_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="DISCOVER"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="23sp"
+        android:fontFamily="@font/flintstone"/>
+
+
+
+    <TextView
+        android:id="@+id/onboarding_text2"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/onboarding_text1"
+        android:gravity="center"
+        android:text="Find out what's unique and new at restaurants near you."
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+    <ImageView
+        android:id="@+id/onboarding_image1"
+        android:layout_below="@+id/onboarding_text2"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        />
+    <TextView
+        android:id="@+id/onboarding_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKIP"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"/>
+</RelativeLayout>

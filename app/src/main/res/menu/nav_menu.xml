@@ -6,10 +6,12 @@
             android:title="@string/nav_drawer_login" />
         <item
             android:id="@+id/nav_wallet"
-            android:title="@string/nav_drawer_wallet" />
+            android:title="@string/nav_drawer_wallet"
+            android:icon="@drawable/ic_wallet_black"/>
         <item
             android:id="@+id/nav_pay"
-            android:title="@string/nav_drawer_pay" />
+            android:title="@string/nav_drawer_pay"
+            android:icon="@drawable/ic_send_money"/>
 
         <item android:id="@+id/nav_request_payment"
             android:title="Request Payment"/>
@@ -36,5 +38,16 @@
             android:title="Add Product" />
 
 
+    </group>
+    <group
+        android:id="@+id/nav_section_bottom">
+        <item
+            android:id="@+id/nav_privacy"
+            android:title="Privacy Policy"
+            />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"
+            />
     </group>
 </menu>

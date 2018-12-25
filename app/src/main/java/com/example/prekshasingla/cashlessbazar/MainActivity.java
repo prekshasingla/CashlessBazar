@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_privacy:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cashlessbazar.com/returnspolicy"));
+                        startActivity(browserIntent);
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_logout:
+                        SharedPreferenceUtils.getInstance(MainActivity.this).clear();
+                        mDrawerLayout.closeDrawers();
+                        checkLogin();
+                        break;
                 }
                 return false;
 
@@ -169,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
             nav_Menu.findItem(R.id.nav_pay).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+            nav_Menu.findItem(R.id.nav_privacy).setVisible(true);
 
         }
         else{
@@ -187,6 +200,10 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
             nav_Menu.findItem(R.id.nav_pay).setVisible(false);
             nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+            nav_Menu.findItem(R.id.nav_privacy).setVisible(false);
+
+
         }
     }
 
