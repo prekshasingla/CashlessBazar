@@ -33,23 +33,7 @@ public class WithdrawFundsFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        final LinearLayout addLayout=rootView.findViewById(R.id.add_container);
-        Button addMoney=rootView.findViewById(R.id.withdraw_money);
-        addMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent=new Intent(getActivity(),PaymentActivity.class);
-//                getActivity().startActivity(intent);
-            }
-        });
-        rootView.findViewById(R.id.add_money_text).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                addLayout.setVisibility(View.VISIBLE);
-
-            }
-        });
 
         return  rootView;
     }

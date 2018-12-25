@@ -133,13 +133,13 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        LinearLayout topHomeAdd = rootView.findViewById(R.id.top_home_add);
-        topHomeAdd.setOnClickListener(new View.OnClickListener() {
+        LinearLayout topHomeBarter = rootView.findViewById(R.id.top_home_barter);
+        topHomeBarter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sharedPreferenceUtils.getName() != null) {
 
-                    Intent intent = new Intent(getActivity(), WalletActivity.class);
+                    Intent intent = new Intent(getActivity(), AddProductActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginSignupActivity.class);

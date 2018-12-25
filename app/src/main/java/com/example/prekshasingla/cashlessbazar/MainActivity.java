@@ -56,17 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 int id= item.getItemId();
                 Intent intent;
                 switch (id) {
-                    case R.id.nav_login:
-
-                        intent=new Intent(MainActivity.this,LoginSignupActivity.class);
-                        startActivity(intent);
-                        mDrawerLayout.closeDrawers();
-
-
-//                        ( Navigation.findNavController(MainActivity.this, R.id.fragment)).navigate(R.id.loginSignupActivity);
-                        //Do some thing here
-                        // add navigation drawer item onclick method here
-                        break;
 
                     case R.id.nav_wallet:
                          intent = new Intent(MainActivity.this, WalletActivity.class);
@@ -177,11 +166,16 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-            nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(true);
             nav_Menu.findItem(R.id.nav_pay).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
             nav_Menu.findItem(R.id.nav_privacy).setVisible(true);
+
+            nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(true);
+            nav_Menu.findItem(R.id.nav_recent_orders).setVisible(true);
+            nav_Menu.findItem(R.id.nav_my_orders).setVisible(true);
+            nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(true);
+            nav_Menu.findItem(R.id.nav_add_product).setVisible(true);
 
         }
         else{
@@ -196,13 +190,17 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
             nav_Menu.findItem(R.id.nav_wallet).setVisible(false);
             nav_Menu.findItem(R.id.nav_pay).setVisible(false);
             nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
             nav_Menu.findItem(R.id.nav_logout).setVisible(false);
             nav_Menu.findItem(R.id.nav_privacy).setVisible(false);
 
+            nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(false);
+            nav_Menu.findItem(R.id.nav_recent_orders).setVisible(false);
+            nav_Menu.findItem(R.id.nav_my_orders).setVisible(false);
+            nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(false);
+            nav_Menu.findItem(R.id.nav_add_product).setVisible(false);
 
         }
     }

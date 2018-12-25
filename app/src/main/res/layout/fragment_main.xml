@@ -95,7 +95,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/top_home_add"
+                android:id="@+id/top_home_barter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".25"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif"
-                    android:text="Add"
+                    android:text="Barter"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
