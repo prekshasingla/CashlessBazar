@@ -38,4 +38,5 @@ public class Configuration {
     final public static String urlProductDescription="http://api2.cashlessbazar.com/api/product/";
     final public static String urlGetEvents="http://api2.cashlessbazar.com/api/events/list";
     final public static String urlBannersHome="http://api2.cashlessbazar.com/api/banner/List";
+    final public static String urlCategories="http://api2.cashlessbazar.com/api/category/list?";
 }
