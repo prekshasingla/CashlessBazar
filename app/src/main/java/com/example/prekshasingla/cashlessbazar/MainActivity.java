@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_quick_requirements:
-                        intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
-                        intent.putExtra("screen","Quick Requirements");
+                        intent = new Intent(MainActivity.this, RequirementsActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
