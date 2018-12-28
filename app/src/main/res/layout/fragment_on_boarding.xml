@@ -45,6 +45,18 @@
         android:layout_marginTop="20dp"
         />
     <TextView
+        android:id="@+id/onboarding_text4"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/onboarding_image1"
+        android:gravity="center"
+        android:text="Find out what's unique and new at restaurants near you."
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+    <TextView
         android:id="@+id/onboarding_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

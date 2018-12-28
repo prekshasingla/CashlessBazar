@@ -24,6 +24,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(OnBoardingFragment.newInstance("screen3"));
         viewPagerAdapter.addFragment(OnBoardingFragment.newInstance("screen4"));
         viewPagerAdapter.addFragment(OnBoardingFragment.newInstance("screen5"));
+        viewPagerAdapter.addFragment(OnBoardingFragment.newInstance("screen6"));
 
         mViewPager.setAdapter(viewPagerAdapter);
         CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);

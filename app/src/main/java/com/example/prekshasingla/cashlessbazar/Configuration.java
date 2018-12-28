@@ -36,4 +36,6 @@ public class Configuration {
 
     final public static String urlUpdateToken="http://api2.cashlessbazar.com/api/customer/updatetoken";
     final public static String urlProductDescription="http://api2.cashlessbazar.com/api/product/";
+    final public static String urlGetEvents="http://api2.cashlessbazar.com/api/events/list";
+    final public static String urlBannersHome="http://api2.cashlessbazar.com/api/banner/List";
 }
