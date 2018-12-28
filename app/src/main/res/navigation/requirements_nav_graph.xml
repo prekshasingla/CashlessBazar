@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/requirements_nav_graph"
+    app:startDestination="@id/requirementsFragment">
+
+    <fragment
+        android:id="@+id/requirementsFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.RequirementsFragment"
+        android:label="fragment_requirements"
+        tools:layout="@layout/fragment_requirements" >
+        <action
+            android:id="@+id/action_requirementsFragment_to_sellProductFragment"
+            app:destination="@id/sellProductFragment" />
+        <action
+            android:id="@+id/action_requirementsFragment_to_postRequirementFragment"
+            app:destination="@id/postRequirementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellProductFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.SellProductFragment"
+        android:label="fragment_sell_product"
+        tools:layout="@layout/fragment_sell_product" />
+    <fragment
+        android:id="@+id/postRequirementFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.PostRequirementFragment"
+        android:label="fragment_post_requirement"
+        tools:layout="@layout/fragment_post_requirement" />
+</navigation>
