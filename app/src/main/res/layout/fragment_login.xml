@@ -173,35 +173,49 @@
 
 
     <LinearLayout
-    android:id="@+id/thirdPartyBtn"
-    android:layout_width="fill_parent"
-    android:layout_height="35dp"
-    android:layout_below="@+id/fsu_or_layout"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:gravity="center"
-    android:layout_marginTop="10dp">
+        android:id="@+id/thirdPartyBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/fsu_or_layout"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="3dp"
+        android:gravity="center">
 
-    <!--<com.facebook.login.widget.LoginButton-->
-    <!--android:id="@+id/fb_sign_in_button"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginRight="5dp"-->
-    <!--android:layout_weight="1"/>-->
+        <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/fb_sign_in_button"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_weight="1"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:weightSum="1">
 
-    <com.google.android.gms.common.SignInButton
-    android:id="@+id/google_sign_in_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"/>
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_sign_in_button"
+                android:layout_width="0dp"
+                android:layout_weight=".4"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
 
-    <com.facebook.login.widget.LoginButton
-    android:id="@+id/login_button_fb"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="30dp"
-    android:layout_marginBottom="30dp" />
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button_fb"
+                android:layout_width="0dp"
+                android:layout_weight=".6"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

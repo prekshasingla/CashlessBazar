@@ -2,6 +2,7 @@ package com.example.prekshasingla.cashlessbazar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,21 +22,20 @@ import java.util.List;
 
 public class HomeBannerPagerAdapter extends android.support.v4.app.FragmentStatePagerAdapter {
     FragmentManager fragmentManager;
-    private List<String> mBannerUrl;
+    private List<MainActivityFragment.Banner> mBannerUrl;
     private Activity context;
 
 
-    public HomeBannerPagerAdapter(FragmentManager fm, List<String> mBannerUrl, Activity context) {
+    public HomeBannerPagerAdapter(FragmentManager fm, List<MainActivityFragment.Banner> mBannerUrl, Activity context) {
         super(fm);
         this.fragmentManager = fm;
         this.mBannerUrl = mBannerUrl;
         this.context = context;
     }
 
-    public void addAll(List<String> mBannerUrl) {
+    public void addAll(List<MainActivityFragment.Banner> mBannerUrl) {
         this.mBannerUrl = mBannerUrl;
     }
-
 
 
     @Override
@@ -44,7 +44,9 @@ public class HomeBannerPagerAdapter extends android.support.v4.app.FragmentState
         Bundle args = new Bundle();
         // Our object is just an integer :-P
         //args.putInt(BannerFragment.ARG_OBJECT, i + 1);
-        args.putString("url", mBannerUrl.get(i));
+        args.putString("url", mBannerUrl.get(i).url);
+        args.putString("image", mBannerUrl.get(i).image);
+        args.putString("name", mBannerUrl.get(i).name);
 
         fragment.setArguments(args);
         return fragment;
@@ -90,12 +92,18 @@ public class HomeBannerPagerAdapter extends android.support.v4.app.FragmentState
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home_banner, container, false);
-            String url = getArguments().getString("url");
+            String url = getArguments().getString("image");
             ImageView imageView = rootView.findViewById(R.id.bannerImage);
             Picasso.with(getActivity())
                     .load(url)
                     .into(imageView);
-
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent= new Intent(getActivity(),EventsActivity.class);
+                    getActivity().startActivity(intent);
+                }
+            });
             return rootView;
         }
     }

@@ -1,9 +1,6 @@
 package com.example.prekshasingla.cashlessbazar;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -33,21 +30,20 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 
-public class EventsFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class CategoriesFragment extends Fragment {
 
+    List<Category> categoryList;
+    CategoryAdapter adapter;
 
-    Context mContext;
-    List<Event> eventList;
-    private RecyclerView recycler;
-    EventsAdapter adapter;
-    ProgressDialog dialog;
-
-    public EventsFragment() {
+    public CategoriesFragment() {
         // Required empty public constructor
+        categoryList = new ArrayList<>();
     }
 
 
@@ -55,45 +51,32 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        View rootview = inflater.inflate(R.layout.fragment_categories, container, false);
 
-        dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("Please Wait");
-        mContext = getActivity();
-        eventList = new ArrayList<>();
-
-        recycler = rootView.findViewById(R.id.recycler);
-        adapter = new EventsAdapter();
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recycler.setAdapter(adapter);
+        RecyclerView recyclerView=rootview.findViewById(R.id.recycler);
+        adapter=new CategoryAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(adapter);
         tokenRequest();
-
-
-        return rootView;
+        return rootview;
     }
 
-    public void tokenRequest() {
-        dialog.show();
+    private void tokenRequest() {
+//        dialog.show();
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        dialog.dismiss();
+//                        dialog.dismiss();
                         if (response != null && !response.equals("")) {
 
                             try {
                                 JSONObject tokenResponse = new JSONObject(response);
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
-                                    getEvents(token);
+                                    getCategories(token);
                                 else
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
@@ -109,7 +92,7 @@ public class EventsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
-                        dialog.dismiss();
+//                        dialog.dismiss();
                         Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -139,31 +122,24 @@ public class EventsFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
-    private void getEvents(final String token) {
-        dialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlGetEvents,
+    private void getCategories(final String token) {
+//        dialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlCategories + "PageNumber=1&PageSize=50",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();
+//                        dialog.dismiss();
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                JSONArray eventsArray = responseObject.getJSONArray("Events");
-                                for (int i = 0; i < eventsArray.length(); i++) {
-                                    JSONObject data = eventsArray.getJSONObject(i);
-                                    Event event = new Event();
-                                    String date[] = data.getString("eventstartdate").split(" ");
-                                    event.day = date[0];
-                                    event.month = date[1].substring(0, 3);
-                                    event.name = data.getString("title");
-                                    JSONArray costs = data.getJSONArray("ticketcost");
-                                    event.price = ((JSONObject) costs.get(0)).getString("price");
-                                    event.image = data.getString("bannerimage");
-                                    event.location = data.getString("eventvenue");
-                                    event.payment_url = data.getString("paymentURL");
-                                    eventList.add(event);
+                                JSONArray dataArray = responseObject.getJSONArray("data");
+                                for (int i = 0; i < dataArray.length(); i++) {
+                                    JSONObject data = dataArray.getJSONObject(i);
+                                    Category category = new Category();
+                                    category.name=data.getString("name");
+                                    category.id=data.getString("id");
+                                    categoryList.add(category);
 
                                 }
                                 adapter.notifyDataSetChanged();
@@ -178,7 +154,7 @@ public class EventsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
-                        dialog.dismiss();
+//                        dialog.dismiss();
                     }
                 }) {
 
@@ -199,65 +175,57 @@ public class EventsFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
-    class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsAdapterViewHolder> {
+    class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterViewHolder> {
 
-        private EventsAdapterViewHolder holder;
+
+        private CategoryAdapterViewHolder holder;
 
         @NonNull
         @Override
-        public EventsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
-            holder = new EventsAdapterViewHolder(view);
+        public CategoryAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
+            holder = new CategoryAdapterViewHolder(view);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull EventsAdapterViewHolder holder, int position) {
-            Event event = eventList.get(position);
-            holder.name.setText(event.name);
-            Picasso.with(mContext).load(event.image).into(holder.image);
-            holder.day.setText(event.day);
-            holder.month.setText(event.month);
-            holder.location.setText(event.location);
-            holder.price.setText(mContext.getResources().getString(R.string.rupee) + " " + Math.round(Float.parseFloat(event.price)) + " onwards");
+        public void onBindViewHolder(@NonNull CategoryAdapterViewHolder holder, int position) {
+            Category category = categoryList.get(position);
+            holder.name.setText(category.name);
         }
 
         @Override
         public int getItemCount() {
-            return eventList.size();
+            return categoryList.size();
         }
 
-        public class EventsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class CategoryAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public ImageView image;
-            public TextView name, day, month, price, location, book;
 
-            public EventsAdapterViewHolder(View itemView) {
+            public TextView name;
+
+            public CategoryAdapterViewHolder(View itemView) {
                 super(itemView);
-                image = (ImageView) itemView.findViewById(R.id.event_image);
                 name = (TextView) itemView.findViewById(R.id.event_name);
-                day = itemView.findViewById(R.id.event_day);
-                month = itemView.findViewById(R.id.event_month);
-                price = (TextView) itemView.findViewById(R.id.event_price);
-                location = itemView.findViewById(R.id.event_location);
-                book = itemView.findViewById(R.id.book);
-                image.setOnClickListener(this);
-                book.setOnClickListener(this);
+                name.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                Bundle args = new Bundle();
-                args.putString("event_name", eventList.get(getAdapterPosition()).name);
-                args.putString("event_url", eventList.get(getAdapterPosition()).payment_url);
-                navController.navigate(R.id.eventDetailFragment, args);
+//                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+//                Bundle args = new Bundle();
+//                args.putString("event_name", eventList.get(getAdapterPosition()).name);
+//                args.putString("event_url", eventList.get(getAdapterPosition()).payment_url);
+//                navController.navigate(R.id.eventDetailFragment, args);
             }
         }
     }
 
-    class Event {
-        String name, price, location, image, day, month, payment_url;
-
+    class Category {
+        String id, name;
+        HashMap<String, String> subCategories;
     }
+
 }
+
+

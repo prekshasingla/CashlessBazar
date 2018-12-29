@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     ViewPager bannerViewpager;
     HomeBannerPagerAdapter homeBannerPagerAdapter;
     int page = 0;
-    static private List<String> mBannerImages;
+    static private List<Banner> mBannerImages;
     RecyclerView mFeaturedRecyclerView;
     RecyclerViewAdapter mFeaturedAdapter;
     List<Product> featuredItems;
@@ -61,7 +61,8 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mMostSellingRecyclerView;
     RecyclerViewAdapter mMostSellingAdapter;
     List<Product> mostSellingItems;
-    private String firebaseToken=null;
+    private String firebaseToken = null;
+    CirclePageIndicator indicator;
 //    NavOptions navOptions;
 
 
@@ -72,10 +73,7 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBannerImages = new ArrayList<>();
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER1.png");
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER2.png");
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER3.png");
-        mBannerImages.add("https://cashlessbazar.com/images/newsletter/BANNER4.png");
+
     }
 
     @Override
@@ -86,7 +84,6 @@ public class MainActivityFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment);
 
-        updateFirebaseDeviceToken();
         final SharedPreferenceUtils sharedPreferenceUtils = SharedPreferenceUtils.getInstance(getApplicationContext());
 
         LinearLayout topHomePay = rootView.findViewById(R.id.top_home_pay);
@@ -158,8 +155,7 @@ public class MainActivityFragment extends Fragment {
         homeBannerPagerAdapter = new HomeBannerPagerAdapter(getActivity().getSupportFragmentManager(), mBannerImages, getActivity());
 
         bannerViewpager.setAdapter(homeBannerPagerAdapter);
-        CirclePageIndicator indicator = (CirclePageIndicator)rootView.findViewById(R.id.indicator);
-        indicator.initViewPager(bannerViewpager);
+         indicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
 
 
         final Handler handler = new Handler();
@@ -199,25 +195,17 @@ public class MainActivityFragment extends Fragment {
         mMostSellingRecyclerView.setLayoutManager(mLayoutManager2);
         mMostSellingRecyclerView.setAdapter(mMostSellingAdapter);
 
-        tokenRequest(1);
-        tokenRequest(2);
-        tokenRequest(3);//1 for featured, 2 for best selling, 3 for most selling
+        tokenRequest();
+
 
 
         return rootView;
     }
 
-    private void updateFirebaseDeviceToken() {
-        if (SharedPreferenceUtils.getInstance(getActivity()).getCId() != 0) {
-            firebaseToken = FirebaseInstanceId.getInstance().getToken();
-            if(firebaseToken!=null){
-                tokenRequest(4);
-            }
-        }
-    }
 
 
-    public void tokenRequest(final int reqCode) {
+
+    public void tokenRequest() {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
@@ -231,17 +219,21 @@ public class MainActivityFragment extends Fragment {
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
 
-                                    if (reqCode == 1)
-                                        getRequest(token, Configuration.urlFeatured + "PageNumber=1&PageSize=10", 1);
-                                    else if (reqCode == 2)
-                                        getRequest(token, Configuration.urlBestSelling + "PageNumber=1&PageSize=10", 2);
-                                    else if (reqCode == 3)
-                                        getRequest(token, Configuration.urlMostSelling + "PageNumber=1&PageSize=10", 3);
-                                    else if (reqCode == 4)
-                                        updateToken(token);
+                                {
+                                    getRequest(token, Configuration.urlFeatured + "PageNumber=1&PageSize=10", 1);
+                                    getRequest(token, Configuration.urlBestSelling + "PageNumber=1&PageSize=10", 2);
+                                    getRequest(token, Configuration.urlMostSelling + "PageNumber=1&PageSize=10", 3);
 
-                                    else
-                                        Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                                    if (SharedPreferenceUtils.getInstance(getActivity()).getCId() != 0) {
+                                        firebaseToken = FirebaseInstanceId.getInstance().getToken();
+                                        if (firebaseToken != null) {
+                                            updateToken(token);
+                                        }
+                                    }
+                                    getBanners(token);
+
+                                } else
+                                    Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -283,6 +275,59 @@ public class MainActivityFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
+    private void getBanners(final String token) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlBannersHome,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject responseObject = new JSONObject(response);
+                            if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
+
+                                JSONArray data= responseObject.getJSONArray("data");
+                                for(int i=0;i<data.length();i++){
+                                    Banner banner= new Banner();
+                                    banner.image=((JSONObject)data.get(i)).getString("BannerImage");
+                                    banner.url=((JSONObject)data.get(i)).getString("VisitUrl");
+                                    banner.name=((JSONObject)data.get(i)).getString("Name");
+                                    mBannerImages.add(banner);
+                                }
+                                homeBannerPagerAdapter.notifyDataSetChanged();
+                                indicator.initViewPager(bannerViewpager);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+
+                    }
+                }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Authorization", "bearer " + token);
+                return params;
+            }
+
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded";
+            }
+
+        };
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
     private void updateToken(final String token) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlUpdateToken,
                 new Response.Listener<String>() {
@@ -312,7 +357,7 @@ public class MainActivityFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                params.put("regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
                 params.put("token", firebaseToken);
 
                 return params;
@@ -410,7 +455,11 @@ public class MainActivityFragment extends Fragment {
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
-
+public class Banner{
+        String name;
+        String image;
+        String url;
+    }
 
 }
 
