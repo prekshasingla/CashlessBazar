@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.vision.text.Line;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -26,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +43,7 @@ public class CategoriesFragment extends Fragment {
 
     List<Category> categoryList;
     CategoryAdapter adapter;
+    private NavController navController;
 
     public CategoriesFragment() {
         // Required empty public constructor
@@ -52,10 +56,17 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_categories, container, false);
+        rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+        navController=Navigation.findNavController(getActivity(),R.id.fragment);
 
-        RecyclerView recyclerView=rootview.findViewById(R.id.recycler);
-        adapter=new CategoryAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        RecyclerView recyclerView = rootview.findViewById(R.id.recycler);
+        adapter = new CategoryAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         tokenRequest();
         return rootview;
@@ -137,8 +148,14 @@ public class CategoriesFragment extends Fragment {
                                 for (int i = 0; i < dataArray.length(); i++) {
                                     JSONObject data = dataArray.getJSONObject(i);
                                     Category category = new Category();
-                                    category.name=data.getString("name");
-                                    category.id=data.getString("id");
+                                    category.name = data.getString("name");
+                                    category.id = data.getString("id");
+                                    category.subCategories = new HashMap<>();
+                                    JSONArray sub = data.getJSONArray("subcategory_data");
+                                    for (int j = 0; j < sub.length(); j++) {
+                                        JSONObject object = sub.getJSONObject(j);
+                                        category.subCategories.put(object.getString("id"), object.getString("name"));
+                                    }
                                     categoryList.add(category);
 
                                 }
@@ -190,8 +207,41 @@ public class CategoriesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull CategoryAdapterViewHolder holder, int position) {
-            Category category = categoryList.get(position);
+            final Category category = categoryList.get(position);
             holder.name.setText(category.name);
+            holder.subLayout.removeAllViews();
+            Iterator it = category.subCategories.entrySet().iterator();
+            while (it.hasNext()) {
+                final Map.Entry pair = (Map.Entry) it.next();
+                TextView subCategory = (TextView) getActivity().getLayoutInflater()
+                        .inflate(R.layout.textview_subcategory,null,false);
+                subCategory.setText(pair.getValue() + "");
+                subCategory.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PostRequirementFragment.categoryId = category.id;
+                        PostRequirementFragment.categoryName=category.name;
+                        PostRequirementFragment.subCategoryId=pair.getKey()+"";
+                        PostRequirementFragment.subCategoryName=pair.getValue()+"";
+                        navController.navigateUp();
+                    }
+                });
+                holder.subLayout.addView(subCategory);
+            }
+            holder.subLayout.setVisibility(View.GONE);
+            if(category.subCategories.size()==0){
+                holder.name.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PostRequirementFragment.categoryId = category.id;
+                        PostRequirementFragment.categoryName=category.name;
+                        PostRequirementFragment.subCategoryId=null;
+                        PostRequirementFragment.subCategoryName=null;
+                        navController.navigateUp();
+                    }
+                });
+            }
+
         }
 
         @Override
@@ -203,20 +253,18 @@ public class CategoriesFragment extends Fragment {
 
 
             public TextView name;
+            public LinearLayout subLayout;
 
             public CategoryAdapterViewHolder(View itemView) {
                 super(itemView);
-                name = (TextView) itemView.findViewById(R.id.event_name);
+                name = (TextView) itemView.findViewById(R.id.name);
+                subLayout = itemView.findViewById(R.id.sub_layout);
                 name.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
-//                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-//                Bundle args = new Bundle();
-//                args.putString("event_name", eventList.get(getAdapterPosition()).name);
-//                args.putString("event_url", eventList.get(getAdapterPosition()).payment_url);
-//                navController.navigate(R.id.eventDetailFragment, args);
+                subLayout.setVisibility(View.VISIBLE);
             }
         }
     }

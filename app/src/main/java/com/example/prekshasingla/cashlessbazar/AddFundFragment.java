@@ -1,6 +1,7 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ public class AddFundFragment extends Fragment {
 
     AppCompatEditText amount;
     SharedPreferenceUtils sharedPreferenceUtils;
+    ProgressDialog dialog;
 
     public AddFundFragment() {
         // Required empty public constructor
@@ -52,6 +54,9 @@ public class AddFundFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.fragment).navigateUp();
             }
         });
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Please Wait");
+
         sharedPreferenceUtils = SharedPreferenceUtils.getInstance(getActivity());
 
         amount = rootview.findViewById(R.id.amount);
@@ -75,12 +80,13 @@ public class AddFundFragment extends Fragment {
     }
 
     public void tokenRequest() {
+        dialog.show();
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        dialog.dismiss();
                         if (response != null && !response.equals("")) {
 
                             try {
@@ -115,6 +121,7 @@ public class AddFundFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage("Cannot Find User. Try Again");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -147,12 +154,12 @@ public class AddFundFragment extends Fragment {
     }
 
     private void requestAddFund(final String token) {
-
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestAddFund,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        dialog.dismiss();
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
@@ -160,7 +167,7 @@ public class AddFundFragment extends Fragment {
                                 JSONObject data = responseObject.getJSONObject("data");
 
                                 ((WalletActivity) getActivity()).callInstamojoPay(sharedPreferenceUtils.getEmail(),
-                                        sharedPreferenceUtils.getPhone(), amount.getText().toString().trim(), "Indplas_event",
+                                        sharedPreferenceUtils.getPhone(), amount.getText().toString().trim(), "cashlessbazar_add_ fund",
                                         sharedPreferenceUtils.getName(), data.getString("request_id"));
 
                             } else {
@@ -185,6 +192,7 @@ public class AddFundFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
+                        dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage("Cannot Find User. Try Again");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {

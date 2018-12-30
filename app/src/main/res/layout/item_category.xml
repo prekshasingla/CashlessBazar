@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@drawable/round_background_grey"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Category 1"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:drawableRight="@drawable/ic_add_circle_green"/>
+    <LinearLayout
+        android:id="@+id/sub_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

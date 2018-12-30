@@ -26,5 +26,14 @@
         android:id="@+id/postRequirementFragment"
         android:name="com.example.prekshasingla.cashlessbazar.PostRequirementFragment"
         android:label="fragment_post_requirement"
-        tools:layout="@layout/fragment_post_requirement" />
+        tools:layout="@layout/fragment_post_requirement" >
+        <action
+            android:id="@+id/action_postRequirementFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" />
 </navigation>

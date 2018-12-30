@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,12 +27,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.navigation.NavController;
+import androidx.navigation.NavDeepLinkBuilder;
+import androidx.navigation.Navigation;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PostRequirementFragment extends Fragment {
 
+
+    private NavController navController;
+    public static String categoryId=null,categoryName=null,subCategoryId=null,subCategoryName=null;
 
     public PostRequirementFragment() {
         // Required empty public constructor
@@ -43,7 +51,14 @@ public class PostRequirementFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_post_requirement, container, false);
-
+        navController=Navigation.findNavController(getActivity(),R.id.fragment);
+        EditText category= rootView.findViewById(R.id.requirement_category);
+        category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.categoriesFragment);
+            }
+        });
         Button postButton=rootView.findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +129,10 @@ public class PostRequirementFragment extends Fragment {
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     public void postRequirement(final String token) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();

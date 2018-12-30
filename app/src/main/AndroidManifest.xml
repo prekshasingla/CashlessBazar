@@ -68,7 +68,7 @@
 
         <meta-data
             android:name="instamojo.orderauth.url"
-            android:value="http://www.yogeshmunjal.com/cashlessbazar_token/access_token.php" />
+            android:value="http://www.yogeshmunjal.com/cashlessbazar_token/access_token_test.php" />
 
         <activity android:name=".OnBoardingActivity" />
         <activity android:name=".RequirementsActivity"></activity>
