@@ -51,7 +51,8 @@ public class PostRequirementFragment extends Fragment {
     List<String> localities;
     List<String> localitiesId;
 
-    EditText city, cityId, locality, localityId;
+    EditText city, locality;
+    String cityId, localityId;
     int POSTREQUIREMENT=1;
     int CITYLIST=2;
     int LOCALITYLIST=3;
@@ -305,6 +306,8 @@ public class PostRequirementFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String strName = arrayAdapter.getItem(which);
+                                            city.setText(strName);
+                                            cityId=citiesId.get(which);
                                             getLocalityList(token,citiesId.get(which));
                                             AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
                                             builderInner.setMessage(strName);
@@ -407,6 +410,8 @@ public class PostRequirementFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String strName = arrayAdapter.getItem(which);
+                                            locality.setText(strName);
+                                            localityId=localitiesId.get(which);
                                             AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
                                             builderInner.setMessage(strName);
                                             builderInner.setTitle("Your selected locality is");
