@@ -42,4 +42,7 @@ public class Configuration {
 
     final public static String urlPostRequirement="http://api2.cashlessbazar.com/api/post/looking/create";
     final public static String urlSellProduct="http://api2.cashlessbazar.com/api/post/offering/create";
+
+    final public static String urlCityList="http://api2.cashlessbazar.com/api/city/list";
+    final public static String urlLocalityList="http://api2.cashlessbazar.com/api/location/list?cityid=";
 }

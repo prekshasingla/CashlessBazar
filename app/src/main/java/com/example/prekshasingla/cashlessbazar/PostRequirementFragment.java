@@ -1,13 +1,17 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.navigation.NavController;
@@ -40,8 +46,21 @@ public class PostRequirementFragment extends Fragment {
 
     private NavController navController;
     public static String categoryId=null,categoryName=null,subCategoryId=null,subCategoryName=null;
+    List<String> cities;
+    List<String> citiesId;
+    List<String> localities;
+    List<String> localitiesId;
+
+    EditText city, cityId, locality, localityId;
+    int POSTREQUIREMENT=1;
+    int CITYLIST=2;
+    int LOCALITYLIST=3;
 
     public PostRequirementFragment() {
+        cities=new ArrayList<String>();
+        citiesId=new ArrayList<String>();
+        localities=new ArrayList<String>();
+        localitiesId=new ArrayList<String>();
         // Required empty public constructor
     }
 
@@ -59,17 +78,30 @@ public class PostRequirementFragment extends Fragment {
                 navController.navigate(R.id.categoriesFragment);
             }
         });
+
+        city=rootView.findViewById( R.id.requirement_city);
+        city.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tokenRequest(CITYLIST,null);
+            }
+        });
+
+        locality=rootView.findViewById( R.id.requirement_locality);
+
         Button postButton=rootView.findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tokenRequest();
+                tokenRequest(POSTREQUIREMENT,null);
             }
         });
+
+
         return rootView;
     }
 
-    public void tokenRequest() {
+    public void tokenRequest(final int type,final String cityId) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
@@ -83,7 +115,12 @@ public class PostRequirementFragment extends Fragment {
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
 
-                                    postRequirement(token);
+                                    if(type==POSTREQUIREMENT)
+                                     postRequirement(token);
+                                    else if(type==CITYLIST)
+                                        getCityList(token);
+                                    else if (type==LOCALITYLIST)
+                                        getLocalityList(token,cityId);
 
 
                                 else
@@ -133,6 +170,9 @@ public class PostRequirementFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
+
+
 
     public void postRequirement(final String token) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
@@ -213,6 +253,212 @@ public class PostRequirementFragment extends Fragment {
             };
             VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
         }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getCityList(final String token) {
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+
+        try {
+
+
+
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlCityList,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject loginResponse = new JSONObject(response);
+                                if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
+
+                                    JSONArray jsonArrayState=loginResponse.getJSONArray("data");
+
+                                    for(int i=0; i<jsonArrayState.length();i++){
+
+                                        JSONObject jsonObject=jsonArrayState.getJSONObject(i);
+                                        JSONArray jsonArraycity=jsonObject.getJSONArray("Locations");
+                                        for(int j=0; j<jsonArraycity.length();j++){
+                                            JSONObject jsonObject1=jsonArraycity.getJSONObject(j);
+                                            cities.add(jsonObject1.getString("Name"));
+                                            citiesId.add(jsonObject1.getString("Id"));
+
+                                        }
+                                    }
+
+
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+                                    builderSingle.setTitle("Select city -");
+
+                                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.select_dialog_post_requirement);
+                                    arrayAdapter.addAll(cities);
+
+                                    builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String strName = arrayAdapter.getItem(which);
+                                            getLocalityList(token,citiesId.get(which));
+                                            AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
+                                            builderInner.setMessage(strName);
+                                            builderInner.setTitle("Your selected city is");
+                                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            builderInner.show();
+                                        }
+                                    });
+                                    builderSingle.show();
+//                                    Toast.makeText(getActivity(), "Requirement Posted", Toast.LENGTH_SHORT).show();
+//                                    getActivity().onBackPressed();
+                                }
+                                else{
+                                    Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Do something with the response
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Handle error
+                        }
+                    }) {
+
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                    params.put("Authorization", "bearer " + token);
+                    return params;
+                }
+
+
+//                public String getBodyContentType() {
+//                    return "application/x-www-form-urlencoded";
+//                }
+
+            };
+            VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public void getLocalityList(final String token, final String cityId) {
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+
+        try {
+
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlLocalityList+cityId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject loginResponse = new JSONObject(response);
+                                if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
+
+                                    JSONArray jsonArrayState=loginResponse.getJSONArray("data");
+
+                                    for(int i=0; i<jsonArrayState.length();i++){
+
+                                        JSONObject jsonObject=jsonArrayState.getJSONObject(i);
+                                        localities.add(jsonObject.getString("Name"));
+                                        localitiesId.add(jsonObject.getString("Id"));
+
+
+                                    }
+
+
+
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+                                    builderSingle.setTitle("Select locality -");
+
+                                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.select_dialog_post_requirement);
+                                    arrayAdapter.addAll(localities);
+
+                                    builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String strName = arrayAdapter.getItem(which);
+                                            AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
+                                            builderInner.setMessage(strName);
+                                            builderInner.setTitle("Your selected locality is");
+                                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,int which) {
+
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            builderInner.show();
+                                        }
+                                    });
+                                    builderSingle.show();
+//                                    Toast.makeText(getActivity(), "Requirement Posted", Toast.LENGTH_SHORT).show();
+//                                    getActivity().onBackPressed();
+                                }
+                                else{
+                                    Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Do something with the response
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Handle error
+                        }
+                    }) {
+
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+//                params.put("Content-Type","application/x-www-form-urlencoded");
+                    params.put("Authorization", "bearer " + token);
+                    return params;
+                }
+
+
+//                public String getBodyContentType() {
+//                    return "application/x-www-form-urlencoded";
+//                }
+
+            };
+            VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
