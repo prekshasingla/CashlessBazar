@@ -10,30 +10,40 @@
             android:id="@+id/nav_pay"
             android:title="@string/nav_drawer_pay"
             android:icon="@drawable/ic_send_money"/>
+        <item
+            android:id="@+id/nav_recharge"
+            android:title="Recharge"
+            android:icon="@drawable/ic_phone_android_black_24dp"/>
 
         <item android:id="@+id/nav_request_payment"
-            android:title="Request Payment"/>
+            android:title="Request Payment"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
 
         <item
             android:id="@+id/nav_withdraw_funds"
-            android:title="Withdraw Funds" />
+            android:title="Withdraw Funds"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
         <item
             android:id="@+id/nav_recent_orders"
-            android:title="@string/recent_orders" />
+            android:title="@string/recent_orders"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
         <item
             android:id="@+id/nav_my_orders"
-            android:title="My Orders" />
+            android:title="My Orders"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
         <item
             android:id="@+id/nav_quick_requirements"
-            android:title="Quick Requirements" />
+            android:title="Quick Requirements"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
         <item
             android:id="@+id/nav_add_product"
-            android:title="Add Product" />
+            android:title="Add Product"
+            android:icon="@drawable/ic_trending_up_black_24dp"/>
 
 
     </group>

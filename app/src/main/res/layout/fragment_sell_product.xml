@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cb_blue"
-            android:padding="14dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="14dp">
 
             <ImageView
                 android:id="@+id/back"
@@ -28,11 +29,11 @@
 
 
             <TextView
+                android:id="@+id/screen_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-                android:id="@+id/screen_name"
+                android:layout_marginLeft="10dp"
                 android:text="Sell Product"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -52,8 +53,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp">
 
-            <EditText
-                android:id="@+id/product_title"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
@@ -74,8 +75,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp">
 
-            <EditText
-                android:id="@+id/product_description"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description"
@@ -87,7 +88,7 @@
 
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/email_layout"
+            android:id="@+id/category_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -97,22 +98,22 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp">
 
-            <EditText
-                android:id="@+id/user_email"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
+                android:focusable="false"
+                android:hint="Category"
+                android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:textSize="12sp" />
         </android.support.design.widget.TextInputLayout>
 
+
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/email_layout"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginStart="20dp"
@@ -120,35 +121,32 @@
             android:layout_marginEnd="20dp"
             app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/user_password"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_quantity_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:hint="Minimum Quantity"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textSize="12sp" />
 
 
         </android.support.design.widget.TextInputLayout>
-
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/phone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/password_layout"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            app:passwordToggleEnabled="false">
+            app:passwordToggleEnabled="true">
 
-            <EditText
-                android:id="@+id/user_phone"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_quantity_max"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone"
+                android:hint="Maximum Quantity"
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="12sp" />
@@ -156,21 +154,159 @@
 
         </android.support.design.widget.TextInputLayout>
 
-
-        <TextView
-            android:id="@+id/signup_error"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/phone_layout"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text=""
-            android:textColor="#F44336"
-            android:textSize="12sp"
-            />
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_mrp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="MRP"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/budget_price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_offer_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Offer Price"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit"
+                android:focusable="false"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Shipping Preference"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_location_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location Info"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/city_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="City"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/locality_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:passwordToggleEnabled="false">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/requirement_locality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="Locality"
+                android:maxLines="1"
+                android:textSize="12sp" />
+
+
+        </android.support.design.widget.TextInputLayout>
 
 
         <Button
@@ -186,8 +322,6 @@
             android:elevation="5dp"
             android:text="Post Product"
             android:textColor="@color/white" />
-
-
 
 
     </LinearLayout>

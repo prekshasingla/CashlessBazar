@@ -68,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_recharge:
+                        intent = new Intent(MainActivity.this, RechargeActivity.class);
+                        startActivity(intent);
+                        mDrawerLayout.closeDrawers();
+                        break;
                     case R.id.nav_recent_orders:
                         intent = new Intent(MainActivity.this, RecentOrdersActivity.class);
                         intent.putExtra("screen","Recent Orders");
@@ -175,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_my_orders).setVisible(true);
             nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(true);
             nav_Menu.findItem(R.id.nav_add_product).setVisible(true);
+            nav_Menu.findItem(R.id.nav_recharge).setVisible(true);
 
         }
         else{
@@ -200,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_my_orders).setVisible(false);
             nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(false);
             nav_Menu.findItem(R.id.nav_add_product).setVisible(false);
+            nav_Menu.findItem(R.id.nav_recharge).setVisible(false);
 
         }
     }

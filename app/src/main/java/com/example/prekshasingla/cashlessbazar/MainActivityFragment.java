@@ -276,6 +276,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void getBanners(final String token) {
+        mBannerImages.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlBannersHome,
                 new Response.Listener<String>() {
                     @Override

@@ -163,6 +163,7 @@ public class EventsFragment extends Fragment {
                                     event.image = data.getString("bannerimage");
                                     event.location = data.getString("eventvenue");
                                     event.payment_url = data.getString("paymentURL");
+                                    event.disableBuy = data.getString("disablebuybutton");
                                     eventList.add(event);
 
                                 }
@@ -220,6 +221,9 @@ public class EventsFragment extends Fragment {
             holder.month.setText(event.month);
             holder.location.setText(event.location);
             holder.price.setText(mContext.getResources().getString(R.string.rupee) + " " + Math.round(Float.parseFloat(event.price)) + " onwards");
+            if (event.disableBuy.equalsIgnoreCase("true")) {
+                holder.book.setText("Event Closed");
+            }
         }
 
         @Override
@@ -247,17 +251,19 @@ public class EventsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
-                Bundle args = new Bundle();
-                args.putString("event_name", eventList.get(getAdapterPosition()).name);
-                args.putString("event_url", eventList.get(getAdapterPosition()).payment_url);
-                navController.navigate(R.id.eventDetailFragment, args);
+                if (eventList.get(getAdapterPosition()).disableBuy.equalsIgnoreCase("false")) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
+                    Bundle args = new Bundle();
+                    args.putString("event_name", eventList.get(getAdapterPosition()).name);
+                    args.putString("event_url", eventList.get(getAdapterPosition()).payment_url);
+                    navController.navigate(R.id.eventDetailFragment, args);
+                }
             }
         }
     }
 
     class Event {
-        String name, price, location, image, day, month, payment_url;
+        String name, price, location, image, day, month, payment_url, disableBuy;
 
     }
 }

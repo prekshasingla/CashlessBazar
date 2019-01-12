@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/post_requirement_nav_graph.xml"
+    app:startDestination="@id/postRequirementFragment">
+
+    <fragment
+        android:id="@+id/postRequirementFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.PostRequirementFragment"
+        android:label="fragment_post_requirement"
+        tools:layout="@layout/fragment_post_requirement" >
+        <action
+            android:id="@+id/action_postRequirementFragment_to_sellProductFragment"
+            app:destination="@id/sellProductFragment" />
+        <action
+            android:id="@+id/action_postRequirementFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellProductFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.SellProductFragment"
+        android:label="fragment_sell_product"
+        tools:layout="@layout/fragment_sell_product" >
+        <action
+            android:id="@+id/action_sellProductFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" />
+</navigation>

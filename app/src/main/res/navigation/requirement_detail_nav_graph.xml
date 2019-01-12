@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/requirement_detail_nav_graph.xml"
+    app:startDestination="@id/requirementDetailFragment">
+
+    <fragment
+        android:id="@+id/requirementDetailFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.RequirementDetailFragment"
+        android:label="fragment_requirement_detail"
+        tools:layout="@layout/fragment_requirement_detail" >
+        <action
+            android:id="@+id/action_requirementDetailFragment_to_requirementContactFragment"
+            app:destination="@id/requirementContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requirementContactFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.RequirementContactFragment"
+        android:label="fragment_requirement_contact"
+        tools:layout="@layout/fragment_requirement_contact" >
+        <argument
+            android:name="service"
+            android:defaultValue="0"/>
+        <argument
+            android:name="adid"
+            android:defaultValue="0"/>
+    </fragment>
+</navigation>

@@ -40,9 +40,15 @@ public class Configuration {
     final public static String urlBannersHome="http://api2.cashlessbazar.com/api/banner/List";
     final public static String urlCategories="http://api2.cashlessbazar.com/api/category/list?";
 
-    final public static String urlPostRequirement="http://api2.cashlessbazar.com/api/post/looking/create";
-    final public static String urlSellProduct="http://api2.cashlessbazar.com/api/post/offering/create";
+    final public static String urlPostRequirement="http://api2.cashlessbazar.com/api/post/requirement/create";
+    final public static String urlSellProduct="http://api2.cashlessbazar.com/api/sell/requirement/create";
 
     final public static String urlCityList="http://api2.cashlessbazar.com/api/city/list";
     final public static String urlLocalityList="http://api2.cashlessbazar.com/api/location/list?cityid=";
+    final public static String urlOperatorList="http://api2.cashlessbazar.com/api/opertor/list?";
+    final public static String urlRecharge="http://api2.cashlessbazar.com/api/recharge";
+    final public static String urlRequirementList="http://api2.cashlessbazar.com/api/requirement/list";
+    final public static String urlSellRequirement="http://api2.cashlessbazar.com/api/sell/requirement/create";
+    final public static String urlRequirementProductDetail="http://api2.cashlessbazar.com/api/requirment/";
+    final public static String urlInterestedRequirement="http://api2.cashlessbazar.com/api/requirment/enquired/create";
 }

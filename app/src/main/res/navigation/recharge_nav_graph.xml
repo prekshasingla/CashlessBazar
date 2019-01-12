@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recharge_nav_graph.xml"
+    app:startDestination="@id/rechargeFragment">
+
+    <fragment
+        android:id="@+id/rechargeFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.RechargeFragment"
+        android:label="fragment_recharge"
+        tools:layout="@layout/fragment_recharge" >
+        <action
+            android:id="@+id/action_rechargeFragment_to_rechargeFragment2"
+            app:destination="@id/rechargeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/rechargeFragment2"
+        android:name="com.example.prekshasingla.cashlessbazar.RechargeFragment2"
+        android:label="fragment_recharge_fragment2"
+        tools:layout="@layout/fragment_recharge_fragment2" >
+        <argument
+            android:name="type"
+            android:defaultValue="0"/>
+    </fragment>
+</navigation>

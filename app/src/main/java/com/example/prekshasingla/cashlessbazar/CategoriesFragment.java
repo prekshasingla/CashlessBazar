@@ -219,10 +219,10 @@ public class CategoriesFragment extends Fragment {
                 subCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PostRequirementFragment.categoryId = category.id;
-                        PostRequirementFragment.categoryName=category.name;
-                        PostRequirementFragment.subCategoryId=pair.getKey()+"";
-                        PostRequirementFragment.subCategoryName=pair.getValue()+"";
+                        PostRequirementActivity.categoryId = category.id;
+                        PostRequirementActivity.categoryName=category.name;
+                        PostRequirementActivity.subCategoryId=pair.getKey()+"";
+                        PostRequirementActivity.subCategoryName=pair.getValue()+"";
                         navController.navigateUp();
                     }
                 });
@@ -233,10 +233,10 @@ public class CategoriesFragment extends Fragment {
                 holder.name.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PostRequirementFragment.categoryId = category.id;
-                        PostRequirementFragment.categoryName=category.name;
-                        PostRequirementFragment.subCategoryId=null;
-                        PostRequirementFragment.subCategoryName=null;
+                        PostRequirementActivity.categoryId = category.id;
+                        PostRequirementActivity.categoryName=category.name;
+                        PostRequirementActivity.subCategoryId=null;
+                        PostRequirementActivity.subCategoryName=null;
                         navController.navigateUp();
                     }
                 });

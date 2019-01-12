@@ -1,13 +1,19 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +41,13 @@ import java.util.Map;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavDeepLinkBuilder;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+
+import static com.example.prekshasingla.cashlessbazar.PostRequirementActivity.categoryId;
+import static com.example.prekshasingla.cashlessbazar.PostRequirementActivity.categoryName;
+import static com.example.prekshasingla.cashlessbazar.PostRequirementActivity.subCategoryId;
+import static com.example.prekshasingla.cashlessbazar.PostRequirementActivity.subCategoryName;
 
 
 /**
@@ -45,23 +57,34 @@ public class PostRequirementFragment extends Fragment {
 
 
     private NavController navController;
-    public static String categoryId=null,categoryName=null,subCategoryId=null,subCategoryName=null;
     List<String> cities;
     List<String> citiesId;
     List<String> localities;
     List<String> localitiesId;
+    List<String> units;
+    List<String> unitIds;
 
-    EditText city, locality;
-    String cityId, localityId;
-    int POSTREQUIREMENT=1;
-    int CITYLIST=2;
-    int LOCALITYLIST=3;
+
+    AppCompatEditText city, locality;
+    String cityId, localityId, unitId;
+    AppCompatEditText title, description, quantity, budget,delivery;
+    int POSTREQUIREMENT = 1;
+    int CITYLIST = 2;
+    int LOCALITYLIST = 3;
+
+    AppCompatEditText categoryText, unit;
+    AlertDialog.Builder citybuilder;
+    AlertDialog.Builder localityBuilder;
+    ProgressDialog dialog;
+
 
     public PostRequirementFragment() {
-        cities=new ArrayList<String>();
-        citiesId=new ArrayList<String>();
-        localities=new ArrayList<String>();
-        localitiesId=new ArrayList<String>();
+        cities = new ArrayList<String>();
+        citiesId = new ArrayList<String>();
+        localities = new ArrayList<String>();
+        localitiesId = new ArrayList<String>();
+        units = new ArrayList<>();
+        unitIds = new ArrayList<>();
         // Required empty public constructor
     }
 
@@ -70,45 +93,171 @@ public class PostRequirementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView=inflater.inflate(R.layout.fragment_post_requirement, container, false);
-        navController=Navigation.findNavController(getActivity(),R.id.fragment);
-        EditText category= rootView.findViewById(R.id.requirement_category);
-        category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.categoriesFragment);
-            }
-        });
+        View rootView = inflater.inflate(R.layout.fragment_post_requirement, container, false);
+        navController = Navigation.findNavController(getActivity(), R.id.fragment);
+        Intent intent=getActivity().getIntent();
+        if(intent.getStringExtra("service")!=null && intent.getStringExtra("service").equalsIgnoreCase("offering")){
+            navController.navigate(R.id.sellProductFragment, null,
+                    new NavOptions.Builder()
+                            .setClearTask(true).build());
 
-        city=rootView.findViewById( R.id.requirement_city);
-        city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tokenRequest(CITYLIST,null);
-            }
-        });
+        }else {
+            rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getActivity().onBackPressed();
+                }
+            });
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Please Wait");
+            dialog.setCancelable(false);
+            categoryText = rootView.findViewById(R.id.requirement_category);
+            title = rootView.findViewById(R.id.requirement_title);
+            description = rootView.findViewById(R.id.requirement_description);
+            quantity = rootView.findViewById(R.id.requirement_quantity);
+            budget = rootView.findViewById(R.id.requirement_budget_price);
+            unit = rootView.findViewById(R.id.requirement_unit);
+            delivery=rootView.findViewById(R.id.requirement_delivery);
 
-        locality=rootView.findViewById( R.id.requirement_locality);
+            final AlertDialog.Builder unitBuilder = new AlertDialog.Builder(getActivity());
+            unitBuilder.setTitle("Select Unit ");
 
-        Button postButton=rootView.findViewById(R.id.post_button);
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tokenRequest(POSTREQUIREMENT,null);
-            }
-        });
+            units.clear();
+            unitIds.clear();
+            units.add("Per Piece");
+            units.add("Per Kg");
+            units.add("Per Lot");
+            units.add("Deal Price");
 
+            unitIds.add("1");
+            unitIds.add("2");
+            unitIds.add("3");
+            unitIds.add("4");
+
+
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.select_dialog_post_requirement);
+            arrayAdapter.addAll(units);
+
+            unitBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            unitBuilder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String strName = arrayAdapter.getItem(which);
+                    unit.setText(strName);
+                    unit.setError(null);
+                    unitId = unitIds.get(which);
+
+                    dialog.dismiss();
+                }
+            });
+            unit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    unitBuilder.show();
+                }
+            });
+
+            tokenRequest(CITYLIST, null);
+
+
+            categoryText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideKeyboard(getActivity());
+                    navController.navigate(R.id.categoriesFragment);
+                }
+            });
+
+            city = rootView.findViewById(R.id.requirement_city);
+            city.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    citybuilder.show();
+                }
+            });
+
+
+            locality = rootView.findViewById(R.id.requirement_locality);
+            locality.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (localities.size() != 0) {
+                        localityBuilder.show();
+                    }
+                }
+            });
+
+            Button postButton = rootView.findViewById(R.id.post_button);
+            postButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideKeyboard(getActivity());
+                    if (validate())
+                        tokenRequest(POSTREQUIREMENT, null);
+                }
+            });
+        }
 
         return rootView;
     }
 
-    public void tokenRequest(final int type,final String cityId) {
+    private boolean validate() {
+        if (title.getText().toString().equals("")) {
+            title.setError("Enter Title");
+            return false;
+        }
+        if (description.getText().toString().equals("")) {
+            description.setError("Enter Description");
+            return false;
+        }
+        if (categoryText.getText().toString().equals("")) {
+            categoryText.setError("Enter Category");
+            return false;
+        }
+        if (quantity.getText().toString().equals("")) {
+            quantity.setError("Enter Quantity");
+            return false;
+        }
+        if (budget.getText().toString().equals("")) {
+            budget.setError("Enter Budget");
+            return false;
+        }
+        if (city.getText().toString().equals("")) {
+            city.setError("Enter City");
+            return false;
+        }
+
+        if (locality.getText().toString().equals("")) {
+            locality.setError("Enter locality");
+            return false;
+        }
+        if (unit.getText().toString().equals("")) {
+            unit.setError("Enter unit");
+            return false;
+        }
+        if (delivery.getText().toString().equals("")) {
+            delivery.setError("Enter delivery preference");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void tokenRequest(final int type, final String cityId) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
+        dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
+                        dialog.dismiss();
                         if (response != null && !response.equals("")) {
 
                             try {
@@ -116,16 +265,16 @@ public class PostRequirementFragment extends Fragment {
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
 
-                                    if(type==POSTREQUIREMENT)
-                                     postRequirement(token);
-                                    else if(type==CITYLIST)
+                                    if (type == POSTREQUIREMENT)
+                                        postRequirement(token);
+                                    else if (type == CITYLIST)
                                         getCityList(token);
-                                    else if (type==LOCALITYLIST)
-                                        getLocalityList(token,cityId);
+                                    else if (type == LOCALITYLIST)
+                                        getLocalityList(token, cityId);
 
 
-                                else
-                                    Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -139,6 +288,7 @@ public class PostRequirementFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
+                        dialog.dismiss();
                     }
                 }) {
             @Override
@@ -169,33 +319,40 @@ public class PostRequirementFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         super.onResume();
+
+        if (subCategoryName != null) {
+            categoryText.setText(subCategoryName);
+            categoryText.setError(null);
+        } else if (categoryName != null) {
+            categoryText.setText(categoryName);
+            categoryText.setError(null);
+        }
+
     }
-
-
 
 
     public void postRequirement(final String token) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
-
+        dialog.show();
         try {
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             JSONObject jsonBody = new JSONObject();
-            jsonBody.put("Regno", 2);
-            jsonBody.put("Title", "Testing Request 2");
-            JSONObject categoriesObject=new JSONObject();
-            categoriesObject.put("CategoryId",6);
-            categoriesObject.put("CategoryName","Business Products and Services");
-            categoriesObject.put("SubCategoryId",2);
-            categoriesObject.put("SubCategoryName","Advertising and Marketing");
-            jsonBody.put("Categories",categoriesObject);
-            jsonBody.put("Description","Testing Request Description");
-            jsonBody.put("Unit",4);
-            jsonBody.put("Quantity",2);
-            jsonBody.put("BugetPrice",40.00);
-            jsonBody.put("DeliveryPreference","Testing Shipping");
-            jsonBody.put("City",2);
-            jsonBody.put("Locality",3);
+            jsonBody.put("Regno", SharedPreferenceUtils.getInstance(getActivity()).getCId());
+            jsonBody.put("Title", title.getText().toString());
+            JSONObject categoriesObject = new JSONObject();
+            categoriesObject.put("CategoryId", categoryId);
+            categoriesObject.put("CategoryName", categoryName);
+            categoriesObject.put("SubCategoryId", subCategoryId);
+            categoriesObject.put("SubCategoryName", subCategoryName);
+            jsonBody.put("Categories", categoriesObject);
+            jsonBody.put("Description", description.getText().toString());
+            jsonBody.put("Unit", Integer.parseInt(unitId));
+            jsonBody.put("Quantity", Integer.parseInt(quantity.getText().toString()));
+            jsonBody.put("BugetPrice", Integer.parseInt(budget.getText().toString()));
+            jsonBody.put("DeliveryPreference", delivery.getText().toString());
+            jsonBody.put("City", cityId);
+            jsonBody.put("Locality", localityId);
 
             final String mRequestBody = jsonBody.toString();
 
@@ -203,14 +360,23 @@ public class PostRequirementFragment extends Fragment {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            dialog.dismiss();
                             try {
                                 JSONObject loginResponse = new JSONObject(response);
                                 if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setTitle("Posted");
+                                    builder.setCancelable(false);
+                                    builder.setMessage("Congrats! Your requirement has been posted successfully");
+                                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            getActivity().onBackPressed();
+                                        }
+                                    });
 
-                                    Toast.makeText(getActivity(), "Requirement Posted", Toast.LENGTH_SHORT).show();
-                                    getActivity().onBackPressed();
-                                }
-                                else{
+                                    builder.create();
+                                    builder.show();
+                                } else {
                                     Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
 
                                 }
@@ -225,6 +391,9 @@ public class PostRequirementFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // Handle error
+                            dialog.dismiss();
+                            Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
+
                         }
                     }) {
 
@@ -248,22 +417,22 @@ public class PostRequirementFragment extends Fragment {
                 }
 
                 public String getBodyContentType() {
-                    return "application/x-www-form-urlencoded";
+                    return "application/json";
                 }
 
             };
             VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void getCityList(final String token) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
-
+        dialog.show();
+        cities.clear();
+        citiesId.clear();
         try {
-
-
 
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlCityList,
@@ -274,14 +443,14 @@ public class PostRequirementFragment extends Fragment {
                                 JSONObject loginResponse = new JSONObject(response);
                                 if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONArray jsonArrayState=loginResponse.getJSONArray("data");
+                                    JSONArray jsonArrayState = loginResponse.getJSONArray("data");
 
-                                    for(int i=0; i<jsonArrayState.length();i++){
+                                    for (int i = 0; i < jsonArrayState.length(); i++) {
 
-                                        JSONObject jsonObject=jsonArrayState.getJSONObject(i);
-                                        JSONArray jsonArraycity=jsonObject.getJSONArray("Locations");
-                                        for(int j=0; j<jsonArraycity.length();j++){
-                                            JSONObject jsonObject1=jsonArraycity.getJSONObject(j);
+                                        JSONObject jsonObject = jsonArrayState.getJSONObject(i);
+                                        JSONArray jsonArraycity = jsonObject.getJSONArray("Locations");
+                                        for (int j = 0; j < jsonArraycity.length(); j++) {
+                                            JSONObject jsonObject1 = jsonArraycity.getJSONObject(j);
                                             cities.add(jsonObject1.getString("Name"));
                                             citiesId.add(jsonObject1.getString("Id"));
 
@@ -289,43 +458,46 @@ public class PostRequirementFragment extends Fragment {
                                     }
 
 
-                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-                                    builderSingle.setTitle("Select city -");
+                                    citybuilder = new AlertDialog.Builder(getActivity());
+                                    citybuilder.setTitle("Select city ");
 
                                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.select_dialog_post_requirement);
                                     arrayAdapter.addAll(cities);
 
-                                    builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                    citybuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     });
 
-                                    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                                    citybuilder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String strName = arrayAdapter.getItem(which);
                                             city.setText(strName);
-                                            cityId=citiesId.get(which);
-                                            getLocalityList(token,citiesId.get(which));
-                                            AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
-                                            builderInner.setMessage(strName);
-                                            builderInner.setTitle("Your selected city is");
-                                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                            builderInner.show();
+                                            city.setError(null);
+                                            cityId = citiesId.get(which);
+                                            getLocalityList(token, citiesId.get(which));
+                                            dialog.dismiss();
+//                                            AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
+//                                            builderInner.setMessage(strName);
+//                                            builderInner.setTitle("Your selected city is");
+//                                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(DialogInterface dialog,int which) {
+//                                                    dialog.dismiss();
+//                                                }
+//                                            });
+//                                            builderInner.show();
                                         }
                                     });
-                                    builderSingle.show();
+                                    dialog.dismiss();
+//                                    citybuilder.show();
 //                                    Toast.makeText(getActivity(), "Requirement Posted", Toast.LENGTH_SHORT).show();
 //                                    getActivity().onBackPressed();
-                                }
-                                else{
+                                } else {
+                                    dialog.dismiss();
                                     Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
 
                                 }
@@ -340,6 +512,7 @@ public class PostRequirementFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // Handle error
+                            dialog.dismiss();
                         }
                     }) {
 
@@ -359,20 +532,22 @@ public class PostRequirementFragment extends Fragment {
 
             };
             VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-
     public void getLocalityList(final String token, final String cityId) {
 //        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
-
+        dialog.show();
+        localities.clear();
+        localitiesId.clear();
+        locality.setText("");
         try {
 
 
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlLocalityList+cityId,
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, Configuration.urlLocalityList + cityId,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -380,11 +555,11 @@ public class PostRequirementFragment extends Fragment {
                                 JSONObject loginResponse = new JSONObject(response);
                                 if (loginResponse.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONArray jsonArrayState=loginResponse.getJSONArray("data");
+                                    JSONArray jsonArrayState = loginResponse.getJSONArray("data");
 
-                                    for(int i=0; i<jsonArrayState.length();i++){
+                                    for (int i = 0; i < jsonArrayState.length(); i++) {
 
-                                        JSONObject jsonObject=jsonArrayState.getJSONObject(i);
+                                        JSONObject jsonObject = jsonArrayState.getJSONObject(i);
                                         localities.add(jsonObject.getString("Name"));
                                         localitiesId.add(jsonObject.getString("Id"));
 
@@ -392,44 +567,36 @@ public class PostRequirementFragment extends Fragment {
                                     }
 
 
-
-                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-                                    builderSingle.setTitle("Select locality -");
+                                    localityBuilder = new AlertDialog.Builder(getActivity());
+                                    localityBuilder.setTitle("Select locality -");
 
                                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.select_dialog_post_requirement);
                                     arrayAdapter.addAll(localities);
 
-                                    builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                    localityBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     });
 
-                                    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                                    localityBuilder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String strName = arrayAdapter.getItem(which);
                                             locality.setText(strName);
-                                            localityId=localitiesId.get(which);
-                                            AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
-                                            builderInner.setMessage(strName);
-                                            builderInner.setTitle("Your selected locality is");
-                                            builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,int which) {
+                                            locality.setError(null);
+                                            localityId = localitiesId.get(which);
 
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                            builderInner.show();
                                         }
                                     });
-                                    builderSingle.show();
+                                    locality.setEnabled(true);
+                                    dialog.dismiss();
+//                                    localityBuilder.show();
 //                                    Toast.makeText(getActivity(), "Requirement Posted", Toast.LENGTH_SHORT).show();
 //                                    getActivity().onBackPressed();
-                                }
-                                else{
+                                } else {
+                                    dialog.dismiss();
                                     Toast.makeText(getActivity(), "Some error occurred, please try again later", Toast.LENGTH_SHORT).show();
 
                                 }
@@ -444,6 +611,7 @@ public class PostRequirementFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // Handle error
+                            dialog.dismiss();
                         }
                     }) {
 
@@ -463,11 +631,19 @@ public class PostRequirementFragment extends Fragment {
 
             };
             VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
+    public  void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
 }
