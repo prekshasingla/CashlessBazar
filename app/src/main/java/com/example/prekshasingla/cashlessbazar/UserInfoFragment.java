@@ -1,6 +1,7 @@
 package com.example.prekshasingla.cashlessbazar;
 
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -146,7 +147,7 @@ public class UserInfoFragment extends Fragment {
                     public void onClick(View view) {
 
                         if (flag) {
-                            flag=false;
+                            flag = false;
                             if (!pin.getText().toString().trim().equals("") && Float.parseFloat(pin.getText().toString().trim()) != 0) {
                                 dialog = new ProgressDialog(getActivity());
                                 dialog.setMessage("Please Wait");
@@ -191,7 +192,7 @@ public class UserInfoFragment extends Fragment {
                                     if (screenName.equals("payment")) {
 
 //                                        proceedTransfer(amount, cId, token);
-                                        requestPayment(recRegNo,amount,token);
+                                        requestPayment(recRegNo, amount, token);
                                     } else {
                                         collectPayment(amount, recRegNo, sendRegNo, requestId, token, pin);
                                     }
@@ -249,23 +250,23 @@ public class UserInfoFragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRequestTransfer,
                 new Response.Listener<String>() {
 
-            @Override
+                    @Override
                     public void onResponse(String response) {
-                    dialog.dismiss();
+                        dialog.dismiss();
                         try {
                             JSONObject responseObject = new JSONObject(response);
                             if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    JSONObject data = responseObject.getJSONObject("data");
-                                    proceedTransfer(amount,regNo,token,data.getString("request_id"));
+                                JSONObject data = responseObject.getJSONObject("data");
+                                proceedTransfer(amount, regNo, token, data.getString("request_id"));
 
                             } else {
-                                flag=true;
-                                Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
+                                flag = true;
+                                Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            flag=true;
+                            flag = true;
                             Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -277,7 +278,7 @@ public class UserInfoFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
                         dialog.dismiss();
-                        flag=true;
+                        flag = true;
                         Toast.makeText(getActivity(), "Some error occurred, Try again later.", Toast.LENGTH_SHORT).show();
 
                     }
@@ -285,11 +286,11 @@ public class UserInfoFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
                 params.put("receiver_regno", regNo);
-                params.put("receiver_mobile","");
-                params.put("amount",amount);
-                params.put("mode","transfer");
+                params.put("receiver_mobile", "");
+                params.put("amount", amount);
+                params.put("mode", "transfer");
                 return params;
             }
 
@@ -309,7 +310,8 @@ public class UserInfoFragment extends Fragment {
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
-    private void proceedTransfer(final String amount, final String recRegNo, final String token,final String requestId) {
+
+    private void proceedTransfer(final String amount, final String recRegNo, final String token, final String requestId) {
 
         dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlTransferPayment,
@@ -339,7 +341,7 @@ public class UserInfoFragment extends Fragment {
                                     builder.show();
                                 } else {
                                     flag = true;
-                                    Toast.makeText(getActivity(), "Some error occurred. Try again later", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -372,7 +374,7 @@ public class UserInfoFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("payment_request_id", requestId);
                 params.put("amount", amount);
-                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId()+"");
+                params.put("sender_regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
                 params.put("receiver_regno", recRegNo);
                 params.put("mode", "transfer");
 
@@ -414,41 +416,52 @@ public class UserInfoFragment extends Fragment {
                                 JSONObject responseObject = new JSONObject(response);
                                 if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                        JSONObject data = responseObject.getJSONObject("data");
+                                    JSONObject data = responseObject.getJSONObject("data");
 //                                        if (data.getString("message").equals("payment successful")) {
-                                            Toast.makeText(getActivity(), data.getString("message"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), data.getString("message"), Toast.LENGTH_SHORT).show();
 
 //                                            SharedPreferenceUtils.getInstance(getActivity()).setCBTPBalance(SharedPreferenceUtils.getInstance(getActivity()).getCBTPBalance() + Float.parseFloat(data.get("amount").toString()));
 //                                        }
-                                        sendNotification("Payment Recieved successfully");
-                                        SharedPreferenceUtils.getInstance(getActivity());
-                                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                                        builder.setMessage("Success");
-                                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
-//                                                getActivity().onBackPressed();
-                                            }
-                                        }).setCancelable(false);
+                                    sendNotification("Payment Recieved successfully");
+                                    SharedPreferenceUtils.getInstance(getActivity());
+                                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                    View dialogView = getLayoutInflater().inflate(R.layout.success_dialog_layout, null);
+                                    builder.setView(dialogView)
+                                            .setCancelable(false)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    getActivity().onBackPressed();
+                                                }
+                                            });
 
-                                        builder.create();
-                                        builder.show();
 
-                                        } else {
-                                    flag=true;
-                                    Toast.makeText(getActivity(), responseObject.getString("status_txt"), Toast.LENGTH_SHORT).show();
+                                    final android.support.v7.app.AlertDialog alertDialog = builder.create();
+                                    TextView text = dialogView.findViewById(R.id.success_desc);
+                                    text.setText("Payment Recieved successfully");
+//                                    TextView ok = dialogView.findViewById(R.id.ok);
+//                                    ok.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View view) {
+//                                            alertDialog.cancel();
+//                                            getActivity().onBackPressed();
+//                                        }
+//                                    });
+                                    builder.show();
+
+                                } else {
+                                    flag = true;
+                                    Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_SHORT).show();
 
                                 }
 
                             } catch (JSONException e) {
-                                flag=true;
+                                flag = true;
                                 e.printStackTrace();
                             }
 
                         } else {
-                            flag=true;
+                            flag = true;
                             Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                         }
 
@@ -459,7 +472,7 @@ public class UserInfoFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
-                        flag=true;
+                        flag = true;
                         dialog.dismiss();
                         Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                     }

@@ -4,7 +4,7 @@ public class Product {
 
     int id;
     String name;
-    String desc;
+    String shortDesc;
     Double mrp=0d;
     Double cbtp=0d;
     int productType;
@@ -12,6 +12,15 @@ public class Product {
     String img;
     int categoryId;
     String categoryName;
+    String fullDesc;
+
+    public String getFullDesc() {
+        return fullDesc;
+    }
+
+    public void setFullDesc(String fullDesc) {
+        this.fullDesc = fullDesc;
+    }
 
     public int getId() {
         return id;
@@ -106,11 +115,11 @@ public class Product {
         this.img = img;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getShortDesc() {
+        return shortDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
     }
 }

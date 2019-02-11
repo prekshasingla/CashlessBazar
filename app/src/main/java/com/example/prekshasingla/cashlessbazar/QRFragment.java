@@ -158,12 +158,12 @@ public class QRFragment extends Fragment {
                     vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     String decryptedString = "";
                     String qr_code_text = barcodeSparseArray.valueAt(0).displayValue;
-//                    try {
-//                        decryptedString = AESCrypt.decrypt(qr_code_text);
-//                    } catch (GeneralSecurityException e) {
-//                        e.printStackTrace();
-//                    }
-                    decryptedString=qr_code_text;
+                    try {
+                        decryptedString = new AesBase64Wrapper().decodeAndDecrypt(qr_code_text);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//                    decryptedString=qr_code_text;
 
                     final String data[] = decryptedString.split("~");
                     if (decryptedString.contains("CbAppWallet")) {
@@ -381,8 +381,8 @@ public class QRFragment extends Fragment {
 
                         try {
                             JSONObject responseObject = new JSONObject(response);
-                            if (responseObject.getInt("status_code") == 200) {
-                                if(responseObject.getString("status_txt").equals("success")) {
+
+                                if(responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
                                     JSONObject customer = responseObject.getJSONObject("data");
                                     Bundle bundle = new Bundle();
@@ -397,23 +397,12 @@ public class QRFragment extends Fragment {
                                     navController.navigate(R.id.userInfoFragment, bundle);
                                 }
                              else {
-                                String status = responseObject.getString("status_txt");
+                                String status = responseObject.getString("message");
                                 Bundle bundle = new Bundle();
                                 bundle.putString("status",status);
                                 NavController navController = Navigation.findNavController(getActivity(), R.id.fragment);
                                 navController.navigate(R.id.userInfoFragment, bundle);
 
-                            }} else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage("Cannot Find User. Try Again");
-                                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        getActivity().onBackPressed();
-                                    }
-                                });
-
-                                builder.create();
-                                builder.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

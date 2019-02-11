@@ -64,7 +64,7 @@ public class RequirementDetailFragment extends Fragment {
 
         screenName = rootview.findViewById(R.id.screen_name);
         title = rootview.findViewById(R.id.title);
-        desc = rootview.findViewById(R.id.desc);
+        desc = rootview.findViewById(R.id.shortDesc);
         mrp = rootview.findViewById(R.id.mrp);
         price = rootview.findViewById(R.id.price);
         unit = rootview.findViewById(R.id.unit);

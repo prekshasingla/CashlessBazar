@@ -308,7 +308,7 @@ public class SignupFragment extends Fragment {
                                 getActivity().onBackPressed();
                             } else {
                                 dialog.dismiss();
-                                Toast.makeText(getActivity(), responseObject.getString("errormessage"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

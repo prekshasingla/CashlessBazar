@@ -1,11 +1,12 @@
 package com.example.prekshasingla.cashlessbazar;
 
-
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +26,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ChangePassword extends Fragment {
+import androidx.navigation.Navigation;
 
 
-    private ProgressDialog dialog;
+public class RedeemLoyaltyFragment extends Fragment {
 
-    public ChangePassword() {
+
+    AppCompatEditText cardNumber;
+    ProgressDialog dialog;
+
+    public RedeemLoyaltyFragment() {
         // Required empty public constructor
     }
 
@@ -43,54 +44,42 @@ public class ChangePassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_change_password, container, false);
-        rootView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        View rootview = inflater.inflate(R.layout.fragment_redeem_loyalty, container, false);
+        rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                Navigation.findNavController(getActivity(), R.id.fragment).navigateUp();
             }
         });
-
         dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("Please Wait");
+        dialog.setMessage("Loading");
         dialog.setCancelable(false);
-        final AppCompatEditText currentPass = rootView.findViewById(R.id.current_password);
-        final AppCompatEditText newPass = rootView.findViewById(R.id.new_password);
-        final AppCompatEditText confirmPass = rootView.findViewById(R.id.confirm_password);
-        Button continueBtn = rootView.findViewById(R.id.change_pass_continue);
 
+        Button continueBtn = rootview.findViewById(R.id.continue_btn);
+        cardNumber = rootview.findViewById(R.id.card_number);
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentPass.getText().toString().trim().equals("")) {
-                    currentPass.setError("Enter current password");
-                    return;
+                if (validate()) {
+                    new Utils().hideKeyboard(getActivity());
+                    tokenRequest();
                 }
-                if (newPass.getText().toString().trim().equals("")) {
-                    newPass.setError("Enter new password");
-                    return;
-                }
-                if (newPass.getText().toString().trim().length() < 6 ||
-                        newPass.getText().toString().trim().length() > 15) {
-                    newPass.setError("minimum 6 and maximum 15 character");
-                    return;
-                }
-                if (confirmPass.getText().toString().trim().equals("")) {
-                    confirmPass.setError("Re-enter password");
-                    return;
-                }
-                if (!newPass.getText().toString().trim().equals(confirmPass.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "Passwords dont match", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                requestToken(currentPass.getText().toString().trim(), newPass.getText().toString().trim());
             }
         });
-        return rootView;
+        return rootview;
     }
 
-    private void requestToken(final String oldPass, final String newPass) {
+    private boolean validate() {
+        if (cardNumber.getText().toString().equals("")) {
+            cardNumber.setError("Enter card number");
+            return false;
+        }
+        return true;
+    }
+
+    public void tokenRequest() {
         dialog.show();
+//        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api2.cashlessbazar.com/token",
                 new Response.Listener<String>() {
                     @Override
@@ -98,22 +87,24 @@ public class ChangePassword extends Fragment {
                         dialog.dismiss();
                         if (response != null && !response.equals("")) {
 
-
                             try {
                                 JSONObject tokenResponse = new JSONObject(response);
                                 String token = tokenResponse.getString("access_token");
                                 if (token != null)
 
-                                    changePassword(token, oldPass, newPass);
+                                    activateLoyalty(token);
+
                                 else
                                     Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                        } else
+
+                        } else {
                             Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
 
+                        }
                         // Do something with the response
                     }
                 },
@@ -121,7 +112,6 @@ public class ChangePassword extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
-                        Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
 
                     }
                 }) {
@@ -135,54 +125,46 @@ public class ChangePassword extends Fragment {
                 return params;
             }
 
+
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded";
             }
 
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-
     }
 
-    private void changePassword(final String token, final String oldPass, final String newPass) {
-
+    private void activateLoyalty(final String token) {
         dialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlChangePassword,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Configuration.urlRedeem,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         dialog.dismiss();
-                        if (response != null && !response.equals("")) {
-                            try {
-                                JSONObject responseObject = new JSONObject(response);
-                                if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
-                                    SharedPreferenceUtils.getInstance(getActivity()).clear();
-                                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                                    builder.setMessage("Password changed successfully. Please login again to continue");
-                                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            getActivity().startActivity(intent);
-                                        }
-                                    });
+                        try {
+                            JSONObject responseObject = new JSONObject(response);
+                            if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
 
-                                    builder.create();
-                                    builder.show();
-                                } else {
-                                    Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Success");
+                                builder.setMessage("Congrats! Your Loyalty Card has been activated.");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        getActivity().onBackPressed();
+                                    }
+                                });
 
-                                }
+                                builder.create();
+                                builder.show();
 
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            } else {
+                                Toast.makeText(getActivity(), responseObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                        } else
-                            Toast.makeText(getActivity(), "Could not connect, please try again later", Toast.LENGTH_SHORT).show();
-
-                        // Do something with the response
                     }
                 },
                 new Response.ErrorListener() {
@@ -190,14 +172,14 @@ public class ChangePassword extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
                         dialog.dismiss();
-                        Toast.makeText(getActivity(), "Some error occurred. Try again later", Toast.LENGTH_SHORT).show();
+
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("oldPassword", oldPass);
-                params.put("newPassword", newPass);
+
+                params.put("cardnumber", cardNumber.getText().toString());
                 params.put("regno", SharedPreferenceUtils.getInstance(getActivity()).getCId() + "");
 
                 return params;
@@ -218,7 +200,5 @@ public class ChangePassword extends Fragment {
 
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
-
     }
-
 }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,8 +45,8 @@ public class WalletActivity extends AppCompatActivity {
             pay.put("purpose", purpose);
             pay.put("amount", amount);
             pay.put("name", buyername);
-            pay.put("send_sms", true);
-            pay.put("send_email", true);
+            pay.put("send_sms", false);
+            pay.put("send_email", false);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -148,8 +150,24 @@ public class WalletActivity extends AppCompatActivity {
 
                             if(loginResponse.getString("resultType").equalsIgnoreCase("success")){
                                 JSONObject wallet= loginResponse.getJSONObject("wallet");
-//                                SharedPreferenceUtils.getInstance(WalletActivity.this).
-//                                        setCBTPBalance(Float.parseFloat(wallet.getDouble("CBTP_Balance")+""));
+//                               android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getApplicationContext());
+//                                    View dialogView = getLayoutInflater().inflate(R.layout.success_dialog_layout, null);
+//                                    builder.setView(dialogView)
+//                                            .setCancelable(false);
+//
+//
+//                                    final android.support.v7.app.AlertDialog alertDialog = builder.create();
+//                                    TextView text = dialogView.findViewById(R.id.success_desc);
+//                                    text.setText("Funds Added successfully");
+//                                    TextView ok = dialogView.findViewById(R.id.ok);
+//                                    ok.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View view) {
+//                                            alertDialog.cancel();
+//                                            onBackPressed();
+//                                        }
+//                                    });
+//                                    builder.show();
 
                             }
                             else{

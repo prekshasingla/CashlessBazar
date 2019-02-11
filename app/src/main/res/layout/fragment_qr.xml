@@ -38,9 +38,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/mobile_pay_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mobile_pay_ll"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical">
@@ -66,18 +66,19 @@
             android:id="@+id/pay_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/round_btn"
             android:text="Pay"
-            android:layout_marginBottom="10dp"
             android:textColor="@color/white" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_margin="42dp"
         android:layout_marginBottom="81dp"
         android:src="@drawable/qrcameratext" />

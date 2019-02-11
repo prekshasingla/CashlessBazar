@@ -74,7 +74,8 @@
         <activity android:name=".RequirementsActivity" />
         <activity android:name=".RechargeActivity" />
         <activity android:name=".PostRequirementActivity" />
-        <activity android:name=".RequirementDetail"></activity>
+        <activity android:name=".RequirementDetail" />
+        <activity android:name=".ProductDetailActivity"></activity>
     </application>
 
 </manifest>

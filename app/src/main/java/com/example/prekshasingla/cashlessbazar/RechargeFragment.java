@@ -31,7 +31,7 @@ public class RechargeFragment extends Fragment {
         rootview.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(getActivity(), R.id.fragment).navigateUp();
+                getActivity().onBackPressed();
             }
         });
         CardView mobile=rootview.findViewById(R.id.recharge_mobile);

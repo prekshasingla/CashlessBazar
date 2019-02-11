@@ -1,15 +1,12 @@
 package com.example.prekshasingla.cashlessbazar;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -101,13 +98,13 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
-        LinearLayout topHomeWallet = rootView.findViewById(R.id.top_home_wallet);
+        LinearLayout topHomeWallet = rootView.findViewById(R.id.top_home_recharge);
         topHomeWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sharedPreferenceUtils.getName() != null) {
 
-                    Intent intent = new Intent(getActivity(), WalletActivity.class);
+                    Intent intent = new Intent(getActivity(), RechargeActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginSignupActivity.class);
@@ -136,7 +133,7 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 if (sharedPreferenceUtils.getName() != null) {
 
-                    Intent intent = new Intent(getActivity(), AddProductActivity.class);
+                    Intent intent = new Intent(getActivity(), RequirementsActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginSignupActivity.class);
@@ -397,7 +394,7 @@ public class MainActivityFragment extends Fragment {
                                     JSONObject itemsObject = itemsJson.getJSONObject(i);
                                     item.setId(itemsObject.getInt("id"));
                                     item.setName(itemsObject.getString("name"));
-                                    item.setDesc(itemsObject.getString("description"));
+                                    item.setShortDesc(itemsObject.getString("description"));
                                     item.setMrp(itemsObject.getDouble("mrp"));
                                     item.setCbtp(itemsObject.getDouble("cbtp"));
                                     item.setProductType(itemsObject.getInt("product_Type"));

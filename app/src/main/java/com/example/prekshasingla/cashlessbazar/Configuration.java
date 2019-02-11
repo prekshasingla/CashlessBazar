@@ -51,4 +51,7 @@ public class Configuration {
     final public static String urlSellRequirement="http://api2.cashlessbazar.com/api/sell/requirement/create";
     final public static String urlRequirementProductDetail="http://api2.cashlessbazar.com/api/requirment/";
     final public static String urlInterestedRequirement="http://api2.cashlessbazar.com/api/requirment/enquired/create";
+    final public static String urlRedeem="http://api2.cashlessbazar.com/api/customer/redeem";
+    final public static String urlCartAdd="http://api2.cashlessbazar.com/api/cart/item";
+    final public static String urlCartList="http://api2.cashlessbazar.com/api/cart/item/list?cookiesId=";
 }

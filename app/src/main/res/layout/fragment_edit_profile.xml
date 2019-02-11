@@ -146,6 +146,97 @@
                     android:layout_gravity="right"
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#d7d5d5" />
+            <LinearLayout
+                android:id="@+id/loyalty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/loyalty_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Loyalty Card"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/activate_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:text="ACTIVATE"
+                    android:textColor="@color/red" />
+            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/loyalty_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/elegant_red"
+                >
+                <TextView
+                    android:id="@+id/card_number"
+                    android:layout_below="@+id/card_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#c0c0c0"
+                    android:text="1234 5678 0901 2456"/>
+                <TextView
+                    android:layout_below="@id/card_number"
+                    android:id="@+id/card_from_thru"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#c0c0c0"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textStyle="bold"
+                    android:text="from: 05/12/20  thru: 09/12/23"/>
+                <TextView
+                    android:layout_below="@+id/card_from_thru"
+                    android:id="@+id/card_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#c0c0c0"
+                    android:text="Piyush"/>
+                <TextView
+                    android:id="@+id/card_type"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#c0c0c0"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:text="Loyalty Gift Card"/>
+
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

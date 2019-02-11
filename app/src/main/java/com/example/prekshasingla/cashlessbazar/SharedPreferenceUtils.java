@@ -87,7 +87,13 @@ public class SharedPreferenceUtils {
         mSharedPreferencesEditor.putString("OTP", value);
         mSharedPreferencesEditor.commit();
     }
-
+    public void setCartCookiesId(String value){
+        mSharedPreferencesEditor.putString("cartCookiesId", value);
+        mSharedPreferencesEditor.commit();
+    }
+    public String getCartCookiesId() {
+        return mSharedPreferences.getString("cartCookiesId", null);
+    }
     public String getName() {
         return mSharedPreferences.getString("loginName", null);
     }

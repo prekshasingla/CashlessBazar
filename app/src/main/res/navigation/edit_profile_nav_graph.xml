@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_editProfile_to_changePassword"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_editProfile_to_redeemLoyaltyFragment"
+            app:destination="@id/redeemLoyaltyFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.example.prekshasingla.cashlessbazar.ChangePassword"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/redeemLoyaltyFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.RedeemLoyaltyFragment"
+        android:label="fragment_redeem_loyalty"
+        tools:layout="@layout/fragment_redeem_loyalty" />
 </navigation>

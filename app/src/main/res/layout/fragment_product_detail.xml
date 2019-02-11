@@ -1,139 +1,224 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
-    >
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:progressTint="@color/red" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:id="@+id/product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_bold"
-            android:maxLines="2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Singapore Tour Package- 3 Nites/4 Days DLTTPL"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/product_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:background="@color/browser_actions_bg_grey"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            tools:context="com.example.prekshasingla.cashlessbazar.RequirementDetailFragment">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="MRP : "
-                android:textSize="15sp" />
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:padding="14dp">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_back_black_24dp" />
+
+
+                <TextView
+                    android:id="@+id/screen_name"
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/cart_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight=".3"
+                    android:layout_height="wrap_content"
+                    android:text="Cart "
+                    android:textSize="20sp"
+                    android:gravity="end"
+                    android:drawableRight="@drawable/ic_shopping_cart_red_24dp"
+                    android:drawableEnd="@drawable/ic_shopping_cart_red_24dp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:background="@color/imgBackground"
+                android:padding="10dp" />
 
             <TextView
-                android:id="@+id/product_mrp"
-                android:layout_width="wrap_content"
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:paddingRight="10dp"
-                android:text="2499"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="2dp"
-                android:text="CBTP : "
+                android:fontFamily="@font/open_sans_bold"
+                android:maxLines="2"
+                android:text="KTM Duke 200 30000 Kms 2015 year"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/product_cbtp"
-                android:layout_width="wrap_content"
+                android:id="@+id/short_desc"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="2dp"
-                android:paddingRight="10dp"
-                android:text="2499"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:fontFamily="@font/open_sans_light"
+                android:text="KTM Duke 200 30000 Kms 2015 year New insurance,new tyer"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="About Product"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/description_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_arrow_downward_black_24dp"
-                android:drawableRight="@drawable/ic_arrow_downward_black_24dp"
-                android:padding="10dp"
-                android:text="Description"
-                android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/product_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="description description"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/mrp_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="MRP :- "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/price_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mrp_text"
+                    android:layout_alignBaseline="@+id/price"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="CBTP Price :- "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/product_mrp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/mrp_text"
+                    android:text="100000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/product_cbtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mrp_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/price_text"
+                    android:text="100000 "
+                    android:textColor="@color/intro2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="10dp"
+                android:background="@color/cb_blue_background_light" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black"/>
+                android:layout_marginTop="10dp"
+                android:text="In Stock"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/qty_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/open_sans_light"
+                    android:text="Quantity Left : 1"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/cb_blue_background_light" />
+
+
+
+            <TextView
+                android:id="@+id/about_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="About"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/open_sans_light"
+                android:text="About the product"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
+    </ScrollView>
 
-
-    </LinearLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/add_cart_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/intro1"
+        android:fontFamily="@font/open_sans_bold"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Add to Cart"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+</RelativeLayout>

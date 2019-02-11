@@ -1,6 +1,7 @@
 package com.example.prekshasingla.cashlessbazar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -81,12 +82,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            //Intent intent=new Intent(mContext,ProductDetailActivity.class);
-//            intent.putExtra("rest",items.get(getAdapterPosition()).getRestaurant_id());
-            Bundle args=new Bundle();
-            args.putString("item_id",items.get(getAdapterPosition()).getId()+"");
-            navController.navigate(R.id.productDetailFragment,args);
-            //mContext.startActivity(intent);
+            Intent intent=new Intent(mContext,ProductDetailActivity.class);
+            intent.putExtra("item_id",items.get(getAdapterPosition()).getId()+"");
+
+            mContext.startActivity(intent);
         }
     }
 

@@ -163,10 +163,12 @@ public class MainActivity extends AppCompatActivity {
             if(sharedPreferenceUtils.getType()!=null){
                 if(sharedPreferenceUtils.getType().equalsIgnoreCase("customer")){
                     nav_Menu.findItem(R.id.nav_request_payment).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(false);
 
                 }
                 else {
                     nav_Menu.findItem(R.id.nav_request_payment).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(true);
 
                 }
             }
@@ -175,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
             nav_Menu.findItem(R.id.nav_privacy).setVisible(true);
 
-            nav_Menu.findItem(R.id.nav_withdraw_funds).setVisible(true);
             nav_Menu.findItem(R.id.nav_recent_orders).setVisible(true);
             nav_Menu.findItem(R.id.nav_my_orders).setVisible(true);
             nav_Menu.findItem(R.id.nav_quick_requirements).setVisible(true);
