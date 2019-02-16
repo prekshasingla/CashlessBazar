@@ -54,4 +54,5 @@ public class Configuration {
     final public static String urlRedeem="http://api2.cashlessbazar.com/api/customer/redeem";
     final public static String urlCartAdd="http://api2.cashlessbazar.com/api/cart/item";
     final public static String urlCartList="http://api2.cashlessbazar.com/api/cart/item/list?cookiesId=";
+    final public static String urlMakePayment="http://api2.cashlessbazar.com/api/cart/checkout/payment";
 }

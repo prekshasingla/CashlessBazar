@@ -18,5 +18,18 @@
         android:id="@+id/cartFragment"
         android:name="com.example.prekshasingla.cashlessbazar.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.prekshasingla.cashlessbazar.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" >
+        <argument
+            android:name="totalPrice"
+            android:defaultValue=""/>
+    </fragment>
 </navigation>

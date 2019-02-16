@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:background="@drawable/success_dialog"/>
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SUCCESS"
-        android:textColor="@color/black"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="16sp"
-        android:fontFamily="@font/open_sans_bold"
-        />
+        android:background="@color/green"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_check" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="SUCCESS!"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/success_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="14sp"
+        android:fontFamily="@font/open_sans_light"
         android:padding="10dp"
         android:text="d"
-        android:textStyle="bold"
-        android:fontFamily="@font/open_sans_light"/>
+        android:textSize="14sp"
+        android:textStyle="bold" />
     <!--<TextView-->
-        <!--android:id="@+id/ok"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="OK"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:textSize="18dp"-->
-        <!--android:layout_gravity="end"-->
-        <!--android:textColor="@color/colorAccent"-->
-        <!--android:textStyle="bold"-->
-        <!--/>-->
+    <!--android:id="@+id/ok"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="OK"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:textSize="18dp"-->
+    <!--android:layout_gravity="end"-->
+    <!--android:textColor="@color/colorAccent"-->
+    <!--android:textStyle="bold"-->
+    <!--/>-->
 </LinearLayout>

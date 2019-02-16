@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class CartFragment extends Fragment {
     TextView cartEmptyText;
     ImageView cartEmptyImage;
     RecyclerView recyclerView;
+    TextView checkoutBtn;
+    String totalPrice="";
 
     int CODELIST = 0, CODEADD = 1, CODEMINUS = 2, CODEDELETE = 3;
     private int itemQuantity;
@@ -73,6 +76,16 @@ public class CartFragment extends Fragment {
         cartEmptyImage = rootview.findViewById(R.id.cart_empty);
         cartEmptyText = rootview.findViewById(R.id.cart_empty_text);
 
+        checkoutBtn=rootview.findViewById(R.id.checkout_btn);
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController controller=Navigation.findNavController(getActivity(),R.id.fragment);
+                Bundle args=new Bundle();
+                args.putString("totalPrice",totalPrice);
+                controller.navigate(R.id.checkoutFragment,args);
+            }
+        });
         cartItemList = new ArrayList<>();
         recyclerView = rootview.findViewById(R.id.recycler);
         cartAdapter = new CartAdapter();
@@ -258,6 +271,7 @@ public class CartFragment extends Fragment {
                                 if (responseObject.getString("resultType").equalsIgnoreCase("success")) {
                                     JSONObject data = responseObject.getJSONObject("data");
                                     if (!data.getString("totalitem").equalsIgnoreCase("0")) {
+                                        totalPrice=data.getString("totalprice");
                                         JSONArray cart = data.getJSONArray("cart");
                                         for (int i = 0; i < cart.length(); i++) {
                                             JSONObject object = cart.getJSONObject(i);
@@ -274,22 +288,27 @@ public class CartFragment extends Fragment {
 
                                         if (cartItemList.size() == 0) {
                                             recyclerView.setVisibility(View.GONE);
+                                            checkoutBtn.setVisibility(View.GONE);
                                             cartEmptyImage.setVisibility(View.VISIBLE);
                                             cartEmptyText.setVisibility(View.VISIBLE);
                                         } else {
 
                                             cartAdapter.notifyDataSetChanged();
                                             recyclerView.setVisibility(View.VISIBLE);
+                                            checkoutBtn.setVisibility(View.VISIBLE);
+                                            checkoutBtn.setText("Checkout ( "+getActivity().getResources().getString(R.string.rupee)+totalPrice+" )");
                                             cartEmptyImage.setVisibility(View.GONE);
                                             cartEmptyText.setVisibility(View.GONE);
                                         }
                                     } else {
                                         recyclerView.setVisibility(View.GONE);
+                                        checkoutBtn.setVisibility(View.GONE);
                                         cartEmptyImage.setVisibility(View.VISIBLE);
                                         cartEmptyText.setVisibility(View.VISIBLE);
                                     }
                                 } else {
                                     recyclerView.setVisibility(View.GONE);
+                                    checkoutBtn.setVisibility(View.GONE);
                                     cartEmptyImage.setVisibility(View.VISIBLE);
                                     cartEmptyText.setVisibility(View.VISIBLE);
                                 }
@@ -335,6 +354,7 @@ public class CartFragment extends Fragment {
         } else {
             dialog.dismiss();
             recyclerView.setVisibility(View.GONE);
+            checkoutBtn.setVisibility(View.GONE);
             cartEmptyImage.setVisibility(View.VISIBLE);
             cartEmptyText.setVisibility(View.VISIBLE);
         }
