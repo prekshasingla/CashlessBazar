@@ -58,7 +58,7 @@ public class OnBoardingFragment extends Fragment {
 
         ImageView image1= (ImageView) rootView.findViewById(R.id.onboarding_image1);
         if(getArguments().get(ARG_PARAM1).equals("screen1")){
-            text1.setText("BARTER");
+            text1.setText("BARTER SYSTEM");
             text2.setText("Exchange your existing goods for something you need most.");
             text3.setText("SKIP");
             text4.setText("List your products online and trade them against CB Trade Points and use them for making purchases.");
@@ -95,7 +95,7 @@ public class OnBoardingFragment extends Fragment {
             image1.setBackgroundResource(R.drawable.shopping);
         }else{
             text1.setText("FOOD COURT");
-            text2.setText("Your cbtp wallet is one stop solution to our food courts");
+            text2.setText("Your cbtp wallet is one stop solution to our offline food courts");
             text3.setText("CONTINUE");
             rootView.setBackgroundColor(getResources().getColor(R.color.intro6));
             image1.setBackgroundResource(R.drawable.food_court);
