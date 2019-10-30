@@ -2,11 +2,11 @@ package com.example.prekshasingla.cashlessbazar;
 
 public class City {
 
-    String id;
-    String name;
+    String city_id;
+    String city_name;
 
     public City(String id, String name){
-        this.id=id;
-        this.name=name;
+        this.city_id=id;
+        this.city_name=name;
     }
 }
