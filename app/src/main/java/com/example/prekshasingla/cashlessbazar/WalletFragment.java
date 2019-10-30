@@ -263,7 +263,7 @@ public class WalletFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("Cannot update wallet information, try again");
+                        builder.setMessage("something went wrong, please try again");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 getActivity().onBackPressed();
