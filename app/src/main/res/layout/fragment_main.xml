@@ -39,8 +39,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/icon_initiate_money"
                         android:tint="@color/cb_blue" />
 
@@ -110,8 +110,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/ic_add_circle_outline_white_24dp" />
 
                     <TextView
