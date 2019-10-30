@@ -42,7 +42,7 @@
             android:fontFamily="@font/alegreya"
             android:text="Login"
             android:textColor="@color/colorPrimary"
-            android:textSize="25sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:fontFamily="@font/alegreya" />
     </LinearLayout>
@@ -119,7 +119,7 @@
         android:padding="10dp"
         android:text=""
         android:textColor="#F44336"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
 
     <Button
@@ -236,7 +236,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="New to Cashless Bazar? "
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/signup_text"
@@ -246,7 +246,7 @@
             android:gravity="center"
             android:text="Sign Up"
             android:textColor="#06a9f4"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Forgot password? "
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/forgot_password_text"
@@ -276,7 +276,7 @@
             android:gravity="center"
             android:text="Click here"
             android:textColor="#06a9f4"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
 
