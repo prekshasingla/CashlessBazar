@@ -194,7 +194,7 @@ public class AddFundFragment extends Fragment {
                         // Handle error
                         dialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("Cannot Find User. Try Again");
+                        builder.setMessage("Cannot Find User. Check your credentials.");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 getActivity().onBackPressed();
